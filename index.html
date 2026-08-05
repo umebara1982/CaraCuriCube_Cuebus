@@ -11,11 +11,13 @@
 
   <style>
     :root {
-      --primary-color: #1B365D;
-      --accent-color: #C00000;
-      --bg-color: #F4F6F9;
+      /* 🎨 CUEBUS専用カラーテーマ（深みのあるティールグリーン系） */
+      --primary-color: #0F4C5C;      /* メインカラー：ティールブルー */
+      --primary-light: #186F85;      /* サブカラー：ライトティール */
+      --accent-color: #E36414;       /* アクセント：暖色オレンジ */
+      --bg-color: #F0F4F5;           /* 背景色：ほんのり青みがかったグレー */
       --card-bg: #FFFFFF;
-      --border-color: #D0D7DE;
+      --border-color: #C8D6DB;
       --day-width: 24px;
       --row-height: 36px;       /* 通常行の高さ */
       --phase-height: 28px;     /* カテゴリー行の高さ */
@@ -32,7 +34,7 @@
     }
 
     header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       color: white;
       padding: 12px 20px;
       border-radius: 6px;
@@ -40,6 +42,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 8px rgba(15, 76, 92, 0.25);
     }
 
     header h1 { margin: 0; font-size: 1.2rem; }
@@ -47,18 +50,19 @@
 
     .open-target {
       font-weight: bold;
-      color: #FFD700;
+      color: #FFE066;
       font-size: 0.85rem;
     }
 
     .countdown {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.18);
       padding: 6px 15px;
       border-radius: 6px;
       text-align: center;
+      backdrop-filter: blur(4px);
     }
 
-    .countdown-num { font-size: 1.3rem; font-weight: bold; color: #FFD700; }
+    .countdown-num { font-size: 1.3rem; font-weight: bold; color: #FFE066; }
 
     .controls {
       background: var(--card-bg);
@@ -92,26 +96,26 @@
     button:hover { opacity: 0.9; }
 
     /* 🎨 各操作ボタン専用カラー */
-    .btn-add { background-color: #27ae60; box-shadow: 0 0 5px rgba(39, 174, 96, 0.4); }
-    .btn-category { background-color: #16a085; box-shadow: 0 0 5px rgba(22, 160, 133, 0.3); }
-    .btn-company { background-color: #e67e22; box-shadow: 0 0 5px rgba(230, 126, 34, 0.3); }
-    .btn-csv { background-color: #8e44ad; }
-    .btn-manual { background-color: #7f8c8d; }
-    .btn-dash { background-color: #2980b9; box-shadow: 0 0 5px rgba(41, 128, 185, 0.4); }
-    .btn-admin { background-color: #c00000; box-shadow: 0 0 5px rgba(192, 0, 0, 0.4); }
+    .btn-add { background-color: #2D6A4F; box-shadow: 0 0 5px rgba(45, 106, 79, 0.4); }
+    .btn-category { background-color: #0077B6; box-shadow: 0 0 5px rgba(0, 119, 182, 0.3); }
+    .btn-company { background-color: #D97706; box-shadow: 0 0 5px rgba(217, 119, 6, 0.3); }
+    .btn-csv { background-color: #6B21A8; }
+    .btn-manual { background-color: #52525B; }
+    .btn-dash { background-color: #0284C7; box-shadow: 0 0 5px rgba(2, 132, 199, 0.4); }
+    .btn-admin { background-color: #991B1B; box-shadow: 0 0 5px rgba(153, 27, 27, 0.4); }
 
-    .btn-copy-full { background-color: #6c5ce7; }
-    .btn-delete { background-color: #e74c3c; padding: 2px 5px; font-size: 0.72rem; }
-    .btn-move { background-color: #34495e; padding: 2px 4px; font-size: 0.72rem; }
+    .btn-copy-full { background-color: #4F46E5; }
+    .btn-delete { background-color: #DC2626; padding: 2px 5px; font-size: 0.72rem; }
+    .btn-move { background-color: #3F3F46; padding: 2px 4px; font-size: 0.72rem; }
 
     .admin-menu {
       display: none;
       gap: 10px;
       align-items: center;
-      background: #f1f2f6;
+      background: #F1F5F9;
       padding: 6px 12px;
       border-radius: 4px;
-      border: 1px dashed #c00000;
+      border: 1px dashed #991B1B;
       flex-wrap: wrap;
     }
 
@@ -209,7 +213,7 @@
     }
 
     .sync-badge {
-      background-color: #27ae60;
+      background-color: #10B981;
       color: white;
       font-size: 0.75rem;
       padding: 4px 10px;
@@ -223,7 +227,7 @@
 
     .last-update {
       font-size: 0.72rem;
-      color: #ddd;
+      color: #E2E8F0;
       margin-top: 3px;
       text-align: right;
     }
@@ -274,7 +278,7 @@
     }
 
     .dash-panel-header {
-      background: linear-gradient(135deg, #1B365D, #2980b9);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       color: white;
       padding: 10px 14px;
       display: flex;
@@ -320,7 +324,7 @@
     }
 
     .progress-bar-fill {
-      background: linear-gradient(90deg, #3498db, #2ecc71);
+      background: linear-gradient(90deg, #0284C7, #10B981);
       height: 100%;
       width: 0%;
       transition: width 0.4s ease;
@@ -335,7 +339,7 @@
     }
     .load-bar-label { width: 85px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .load-bar-bg { flex-grow: 1; background: #E2E8F0; height: 8px; border-radius: 4px; overflow: hidden; }
-    .load-bar-fill { height: 100%; background: #3498db; }
+    .load-bar-fill { height: 100%; background: #0284C7; }
 
     .clickable-task-item {
       padding: 4px 6px;
@@ -349,7 +353,7 @@
       align-items: center;
       transition: background 0.2s;
     }
-    .clickable-task-item:hover { background: #EBF5FB; border-color: #3498db; }
+    .clickable-task-item:hover { background: #E0F2FE; border-color: #0284C7; }
 
     /* 💬 チャット風伝言板スタイル */
     .chat-container {
@@ -372,7 +376,7 @@
       border-radius: 8px;
       position: relative;
       font-size: 0.75rem;
-      border-left: 3px solid #8e44ad;
+      border-left: 3px solid #6B21A8;
     }
 
     .chat-header {
@@ -385,7 +389,7 @@
 
     .chat-sender {
       font-weight: bold;
-      color: #1B365D;
+      color: var(--primary-color);
     }
 
     .chat-time {
@@ -421,12 +425,12 @@
     }
     .reaction-badge:hover {
       background: #F3E5F5;
-      border-color: #8e44ad;
+      border-color: #6B21A8;
     }
 
     .reaction-add-btn {
-      background: #EFE6F7;
-      color: #8e44ad;
+      background: #F3E8FF;
+      color: #6B21A8;
       border: none;
       border-radius: 10px;
       padding: 1px 6px;
@@ -434,7 +438,7 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .reaction-add-btn:hover { background: #8e44ad; color: #FFF; }
+    .reaction-add-btn:hover { background: #6B21A8; color: #FFF; }
 
     .stamp-picker {
       display: none;
@@ -443,7 +447,7 @@
       background: #FFF;
       padding: 3px;
       border-radius: 6px;
-      border: 1px solid #8e44ad;
+      border: 1px solid #6B21A8;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .stamp-picker.active { display: flex; }
@@ -458,7 +462,7 @@
     .stamp-picker-item:hover { background: #F3E5F5; }
 
     .chat-del-btn {
-      background: #e74c3c;
+      background: #DC2626;
       color: white;
       border: none;
       border-radius: 3px;
@@ -487,7 +491,7 @@
       transition: background 0.2s;
     }
 
-    .resizer:hover, .resizer.resizing { background: #3498db; }
+    .resizer:hover, .resizer.resizing { background: #0284C7; }
 
     .gantt-side {
       flex-grow: 1;
@@ -538,47 +542,47 @@
     }
 
     .task-table tr.phase-header-row td {
-      background-color: #E6ECF2;
+      background-color: #E2ECEF;
       color: var(--primary-color);
       font-weight: bold;
       font-size: 0.82rem;
       padding: 0 10px;
-      border-top: 1px solid #B0C4DE;
-      border-bottom: 1px solid #B0C4DE;
+      border-top: 1px solid #B0C8D0;
+      border-bottom: 1px solid #B0C8D0;
       height: var(--phase-height);
       box-sizing: border-box;
     }
 
     .gantt-phase-row {
-      background-color: #E6ECF2;
+      background-color: #E2ECEF;
       height: var(--phase-height);
-      border-top: 1px solid #B0C4DE;
-      border-bottom: 1px solid #B0C4DE;
+      border-top: 1px solid #B0C8D0;
+      border-bottom: 1px solid #B0C8D0;
       box-sizing: border-box;
       flex-shrink: 0;
     }
 
     .is-delayed {
-      background-color: #fce4e4 !important;
-      border-color: #e74c3c !important;
-      color: #c00000 !important;
+      background-color: #FEE2E2 !important;
+      border-color: #EF4444 !important;
+      color: #991B1B !important;
       font-weight: bold;
     }
 
     /* 🟧 日付未入力（空欄）注意の薄オレンジスタイル */
     .is-empty-date {
-      background-color: #FFE8D6 !important;
-      border: 1px dashed #E67E22 !important;
-      color: #D35400 !important;
+      background-color: #FFEDD5 !important;
+      border: 1px dashed #EA580C !important;
+      color: #C2410C !important;
       font-weight: bold;
     }
 
-    tr.dragging { opacity: 0.4; background-color: #e0e0e0; }
+    tr.dragging { opacity: 0.4; background-color: #E2E8F0; }
 
     .gantt-header-container {
       display: flex;
       flex-direction: column;
-      background: #F0F4F8;
+      background: #EAF0F2;
       border-bottom: 1px solid var(--border-color);
       position: sticky;
       top: 0;
@@ -596,7 +600,7 @@
       font-weight: bold;
       font-size: 0.75rem;
       padding: 2px 0;
-      background: #E6ECF2;
+      background: #D5E3E7;
       color: var(--primary-color);
       box-sizing: border-box;
       height: 22px;
@@ -622,11 +626,11 @@
     
     /* 🟢 今日のヘッダーセルハイライト */
     .day-cell.today { 
-      background: linear-gradient(135deg, #27AE60, #2ECC71) !important; 
+      background: linear-gradient(135deg, #10B981, #34D399) !important; 
       color: #ffffff !important; 
       font-weight: bold;
-      border-left: 1px solid #1E8449;
-      border-right: 1px solid #1E8449;
+      border-left: 1px solid #059669;
+      border-right: 1px solid #059669;
       box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
     }
 
@@ -656,8 +660,8 @@
     
     /* 🟩 チャート本体の今日列ハイライト */
     .gantt-bg-cell.today { 
-      background-color: #E8F8F5 !important; 
-      border-right: 1px dashed #27AE60 !important;
+      background-color: #ECFDF5 !important; 
+      border-right: 1px dashed #10B981 !important;
     }
 
     /* 🟢 今日の縦ライン */
@@ -666,17 +670,17 @@
       top: 0;
       bottom: 0;
       width: 3px;
-      background-color: #27AE60;
+      background-color: #10B981;
       z-index: 5;
       pointer-events: none;
-      box-shadow: 0 0 4px rgba(39, 174, 96, 0.6);
+      box-shadow: 0 0 4px rgba(16, 185, 129, 0.6);
     }
 
     .bar {
       position: absolute;
       top: 8px;
       height: 18px;
-      background-color: #3498db;
+      background-color: #0284C7;
       border-radius: 3px;
       opacity: 0.9;
       box-shadow: 0 1px 2px rgba(0,0,0,0.15);
@@ -696,9 +700,9 @@
       border: 1px solid #ccc;
     }
     .status-not-started { background-color: #f2f2f2; color: #666; }
-    .status-in-progress { background-color: #fff3cd; color: #856404; }
-    .status-pending { background-color: #ffe8d6; color: #d9534f; }
-    .status-completed { background-color: #d4edda; color: #155724; }
+    .status-in-progress { background-color: #FEF3C7; color: #92400E; }
+    .status-pending { background-color: #FFEDD5; color: #C2410C; }
+    .status-completed { background-color: #D1FAE5; color: #065F46; }
 
     .owner-select {
       padding: 2px 4px;
@@ -710,7 +714,7 @@
     
     /* 基本会社用の個別背景色 */
     .owner-naa { background-color: #D0E1F9 !important; color: #003366 !important; border-color: #B0C4DE !important; }
-    .owner-cuebus { background-color: #FFF2CC !important; color: #7F6000 !important; border-color: #FFE599 !important; }
+    .owner-cuebus { background-color: #CCFBF1 !important; color: #0F4C5C !important; border-color: #99F6E4 !important; }
     .owner-hamaru { background-color: #FCE4D6 !important; color: #C00000 !important; border-color: #F8CBAD !important; }
     .owner-joint { background-color: #E2EFDA !important; color: #375623 !important; border-color: #C6E0B4 !important; }
 
@@ -779,21 +783,21 @@
     <button onclick="toggleAdminMenu()" class="btn-admin">🔑 管理者</button>
 
     <div id="admin-menu" class="admin-menu">
-      <span style="font-size:0.75rem; font-weight:bold; color:#d35400;">【裏メニュー】</span>
-      <button onclick="createBackup()" style="background: #27ae60;">📸 現在のデータバックアップ作成</button>
-      <button onclick="restoreBackup()" style="background: #8e44ad;">📂 バックアップから復元</button>
-      <button onclick="deleteBackup()" style="background: #c00000;">🗑️ バックアップ削除</button>
-      <button onclick="reorderAllIDs()" style="background: #2980b9;">🔢 ID一括振り直し</button>
+      <span style="font-size:0.75rem; font-weight:bold; color:#D97706;">【裏メニュー】</span>
+      <button onclick="createBackup()" style="background: #2D6A4F;">📸 現在のデータバックアップ作成</button>
+      <button onclick="restoreBackup()" style="background: #6B21A8;">📂 バックアップから復元</button>
+      <button onclick="deleteBackup()" style="background: #991B1B;">🗑️ バックアップ削除</button>
+      <button onclick="reorderAllIDs()" style="background: #0284C7;">🔢 ID一括振り直し</button>
       <button onclick="copyFullHTML()" class="btn-copy-full">📋 HTML全体をコピー（GitHub用）</button>
-      <button onclick="resetData()" style="background: #7f8c8d;">初期設定に戻す</button>
+      <button onclick="resetData()" style="background: #52525B;">初期設定に戻す</button>
     </div>
 
     <div class="legend">
-      <span><span class="legend-box" style="background:#C00000;"></span> 赤：最重要パス(CP)</span>
-      <span><span class="legend-box" style="background:#3498db;"></span> 青：通常タスク</span>
-      <span><span class="legend-box" style="background:#27AE60;"></span> 緑線：今日（現在日）</span>
-      <span><span class="legend-box" style="background:#fce4e4; border:1px solid #e74c3c;"></span> 赤セル：期限超過(遅延)</span>
-      <span><span class="legend-box" style="background:#FFE8D6; border:1px dashed #E67E22;"></span> オレンジ枠：日付未入力</span>
+      <span><span class="legend-box" style="background:#E36414;"></span> オレンジ：最重要パス(CP)</span>
+      <span><span class="legend-box" style="background:#0284C7;"></span> 青：通常タスク</span>
+      <span><span class="legend-box" style="background:#10B981;"></span> 緑線：今日（現在日）</span>
+      <span><span class="legend-box" style="background:#FEE2E2; border:1px solid #EF4444;"></span> 赤セル：期限超過(遅延)</span>
+      <span><span class="legend-box" style="background:#FFEDD5; border:1px dashed #EA580C;"></span> オレンジ枠：日付未入力</span>
     </div>
   </div>
 
@@ -850,20 +854,20 @@
         <!-- クリティカルパス（CP）進行状況 -->
         <div class="dash-card">
           <div class="dash-card-title">🚩 最重要CPタスク進行状況</div>
-          <div style="display:flex; justify-content:space-between; font-weight:bold; color:#C00000;">
+          <div style="display:flex; justify-content:space-between; font-weight:bold; color:var(--accent-color);">
             <span id="dash-cp-text">0%</span>
             <span style="font-size:0.75rem; color:#666; font-weight:normal;" id="dash-cp-count">CP完了 0 / 0 件</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="dash-cp-bar" style="background:#C00000;"></div>
+            <div class="progress-bar-fill" id="dash-cp-bar" style="background:var(--accent-color);"></div>
           </div>
         </div>
 
         <!-- 遅延アラート -->
         <div class="dash-card">
-          <div class="dash-card-title" style="color:#C00000;">🔴 期限超過 (遅延タスク)</div>
+          <div class="dash-card-title" style="color:#DC2626;">🔴 期限超過 (遅延タスク)</div>
           <div id="dash-delay-list">
-            <div style="color:#27ae60; font-size:0.75rem; font-weight:bold;">🟢 遅延タスクはありません。順調です！</div>
+            <div style="color:#10B981; font-size:0.75rem; font-weight:bold;">🟢 遅延タスクはありません。順調です！</div>
           </div>
         </div>
 
@@ -877,15 +881,15 @@
 
         <!-- 保留・要協議タスク -->
         <div class="dash-card">
-          <div class="dash-card-title" style="color:#d35400;">🟠 保留・要協議タスク</div>
+          <div class="dash-card-title" style="color:#D97706;">🟠 保留・要協議タスク</div>
           <div id="dash-pending-list">
             <div style="color:#888; font-size:0.72rem;">現在、保留中のタスクはありません。</div>
           </div>
         </div>
 
         <!-- 💬 チャット風 伝言板 -->
-        <div class="dash-card" style="border: 2px solid #8e44ad; background: #FAF5FF;">
-          <div class="dash-card-title" style="color: #8e44ad;">💬 社内伝言チャット</div>
+        <div class="dash-card" style="border: 2px solid #6B21A8; background: #FAF5FF;">
+          <div class="dash-card-title" style="color: #6B21A8;">💬 社内伝言チャット</div>
           
           <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
             <div style="display: flex; gap: 4px;">
@@ -893,7 +897,7 @@
                 <!-- JSで動的生成 -->
               </select>
               <input type="text" id="memo-input" placeholder="例：〇〇の件、対応完了しました" style="flex: 1;" onkeypress="if(event.key==='Enter') submitMemo()">
-              <button onclick="submitMemo()" style="background: #8e44ad; padding: 4px 10px; font-size: 0.75rem;">送信</button>
+              <button onclick="submitMemo()" style="background: #6B21A8; padding: 4px 10px; font-size: 0.75rem;">送信</button>
             </div>
           </div>
 
@@ -964,8 +968,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button onclick="closeAddTaskModal()" style="background:#7f8c8d; padding:6px 12px;">キャンセル</button>
-        <button onclick="submitNewTask()" style="background:#27ae60; padding:6px 16px;">＋ 登録する</button>
+        <button onclick="closeAddTaskModal()" style="background:#52525B; padding:6px 12px;">キャンセル</button>
+        <button onclick="submitNewTask()" style="background:#2D6A4F; padding:6px 16px;">＋ 登録する</button>
       </div>
     </div>
   </div>
@@ -973,7 +977,7 @@
   <!-- 📂 カテゴリー管理ポップアップ -->
   <div class="modal-overlay" id="category-modal">
     <div class="modal-card">
-      <div class="modal-header" style="background:#16a085;">
+      <div class="modal-header" style="background:#0077B6;">
         <span>📂 カテゴリー（区分）の管理・追加・修正</span>
         <button onclick="closeCategoryModal()" style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;">✖</button>
       </div>
@@ -982,7 +986,7 @@
           <label>新しいカテゴリーの追加</label>
           <div style="display:flex; gap:6px;">
             <input type="text" id="modal-new-category-name" placeholder="例：設営・アフターサポート" style="flex:1;">
-            <button onclick="submitNewCategory()" style="background:#16a085; padding:4px 12px;">＋ 追加</button>
+            <button onclick="submitNewCategory()" style="background:#0077B6; padding:4px 12px;">＋ 追加</button>
           </div>
         </div>
 
@@ -996,7 +1000,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button onclick="closeCategoryModal()" style="background:#7f8c8d; padding:6px 16px;">閉じる</button>
+        <button onclick="closeCategoryModal()" style="background:#52525B; padding:6px 16px;">閉じる</button>
       </div>
     </div>
   </div>
@@ -1004,7 +1008,7 @@
   <!-- 🏢 担当会社管理ポップアップ -->
   <div class="modal-overlay" id="add-company-modal">
     <div class="modal-card" style="width:400px;">
-      <div class="modal-header" style="background:#e67e22;">
+      <div class="modal-header" style="background:#D97706;">
         <span>🏢 担当会社・外注先の管理</span>
         <button onclick="closeAddCompanyModal()" style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;">✖</button>
       </div>
@@ -1013,7 +1017,7 @@
           <label>新しい会社名・外注先名称の追加</label>
           <div style="display:flex; gap:6px;">
             <input type="text" id="modal-company-name" placeholder="例：演出外注A社" style="flex:1;">
-            <button onclick="submitNewCompany()" style="background:#e67e22; padding:4px 12px;">追加</button>
+            <button onclick="submitNewCompany()" style="background:#D97706; padding:4px 12px;">追加</button>
           </div>
         </div>
 
@@ -1027,7 +1031,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button onclick="closeAddCompanyModal()" style="background:#7f8c8d; padding:6px 16px;">閉じる</button>
+        <button onclick="closeAddCompanyModal()" style="background:#52525B; padding:6px 16px;">閉じる</button>
       </div>
     </div>
   </div>
@@ -1035,7 +1039,7 @@
   <!-- 📖 取扱マニュアルポップアップ -->
   <div class="modal-overlay" id="manual-modal">
     <div class="modal-card" style="width:600px; max-width:95%;">
-      <div class="modal-header" style="background:#7f8c8d;">
+      <div class="modal-header" style="background:#52525B;">
         <span>📖 取扱マニュアル・機能ガイド</span>
         <button onclick="closeManualModal()" style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;">✖</button>
       </div>
@@ -1061,8 +1065,8 @@
         </ul>
       </div>
       <div class="modal-footer">
-        <button onclick="downloadManual()" style="background:#2980b9; padding:6px 14px;">📄 テキスト形式で保存</button>
-        <button onclick="closeManualModal()" style="background:#7f8c8d; padding:6px 16px;">閉じる</button>
+        <button onclick="downloadManual()" style="background:#0284C7; padding:6px 14px;">📄 テキスト形式で保存</button>
+        <button onclick="closeManualModal()" style="background:#52525B; padding:6px 16px;">閉じる</button>
       </div>
     </div>
   </div>
@@ -1349,7 +1353,7 @@
           item.innerHTML = `
             <span style="font-weight:bold; min-width:25px;">${k}.</span>
             <input type="text" value="${categoryNames[k]}" onchange="updateCategoryName('${k}', this.value)" style="flex:1;">
-            <button onclick="deleteCategory('${k}')" style="background:#e74c3c; padding:2px 8px; font-size:0.72rem;">削除</button>
+            <button onclick="deleteCategory('${k}')" style="background:#DC2626; padding:2px 8px; font-size:0.72rem;">削除</button>
           `;
           catManageList.appendChild(item);
         });
@@ -1400,8 +1404,8 @@
             const item = document.createElement("div");
             item.className = "company-list-item";
             item.innerHTML = `
-              <span style="font-weight:bold; color:#0277BD;">${company}</span>
-              <button onclick="removeCompany(${idx})" style="background:#e74c3c; padding:2px 8px; font-size:0.72rem;">削除</button>
+              <span style="font-weight:bold; color:#0284C7;">${company}</span>
+              <button onclick="removeCompany(${idx})" style="background:#DC2626; padding:2px 8px; font-size:0.72rem;">削除</button>
             `;
             customListContainer.appendChild(item);
           });
@@ -1681,7 +1685,7 @@
       const delayedTasks = tasks.filter(t => t.end && t.status !== '完了' && new Date(t.end) < TODAY);
 
       if (delayedTasks.length === 0) {
-        delayContainer.innerHTML = `<div style="color:#27ae60; font-size:0.75rem; font-weight:bold;">🟢 遅延タスクはありません。順調です！</div>`;
+        delayContainer.innerHTML = `<div style="color:#10B981; font-size:0.75rem; font-weight:bold;">🟢 遅延タスクはありません。順調です！</div>`;
       } else {
         delayedTasks.forEach(t => {
           const item = document.createElement("div");
@@ -1689,10 +1693,10 @@
           item.onclick = () => scrollToTask(t.id);
           item.innerHTML = `
             <div>
-              <span style="font-weight:bold; color:#c00000;">[${t.id}]</span> ${t.name}
+              <span style="font-weight:bold; color:#DC2626;">[${t.id}]</span> ${t.name}
               <div style="font-size:0.68rem; color:#666;">担当: ${t.owner} | 期限: ${t.end}</div>
             </div>
-            <span style="color:#c00000; font-weight:bold; font-size:0.7rem;">要対応</span>
+            <span style="color:#DC2626; font-weight:bold; font-size:0.7rem;">要対応</span>
           `;
           delayContainer.appendChild(item);
         });
@@ -1732,10 +1736,10 @@
           item.onclick = () => scrollToTask(t.id);
           item.innerHTML = `
             <div>
-              <span style="font-weight:bold; color:#d35400;">[${t.id}]</span> ${t.name}
+              <span style="font-weight:bold; color:#D97706;">[${t.id}]</span> ${t.name}
               <div style="font-size:0.68rem; color:#666;">担当: ${t.owner}</div>
             </div>
-            <span style="color:#d35400; font-weight:bold; font-size:0.7rem;">保留中</span>
+            <span style="color:#D97706; font-weight:bold; font-size:0.7rem;">保留中</span>
           `;
           pendingContainer.appendChild(item);
         });
