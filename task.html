@@ -923,16 +923,16 @@
       let currentCat = null;
 
       filtered.forEach((t) => {
-        // カテゴリーヘッダー行 (td 内に div を配置して横幅全体へ正しく拡張)
+        // カテゴリーヘッダー行 (コントラストを強化し、左側アクセントバーで視認性を向上)
         if (t.category !== currentCat) {
           currentCat = t.category;
           const catTr = document.createElement('tr');
-          catTr.className = 'bg-slate-100 font-bold text-cuebus-800 border-t-2 border-slate-300';
+          catTr.className = 'bg-slate-200/90 border-t-2 border-b border-slate-300 font-bold';
           catTr.innerHTML = `
-            <td colspan="8" class="py-2.5 px-3.5 text-xs">
+            <td colspan="8" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500">
               <div class="flex items-center space-x-2">
-                <i data-lucide="folder" class="w-4 h-4 text-cuebus-700 shrink-0"></i>
-                <span class="tracking-wide">${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
+                <i data-lucide="folder" class="w-4 h-4 text-coral-600 shrink-0"></i>
+                <span class="tracking-wide text-slate-900 font-extrabold text-[12px]">${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
               </div>
             </td>
           `;
@@ -982,7 +982,7 @@
       });
     }
 
-    // フィルター判定
+    // フィルター判定 & 自動ソート処理
     function getFilteredTasks() {
       const cat = document.getElementById('filter-category').value;
       const prio = document.getElementById('filter-priority').value;
@@ -990,7 +990,7 @@
       const owner = document.getElementById('filter-owner').value;
       const query = document.getElementById('search-input').value.toLowerCase().trim();
 
-      return tasks.filter(t => {
+      const result = tasks.filter(t => {
         if (cat !== 'ALL' && t.category !== cat) return false;
         if (prio !== 'ALL' && t.priority !== prio) return false;
         if (status !== 'ALL' && t.status !== status) return false;
@@ -1001,6 +1001,20 @@
         }
         return true;
       });
+
+      // カテゴリー昇順、およびIDの枝番昇順で確実に並び替え
+      result.sort((a, b) => {
+        const catA = parseInt(a.category, 10) || 0;
+        const catB = parseInt(b.category, 10) || 0;
+        if (catA !== catB) return catA - catB;
+
+        // "1-6" などの枝番比較
+        const subA = parseInt(String(a.id).split('-')[1], 10) || 0;
+        const subB = parseInt(String(b.id).split('-')[1], 10) || 0;
+        return subA - subB;
+      });
+
+      return result;
     }
 
     function applyFilters() {
@@ -1199,7 +1213,7 @@
       const memo = document.getElementById('modal-memo').value.trim();
 
       if (id) {
-        // 更新
+        // 既存タスクの更新
         const t = tasks.find(item => item.id === id);
         if (t) {
           t.category = category;
@@ -1211,10 +1225,17 @@
           t.memo = memo;
         }
       } else {
-        // 新規採番
+        // 新規採番：対象カテゴリーの既存タスクから最大枝番を計算して +1
         const categoryTasks = tasks.filter(item => item.category === category);
-        const nextSub = categoryTasks.length + 1;
-        const newId = `${category}-${nextSub}`;
+        let maxSub = 0;
+        categoryTasks.forEach(item => {
+          const parts = String(item.id).split('-');
+          if (parts.length === 2) {
+            const sub = parseInt(parts[1], 10);
+            if (!isNaN(sub) && sub > maxSub) maxSub = sub;
+          }
+        });
+        const newId = `${category}-${maxSub + 1}`;
 
         tasks.push({
           id: newId,
@@ -1262,7 +1283,16 @@
     // ==================== エクスポート / 復元 ====================
     function exportCSV() {
       let csv = "\uFEFFID,分類,優先度,やること・完了の目安,主な窓口,期限・順序,状況,メモ・エビデンス\n";
-      tasks.forEach(t => {
+      const sorted = [...tasks].sort((a, b) => {
+        const catA = parseInt(a.category, 10) || 0;
+        const catB = parseInt(b.category, 10) || 0;
+        if (catA !== catB) return catA - catB;
+        const subA = parseInt(String(a.id).split('-')[1], 10) || 0;
+        const subB = parseInt(String(b.id).split('-')[1], 10) || 0;
+        return subA - subB;
+      });
+
+      sorted.forEach(t => {
         const catName = CATEGORY_NAMES[t.category] || t.category;
         csv += `"${t.id}","${catName}","${t.priority}","${t.name.replace(/"/g, '""')}","${t.owner.replace(/"/g, '""')}","${t.deadline.replace(/"/g, '""')}","${t.status}","${(t.memo || '').replace(/"/g, '""')}"\n`;
       });
@@ -1278,9 +1308,18 @@
     }
 
     function exportJSON() {
+      const sorted = [...tasks].sort((a, b) => {
+        const catA = parseInt(a.category, 10) || 0;
+        const catB = parseInt(b.category, 10) || 0;
+        if (catA !== catB) return catA - catB;
+        const subA = parseInt(String(a.id).split('-')[1], 10) || 0;
+        const subB = parseInt(String(b.id).split('-')[1], 10) || 0;
+        return subA - subB;
+      });
+
       const exportData = {
         exportedAt: new Date().toISOString(),
-        tasks,
+        tasks: sorted,
         gates
       };
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
