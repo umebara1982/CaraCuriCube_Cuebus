@@ -453,7 +453,6 @@
             削除
           </button>
           <div class="space-x-2">
-            <!-- translate="no" を付与して「クーポン」等の誤訳を防止 -->
             <button type="button" onclick="closeTaskModal()" translate="no" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">
               キャンセル
             </button>
@@ -924,15 +923,17 @@
       let currentCat = null;
 
       filtered.forEach((t) => {
-        // カテゴリーヘッダー行
+        // カテゴリーヘッダー行 (td 内に div を配置して横幅全体へ正しく拡張)
         if (t.category !== currentCat) {
           currentCat = t.category;
           const catTr = document.createElement('tr');
           catTr.className = 'bg-slate-100 font-bold text-cuebus-800 border-t-2 border-slate-300';
           catTr.innerHTML = `
-            <td colspan="8" class="py-2 px-3 text-xs flex items-center gap-1.5">
-              <i data-lucide="folder" class="w-3.5 h-3.5 text-cuebus-700"></i>
-              <span>${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
+            <td colspan="8" class="py-2.5 px-3.5 text-xs">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="folder" class="w-4 h-4 text-cuebus-700 shrink-0"></i>
+                <span class="tracking-wide">${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
+              </div>
             </td>
           `;
           tbody.appendChild(catTr);
