@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>CaraCuriCube 社内プロジェクト管理システム (Cuebus社内専用)</title>
+  <title>CaraCuriCube 社内プロジェクト管理システム (Cuebus専用)</title>
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,8 +64,9 @@
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-lg sm:text-xl font-bold tracking-tight">CaraCuriCube 社内プロジェクト管理</h1>
-            <span class="text-xs bg-coral-500/90 text-white font-semibold px-2 py-0.5 rounded-full shadow-sm">Cuebus社内専用</span>
-            <span class="text-xs bg-slate-800/80 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-mono">基準日: 2026/11/05</span>
+            <span class="text-xs bg-coral-500/90 text-white font-semibold px-2 py-0.5 rounded-full shadow-sm">Cuebus専用</span>
+            <!-- 基準日表示（動的更新対応） -->
+            <span id="header-base-date" class="text-xs bg-slate-800/80 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-mono">基準日: 2026/11/05</span>
           </div>
           <p class="text-xs text-cuebus-100/90 mt-0.5">PM: 梅原 達矢 ｜ 目的: 成田空港で安全に正規IP商品を販売できる状態をつくり実証成果を判断する</p>
         </div>
@@ -73,7 +74,7 @@
 
       <!-- 右側：Notion連携 & 重要日程 & アクションボタン -->
       <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-        <!-- Notion議事録クイックリンク (ご指定のCuebus議事録へ直結) -->
+        <!-- Notion議事録クイックリンク (直接開くURL) -->
         <a id="header-notion-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition" title="Notionミーティングノートを開く">
           <i data-lucide="external-link" class="w-3.5 h-3.5 text-coral-400"></i>
           <span>Notion議事録</span>
@@ -121,7 +122,7 @@
         </button>
       </div>
 
-      <!-- KPI カウンター & バックアップ -->
+      <!-- KPI カウンター & 設定 -->
       <div class="flex items-center space-x-3 text-xs">
         <div class="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded border border-slate-200">
           <span class="text-slate-500">全体タスク:</span>
@@ -142,7 +143,7 @@
         
         <!-- エクスポート/設定メニュー -->
         <div class="flex items-center space-x-1 border-l border-slate-200 pl-3">
-          <button onclick="openSettingsModal()" title="Notionリンク設定" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
+          <button onclick="openSettingsModal()" title="基準日・Notionリンク設定" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
           <button onclick="exportCSV()" title="CSV出力" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
@@ -151,7 +152,7 @@
           <button onclick="exportJSON()" title="JSONバックアップ" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="file-json" class="w-4 h-4"></i>
           </button>
-          <button onclick="resetDataWithConfirm()" title="シート初期状態に復元" class="p-1.5 text-red-500 hover:bg-red-50 rounded">
+          <button onclick="resetDataWithConfirm()" title="初期状態に復元" class="p-1.5 text-red-500 hover:bg-red-50 rounded">
             <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
           </button>
         </div>
@@ -189,7 +190,7 @@
 
     <!-- ==================== VIEW 1: リスト/テーブル表示 ==================== -->
     <div id="view-list" class="space-y-4">
-      <!-- フィルタ・検索バー（選択肢はデータから自動動的生成） -->
+      <!-- フィルタ・検索バー -->
       <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
         <div class="flex flex-wrap items-center gap-2 flex-1">
           <!-- カテゴリ絞込 -->
@@ -227,12 +228,11 @@
             </select>
           </div>
 
-          <!-- 窓口絞込 (タスク内の担当者・企業名を全自動抽出して動的生成) -->
+          <!-- 窓口絞込 (全自動抽出) -->
           <div class="flex items-center space-x-1.5">
             <label class="text-slate-500 font-semibold whitespace-nowrap">窓口:</label>
             <select id="filter-owner" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800 min-w-[130px]">
               <option value="ALL">全窓口</option>
-              <!-- JSで自動生成 -->
             </select>
           </div>
         </div>
@@ -244,7 +244,7 @@
         </div>
       </div>
 
-      <!-- タスク一覧テーブル（ヘッダー固定 & 見出し文言をスッキリ整理） -->
+      <!-- タスク一覧テーブル -->
       <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto max-h-[calc(100vh-210px)] relative">
           <table class="w-full text-left text-xs border-collapse">
@@ -305,7 +305,7 @@
       </div>
     </div>
 
-    <!-- ==================== VIEW 3: 開店判断チェック (Go / No-Go Gate) ==================== -->
+    <!-- ==================== VIEW 3: 開店判断チェック ==================== -->
     <div id="view-gate" class="hidden space-y-4">
       <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
         <div class="flex flex-wrap justify-between items-center gap-4 pb-4 border-b border-slate-200">
@@ -511,13 +511,13 @@
     </div>
   </div>
 
-  <!-- ==================== モーダル4: Notion連携設定 ==================== -->
+  <!-- ==================== モーダル4: プロジェクト設定（基準日 & Notion URL） ==================== -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-md w-full border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
         <h3 class="font-bold text-sm flex items-center gap-2">
           <i data-lucide="settings" class="w-4 h-4 text-coral-400"></i>
-          Notion連携URL設定
+          プロジェクト環境設定
         </h3>
         <button onclick="closeSettingsModal()" class="text-slate-300 hover:text-white">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -525,9 +525,17 @@
       </div>
 
       <div class="p-5 space-y-4">
+        <!-- 基準日設定（パターンC） -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
+          <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
+          <p class="text-[11px] text-slate-500 mt-1">ヘッダーに表示される「基準日」を変更します。</p>
+        </div>
+
+        <!-- Notion URL設定 -->
         <div>
           <label class="block font-bold text-slate-700 mb-1">Notion ミーティングノート・議事録URL</label>
-          <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="https://app.notion.com/...">
+          <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none text-xs" placeholder="https://www.notion.so/...">
           <p class="text-[11px] text-slate-500 mt-1">ヘッダーの「Notion議事録」ボタンをクリックした際に開くURLです。</p>
         </div>
 
@@ -550,15 +558,16 @@
         <span>CaraCuriCube Project ｜ Cuebus Inc. Internal PM Console</span>
       </div>
       <div class="text-[11px] text-slate-400">
-        ※ 状態変更・メモ・期日・打合せアジェンダはブラウザ内にリアルタイム保存されます。
+        ※ 状態変更・メモ・期日・打合せアジェンダ・基準日はブラウザ内にリアルタイム保存されます。
       </div>
     </div>
   </footer>
 
   <!-- ==================== JavaScript ロジック ==================== -->
   <script>
-    // Cuebus公式ミーティングノートURLを初期設定
+    // Notion単体で直接開くURL
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
+    const DEFAULT_BASE_DATE = "2026-11-05";
 
     // 初期タスクデータ
     const INITIAL_TASKS = [
@@ -619,15 +628,17 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V4";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V4";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V4";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V4";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V5";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V5";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V5";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V5";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V5";
 
     let tasks = [];
     let gates = [];
     let immediateActions = [];
     let notionUrl = DEFAULT_NOTION_URL;
+    let baseDate = DEFAULT_BASE_DATE;
     let currentView = 'list';
 
     const CATEGORY_NAMES = {
@@ -639,20 +650,20 @@
     };
 
     function init() {
-      // 過去バージョンからのデータ移行
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V3") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V2");
-      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V3") || localStorage.getItem("CUEBUS_CARACURI_GATES_V2");
-      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V3");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V4");
+      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V4");
+      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V4");
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
+      const storedBaseDate = localStorage.getItem(STORAGE_KEY_BASE_DATE);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
       gates = storedGates ? JSON.parse(storedGates) : JSON.parse(JSON.stringify(INITIAL_GATES));
       immediateActions = storedImm ? JSON.parse(storedImm) : JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
-      
-      // 指定のNotion URLをセット
       notionUrl = storedNotion ? storedNotion : DEFAULT_NOTION_URL;
+      baseDate = storedBaseDate ? storedBaseDate : DEFAULT_BASE_DATE;
 
       updateNotionLinkUI();
+      updateBaseDateUI();
       renderAll();
       lucide.createIcons();
     }
@@ -662,9 +673,10 @@
       localStorage.setItem(STORAGE_KEY_GATES, JSON.stringify(gates));
       localStorage.setItem(STORAGE_KEY_IMM, JSON.stringify(immediateActions));
       localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
+      localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
       updateKPIs();
       updateGateUI();
-      populateDynamicOwnerFilter(); // タスク変更時に窓口フィルター選択肢を再同期
+      populateDynamicOwnerFilter();
     }
 
     function renderAll() {
@@ -683,23 +695,28 @@
       link.href = notionUrl || DEFAULT_NOTION_URL;
     }
 
+    function updateBaseDateUI() {
+      const el = document.getElementById('header-base-date');
+      if (el) {
+        // YYYY-MM-DD を YYYY/MM/DD 表記に変換して表示
+        const formatted = baseDate ? baseDate.replace(/-/g, '/') : DEFAULT_BASE_DATE.replace(/-/g, '/');
+        el.innerText = `基準日: ${formatted}`;
+      }
+    }
+
     // ==================== 窓口フィルターの自動抽出・動的生成 ====================
     function populateDynamicOwnerFilter() {
       const select = document.getElementById('filter-owner');
       if (!select) return;
 
       const currentSelected = select.value;
-
-      // 全タスクの窓口から個別トークン（スラッシュ区切り）を自動収集
       const ownerSet = new Set();
       tasks.forEach(t => {
         if (!t.owner) return;
-        // "CUEBUS / 成田空港" などを分割して登録
         const parts = t.owner.split('/').map(p => p.trim()).filter(Boolean);
         parts.forEach(p => ownerSet.add(p));
       });
 
-      // 代表的な企業・個人名を先頭に整理
       const owners = Array.from(ownerSet).sort();
 
       select.innerHTML = '<option value="ALL">全窓口</option>';
@@ -779,7 +796,7 @@
       }
 
       let currentCat = null;
-      const todayStr = "2026-11-05";
+      const compareDate = baseDate || "2026-11-05";
 
       filtered.forEach((t) => {
         if (t.category !== currentCat) {
@@ -811,9 +828,9 @@
 
         let dateColorClass = 'bg-slate-50 border-slate-300 text-slate-700';
         if (t.dueDate) {
-          if (t.status !== '完了' && t.dueDate < todayStr) {
+          if (t.status !== '完了' && t.dueDate < compareDate) {
             dateColorClass = 'bg-red-50 border-red-300 text-red-700 font-bold';
-          } else if (t.status !== '完了' && t.dueDate === todayStr) {
+          } else if (t.status !== '完了' && t.dueDate === compareDate) {
             dateColorClass = 'bg-amber-50 border-amber-400 text-amber-800 font-bold';
           }
         }
@@ -830,7 +847,7 @@
             <span class="inline-block bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5 text-[11px]">${escapeHTML(t.owner)}</span>
           </td>
           <td class="py-2 px-3">
-            <input type="date" value="${t.dueDate || ''}" onchange="updateTaskDueDate('${t.id}', this.value)" class="text-xs px-2 py-1 rounded border ${dateColorClass} focus:outline-none focus:ring-1 focus:ring-cuebus-800 w-full cursor-pointer shadow-2xs" title="クリックしてカレンダーから期日変更">
+            <input type="date" value="${t.dueDate || ''}" onchange="updateTaskDueDate('${t.id}', this.value)" class="text-xs px-2 py-1 rounded border ${dateColorClass} focus:outline-none focus:ring-1 focus:ring-cuebus-800 w-full cursor-pointer shadow-2xs" title="クリックしてカレンダーから期限変更">
           </td>
           <td class="py-2.5 px-3 text-slate-600 font-medium text-[11px]">${escapeHTML(t.deadline || '—')}</td>
           <td class="py-2.5 px-3 text-center">
@@ -907,7 +924,7 @@
 
         const card = document.createElement('div');
         card.className = 'bg-white p-3 rounded-lg border border-slate-200 shadow-2xs hover:shadow-md transition text-xs space-y-2';
-        const dateDisplay = t.dueDate ? `📅 ${t.dueDate}` : escapeHTML(t.deadline || '期日未定');
+        const dateDisplay = t.dueDate ? `📅 ${t.dueDate}` : escapeHTML(t.deadline || '期限未定');
 
         card.innerHTML = `
           <div class="flex justify-between items-center">
@@ -1234,7 +1251,7 @@
     function openReportModal() {
       const today = new Date().toISOString().slice(0, 10);
       let md = `# 成田空港 CaraCuriCube プロジェクト打合せ進捗レポート\n`;
-      md += `**作成基準日**: ${today} ｜ **PM**: 梅原 達矢\n\n`;
+      md += `**作成基準日**: ${baseDate.replace(/-/g, '/')} (出力日: ${today}) ｜ **PM**: 梅原 達矢\n\n`;
 
       md += `## 1. 直近意思決定5点のアジェンダ状況\n`;
       immediateActions.forEach(imm => {
@@ -1286,8 +1303,9 @@
       });
     }
 
-    // ==================== Notion URL設定モーダル ====================
+    // ==================== プロジェクト設定モーダル（基準日 & Notion URL） ====================
     function openSettingsModal() {
+      document.getElementById('settings-base-date').value = baseDate || DEFAULT_BASE_DATE;
       document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
       document.getElementById('settings-modal').classList.remove('hidden');
       lucide.createIcons();
@@ -1298,10 +1316,16 @@
     }
 
     function saveSettings() {
-      const url = document.getElementById('settings-notion-url').value.trim();
-      notionUrl = url || DEFAULT_NOTION_URL;
+      const newDate = document.getElementById('settings-base-date').value;
+      const newUrl = document.getElementById('settings-notion-url').value.trim();
+
+      if (newDate) baseDate = newDate;
+      notionUrl = newUrl || DEFAULT_NOTION_URL;
+
       saveState();
+      updateBaseDateUI();
       updateNotionLinkUI();
+      renderTable(); // 期限の色判定を再計算
       closeSettingsModal();
     }
 
@@ -1359,10 +1383,11 @@
 
       const exportData = {
         exportedAt: new Date().toISOString(),
+        baseDate,
+        notionUrl,
         tasks: sorted,
         gates,
-        immediateActions,
-        notionUrl
+        immediateActions
       };
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -1380,7 +1405,10 @@
         gates = JSON.parse(JSON.stringify(INITIAL_GATES));
         immediateActions = JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
         notionUrl = DEFAULT_NOTION_URL;
+        baseDate = DEFAULT_BASE_DATE;
         saveState();
+        updateBaseDateUI();
+        updateNotionLinkUI();
         renderAll();
       }
     }
