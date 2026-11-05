@@ -50,7 +50,6 @@
     .badge-prio-B { background-color: #FEF3C7; color: #92400E; border: 1px solid #FBBF24; }
     .badge-prio-C { background-color: #E2E8F0; color: #475569; border: 1px solid #CBD5E1; }
     
-    /* オーバーレイツールチップスタイル */
     .has-tooltip { position: relative; }
     .tooltip {
       visibility: hidden;
@@ -96,7 +95,7 @@
         </div>
       </div>
 
-      <!-- 右側アクションボタン（オーバーレイ説明付き） -->
+      <!-- 右側アクションボタン -->
       <div class="flex flex-wrap items-center gap-2 sm:gap-3">
         <div class="has-tooltip">
           <a id="header-notion-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
@@ -151,7 +150,7 @@
         </button>
       </div>
 
-      <!-- KPI カウンター & 各種アイコンメニュー（オーバーレイ解説付き） -->
+      <!-- KPI カウンター & 各種アイコンメニュー -->
       <div class="flex items-center space-x-3 text-xs">
         <div class="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded border border-slate-200">
           <span class="text-slate-500">全体タスク:</span>
@@ -170,17 +169,15 @@
           <span id="kpi-done" class="font-bold text-emerald-700">0</span>
         </div>
         
-        <!-- アイコンツールバー（オーバーレイ付き） -->
+        <!-- アイコンツールバー -->
         <div class="flex items-center space-x-1 border-l border-slate-200 pl-3">
-          <!-- ① 歯車アイコン -->
           <div class="has-tooltip">
             <button onclick="openSettingsModal()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
               <i data-lucide="settings" class="w-4 h-4"></i>
             </button>
-            <span class="tooltip">⚙ 環境設定: 基準日・NotionURLの変更</span>
+            <span class="tooltip">⚙ 環境設定: 基準日・カテゴリー管理・NotionURL</span>
           </div>
 
-          <!-- ② ダウンロードアイコン -->
           <div class="has-tooltip">
             <button onclick="exportCSV()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
               <i data-lucide="download" class="w-4 h-4"></i>
@@ -188,7 +185,6 @@
             <span class="tooltip">⤓ CSV出力: Excel/スプレッドシート用</span>
           </div>
 
-          <!-- ③ JSONアイコン -->
           <div class="has-tooltip">
             <button onclick="exportJSON()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
               <i data-lucide="file-json" class="w-4 h-4"></i>
@@ -196,7 +192,6 @@
             <span class="tooltip">{ } JSON保存: 完全バックアップファイルの出力</span>
           </div>
 
-          <!-- ④ 初期化アイコン -->
           <div class="has-tooltip">
             <button onclick="resetDataWithConfirm()" class="p-1.5 text-red-500 hover:bg-red-50 rounded">
               <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
@@ -235,15 +230,11 @@
     <div id="view-list" class="space-y-4">
       <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
         <div class="flex flex-wrap items-center gap-2 flex-1">
+          <!-- カテゴリ絞込 (動的生成) -->
           <div class="flex items-center space-x-1.5">
             <label class="text-slate-500 font-semibold whitespace-nowrap">分類:</label>
             <select id="filter-category" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800">
-              <option value="ALL">全5カテゴリー</option>
-              <option value="1">1. 空港承認・全体日程</option>
-              <option value="2">2. 設備・安全・設置</option>
-              <option value="3">3. 商品・IP・生産</option>
-              <option value="4">4. 販売・運営・システム</option>
-              <option value="5">5. 収支・広報・成功判定</option>
+              <!-- JSで自動生成 -->
             </select>
           </div>
 
@@ -276,7 +267,7 @@
         </div>
 
         <div class="relative w-full sm:w-64">
-          <input type="text" id="search-input" oninput="applyFilters()" placeholder="タスク名・期限・メモ検索..." class="w-full border border-slate-300 rounded-md pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-cuebus-800 bg-slate-50">
+          <input type="text" id="search-input" oninput="applyFilters()" placeholder="タスク名・期限・メモ・URL検索..." class="w-full border border-slate-300 rounded-md pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-cuebus-800 bg-slate-50">
           <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-2.5 top-2"></i>
         </div>
       </div>
@@ -293,7 +284,7 @@
                 <th class="py-2.5 px-3 w-36">期限</th>
                 <th class="py-2.5 px-3 w-36">備考・補足</th>
                 <th class="py-2.5 px-3 w-32 text-center">状況 (ステータス)</th>
-                <th class="py-2.5 px-3 w-40">進捗メモ・完了エビデンス</th>
+                <th class="py-2.5 px-3 min-w-[220px]">進捗メモ・完了エビデンス</th>
                 <th class="py-2.5 px-2.5 w-16 text-center">操作</th>
               </tr>
             </thead>
@@ -384,11 +375,7 @@
         <div>
           <label class="block font-bold text-slate-700 mb-1">分類（カテゴリー）</label>
           <select id="modal-category" required class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none">
-            <option value="1">1. 空港承認・全体日程</option>
-            <option value="2">2. 設備・安全・設置</option>
-            <option value="3">3. 商品・IP・生産</option>
-            <option value="4">4. 販売・運営・システム</option>
-            <option value="5">5. 収支・広報・成功判定</option>
+            <!-- JSで動的生成 -->
           </select>
         </div>
 
@@ -433,8 +420,8 @@
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">現状・完了エビデンス・次の一手メモ</label>
-          <textarea id="modal-memo" rows="2" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="書類提出状況、承認日、回答期日、リンク先などを記録"></textarea>
+          <label class="block font-bold text-slate-700 mb-1">現状・完了エビデンス・次の一手メモ (URL入力可能)</label>
+          <textarea id="modal-memo" rows="3" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none font-sans" placeholder="書類提出状況、承認日、回答期日。GoogleドライブやスプレッドシートのURL(https://...)を貼ると自動でリンク化されます"></textarea>
         </div>
 
         <div class="pt-3 border-t border-slate-200 flex justify-between items-center">
@@ -461,7 +448,7 @@
         <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1">
           <p class="font-bold text-slate-800 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5 text-cuebus-700"></i> 入力フォーマット</p>
           <p>① <strong>議事録テキスト形式:</strong> <code>[ID] ステータス: メモ内容 (期日: YYYY-MM-DD)</code><br>
-            例: <code>[1-1] 完了: 営業承認受領済み、契約手続きへ (期日: 2026-11-06)</code>
+            例: <code>[1-1] 完了: 営業承認受領済み、契約手続きへ https://drive.google.com/... (期日: 2026-11-06)</code>
           </p>
           <p>② <strong>JSON形式:</strong> バックアップJSON、またはChatGPTに生成させたタスク配列</p>
         </div>
@@ -506,29 +493,58 @@
     </div>
   </div>
 
-  <!-- プロジェクト環境設定モーダル -->
+  <!-- プロジェクト環境設定モーダル (基準日 & NotionURL & カテゴリー管理) -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full border border-slate-200 text-xs">
+    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
         <h3 class="font-bold text-sm flex items-center gap-2">
           <i data-lucide="settings" class="w-4 h-4 text-coral-400"></i> プロジェクト環境設定
         </h3>
         <button onclick="closeSettingsModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div class="p-5 space-y-4">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
-          <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
-          <p class="text-[11px] text-slate-500 mt-1">ヘッダーに表示される「基準日」を変更します。</p>
+
+      <div class="p-5 space-y-5">
+        <!-- 基本設定 -->
+        <div class="space-y-3 pb-4 border-b border-slate-200">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
+            <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
+            <p class="text-[11px] text-slate-500 mt-1">ヘッダーに表示される「基準日」を変更します。</p>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Notion ミーティングノート・議事録URL</label>
+            <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none text-xs" placeholder="https://www.notion.so/...">
+            <p class="text-[11px] text-slate-500 mt-1">ヘッダーの「Notion議事録」ボタンをクリックした際に開くURLです。</p>
+          </div>
         </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Notion ミーティングノート・議事録URL</label>
-          <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none text-xs" placeholder="https://www.notion.so/...">
-          <p class="text-[11px] text-slate-500 mt-1">ヘッダーの「Notion議事録」ボタンをクリックした際に開くURLです。</p>
+
+        <!-- カテゴリー管理セクション (名前変更・追加・削除) -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="block font-bold text-slate-900 text-xs flex items-center gap-1.5">
+              <i data-lucide="folder-cog" class="w-4 h-4 text-coral-500"></i>
+              カテゴリー（分類）の管理・追加
+            </label>
+            <span class="text-[11px] text-slate-500">直接名称を編集できます</span>
+          </div>
+
+          <div id="settings-categories-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            <!-- JSで動的生成 -->
+          </div>
+
+          <!-- 新規カテゴリー追加欄 -->
+          <div class="flex items-center space-x-2 pt-2">
+            <input type="text" id="new-category-name" placeholder="新しいカテゴリー名を入力..." class="flex-1 border border-slate-300 rounded p-2 text-xs focus:outline-none focus:ring-1 focus:ring-cuebus-800 bg-slate-50">
+            <button type="button" onclick="addNewCategory()" class="bg-cuebus-700 hover:bg-cuebus-800 text-white font-bold px-3 py-2 rounded shrink-0 flex items-center space-x-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>追加</span>
+            </button>
+          </div>
         </div>
-        <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+
+        <div class="pt-4 border-t border-slate-200 flex justify-end space-x-2">
           <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">キャンセル</button>
-          <button type="button" onclick="saveSettings()" class="px-5 py-2 bg-coral-500 hover:bg-coral-600 text-white rounded font-bold shadow-sm">保存する</button>
+          <button type="button" onclick="saveSettings()" class="px-5 py-2 bg-coral-500 hover:bg-coral-600 text-white rounded font-bold shadow-sm">設定を保存する</button>
         </div>
       </div>
     </div>
@@ -538,7 +554,7 @@
   <footer class="bg-slate-800 text-slate-400 text-xs py-3 mt-auto border-t border-slate-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-between items-center gap-2">
       <div>CaraCuriCube Project ｜ Cuebus Inc. Internal PM Console</div>
-      <div class="text-[11px] text-slate-400">※ 状態変更・メモ・期日・打合せアジェンダ・基準日はブラウザ内にリアルタイム保存されます。</div>
+      <div class="text-[11px] text-slate-400">※ 状態変更・メモ・期日・打合せアジェンダ・基準日・カテゴリーはブラウザ内にリアルタイム保存されます。</div>
     </div>
   </footer>
 
@@ -546,6 +562,15 @@
   <script>
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
     const DEFAULT_BASE_DATE = "2026-11-05";
+
+    // 初期カテゴリー定義
+    const DEFAULT_CATEGORIES = {
+      "1": "1. 空港承認・全体日程",
+      "2": "2. 設備・安全・設置",
+      "3": "3. 商品・IP・生産",
+      "4": "4. 販売・運営・システム",
+      "5": "5. 収支・広報・成功判定"
+    };
 
     const INITIAL_TASKS = [
       { id: "1-1", category: "1", priority: "A", name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に日程確認", status: "要確認", memo: "書類一覧は受領済み。提出状況・営業承認は要確認。" },
@@ -605,37 +630,33 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V5";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V5";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V5";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V5";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V5";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V7";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V7";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V7";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V7";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V7";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V7";
 
     let tasks = [];
     let gates = [];
     let immediateActions = [];
+    let categories = {};
     let notionUrl = DEFAULT_NOTION_URL;
     let baseDate = DEFAULT_BASE_DATE;
     let currentView = 'list';
 
-    const CATEGORY_NAMES = {
-      "1": "1. 空港承認・全体日程",
-      "2": "2. 設備・安全・設置",
-      "3": "3. 商品・IP・生産",
-      "4": "4. 販売・運営・システム",
-      "5": "5. 収支・広報・成功判定"
-    };
-
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V4");
-      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V4");
-      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V4");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V6") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V5");
+      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V6") || localStorage.getItem("CUEBUS_CARACURI_GATES_V5");
+      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V6");
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
       const storedBaseDate = localStorage.getItem(STORAGE_KEY_BASE_DATE);
+      const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
       gates = storedGates ? JSON.parse(storedGates) : JSON.parse(JSON.stringify(INITIAL_GATES));
       immediateActions = storedImm ? JSON.parse(storedImm) : JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
+      categories = storedCategories ? JSON.parse(storedCategories) : JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
       notionUrl = storedNotion ? storedNotion : DEFAULT_NOTION_URL;
       baseDate = storedBaseDate ? storedBaseDate : DEFAULT_BASE_DATE;
 
@@ -651,12 +672,15 @@
       localStorage.setItem(STORAGE_KEY_IMM, JSON.stringify(immediateActions));
       localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
       localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
+      localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(categories));
       updateKPIs();
       updateGateUI();
       populateDynamicOwnerFilter();
+      populateDynamicCategoryUI();
     }
 
     function renderAll() {
+      populateDynamicCategoryUI();
       populateDynamicOwnerFilter();
       renderImmediateActions();
       renderTable();
@@ -680,6 +704,37 @@
       }
     }
 
+    // ==================== カテゴリーUIの動的生成（フィルター & モーダル） ====================
+    function populateDynamicCategoryUI() {
+      // 1. 上部フィルター
+      const filterSelect = document.getElementById('filter-category');
+      if (filterSelect) {
+        const currentSelected = filterSelect.value || 'ALL';
+        filterSelect.innerHTML = `<option value="ALL">全カテゴリー (${Object.keys(categories).length})</option>`;
+        Object.entries(categories).forEach(([key, name]) => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.innerText = name;
+          if (key === currentSelected) opt.selected = true;
+          filterSelect.appendChild(opt);
+        });
+      }
+
+      // 2. タスク編集モーダルの選択肢
+      const modalSelect = document.getElementById('modal-category');
+      if (modalSelect) {
+        const currentModalVal = modalSelect.value;
+        modalSelect.innerHTML = '';
+        Object.entries(categories).forEach(([key, name]) => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.innerText = name;
+          if (key === currentModalVal) opt.selected = true;
+          modalSelect.appendChild(opt);
+        });
+      }
+    }
+
     function populateDynamicOwnerFilter() {
       const select = document.getElementById('filter-owner');
       if (!select) return;
@@ -693,7 +748,6 @@
       });
 
       const owners = Array.from(ownerSet).sort();
-
       select.innerHTML = '<option value="ALL">全窓口</option>';
       owners.forEach(owner => {
         const opt = document.createElement('option');
@@ -758,6 +812,44 @@
       }
     }
 
+    function formatMemoWithLinks(text) {
+      if (!text) return '<span class="text-slate-400">—</span>';
+      
+      const urlPattern = /(https?:\/\/[^\s]+)/g;
+      const urls = text.match(urlPattern);
+
+      let html = escapeHTML(text).replace(urlPattern, function(url) {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-cuebus-600 font-semibold underline hover:text-cuebus-800 break-all inline-flex items-center gap-0.5" onclick="event.stopPropagation();">${url}</a>`;
+      });
+
+      if (urls && urls.length > 0) {
+        const firstUrl = urls[0];
+        let label = "共有リンクを開く";
+        let icon = "external-link";
+
+        if (firstUrl.includes("drive.google.com")) {
+          label = "Google ドライブ";
+          icon = "folder";
+        } else if (firstUrl.includes("docs.google.com/spreadsheets")) {
+          label = "スプレッドシート";
+          icon = "file-spreadsheet";
+        } else if (firstUrl.includes("notion.so")) {
+          label = "Notion ページ";
+          icon = "book-open";
+        }
+
+        html += `
+          <div class="mt-1">
+            <a href="${firstUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 bg-cuebus-50 text-cuebus-800 hover:bg-cuebus-100 border border-cuebus-300 px-2 py-0.5 rounded text-[10px] font-bold shadow-2xs transition" onclick="event.stopPropagation();">
+              <i data-lucide="${icon}" class="w-3 h-3 text-cuebus-700"></i>
+              <span>${label}</span>
+            </a>
+          </div>
+        `;
+      }
+      return html;
+    }
+
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       tbody.innerHTML = '';
@@ -780,7 +872,7 @@
             <td colspan="9" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500">
               <div class="flex items-center space-x-2">
                 <i data-lucide="folder" class="w-4 h-4 text-coral-600 shrink-0"></i>
-                <span class="tracking-wide text-slate-900 font-extrabold text-[12px]">${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
+                <span class="tracking-wide text-slate-900 font-extrabold text-[12px]">${categories[currentCat] || 'カテゴリー ' + currentCat}</span>
               </div>
             </td>
           `;
@@ -828,8 +920,8 @@
               ${statusBadge}
             </div>
           </td>
-          <td class="py-2.5 px-3 text-slate-600 text-[11px] leading-snug">
-            <div class="truncate max-w-[200px]" title="${escapeHTML(t.memo || '')}">${escapeHTML(t.memo || '—')}</div>
+          <td class="py-2.5 px-3 text-slate-700 text-[11px] leading-snug">
+            <div class="max-w-[280px]">${formatMemoWithLinks(t.memo || '')}</div>
           </td>
           <td class="py-2.5 px-2.5 text-center">
             <button onclick="openEditTaskModal('${t.id}')" class="text-cuebus-700 hover:text-cuebus-900 p-1 hover:bg-slate-200 rounded" title="編集">
@@ -839,6 +931,7 @@
         `;
         tbody.appendChild(tr);
       });
+      lucide.createIcons();
     }
 
     function getFilteredTasks() {
@@ -927,6 +1020,7 @@
       document.getElementById('kanban-count-needCheck').innerText = counts['要確認'] || 0;
       document.getElementById('kanban-count-inProgress').innerText = counts['進行中/相手待ち'] || 0;
       document.getElementById('kanban-count-done').innerText = counts['完了'] || 0;
+      lucide.createIcons();
     }
 
     function renderGates() {
@@ -957,6 +1051,7 @@
         `;
         container.appendChild(item);
       });
+      lucide.createIcons();
     }
 
     function toggleGate(gateId) {
@@ -1037,7 +1132,7 @@
     function openNewTaskModal() {
       document.getElementById('modal-title').innerHTML = '<i data-lucide="plus-circle" class="w-4 h-4 text-coral-400"></i> 新規タスクの登録';
       document.getElementById('modal-task-id').value = '';
-      document.getElementById('modal-category').value = '1';
+      populateDynamicCategoryUI();
       document.getElementById('modal-priority').value = 'A';
       document.getElementById('modal-status').value = '要確認';
       document.getElementById('modal-name').value = '';
@@ -1055,6 +1150,7 @@
       if (!t) return;
       document.getElementById('modal-title').innerHTML = `<i data-lucide="edit-3" class="w-4 h-4 text-coral-400"></i> タスク編集 [${t.id}]`;
       document.getElementById('modal-task-id').value = t.id;
+      populateDynamicCategoryUI();
       document.getElementById('modal-category').value = t.category;
       document.getElementById('modal-priority').value = t.priority;
       document.getElementById('modal-status').value = t.status;
@@ -1181,7 +1277,7 @@
           const trimmed = line.trim();
           if (!trimmed) return;
 
-          const idMatch = trimmed.match(/\[?([1-5]-\d+)\]?/);
+          const idMatch = trimmed.match(/\[?([1-9]\d*-\d+)\]?/);
           if (!idMatch) return;
           const taskId = idMatch[1];
           const target = tasks.find(t => t.id === taskId);
@@ -1271,15 +1367,77 @@
       });
     }
 
+    // ==================== 設定モーダル & カテゴリー管理 ====================
     function openSettingsModal() {
       document.getElementById('settings-base-date').value = baseDate || DEFAULT_BASE_DATE;
       document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
+      document.getElementById('new-category-name').value = '';
+      renderSettingsCategoryList();
       document.getElementById('settings-modal').classList.remove('hidden');
       lucide.createIcons();
     }
 
     function closeSettingsModal() {
       document.getElementById('settings-modal').classList.add('hidden');
+    }
+
+    function renderSettingsCategoryList() {
+      const listContainer = document.getElementById('settings-categories-list');
+      listContainer.innerHTML = '';
+
+      Object.entries(categories).forEach(([key, name]) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center space-x-2 bg-slate-50 p-1.5 rounded border border-slate-200';
+
+        row.innerHTML = `
+          <span class="font-mono font-bold text-slate-500 w-6 text-center shrink-0">${key}</span>
+          <input type="text" value="${escapeHTML(name)}" onchange="updateCategoryName('${key}', this.value)" class="flex-1 bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none">
+          <button type="button" onclick="deleteCategory('${key}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 rounded shrink-0" title="カテゴリー削除">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        `;
+        listContainer.appendChild(row);
+      });
+      lucide.createIcons();
+    }
+
+    function updateCategoryName(key, newName) {
+      if (!newName.trim()) return;
+      categories[key] = newName.trim();
+    }
+
+    function addNewCategory() {
+      const input = document.getElementById('new-category-name');
+      const name = input.value.trim();
+      if (!name) {
+        alert("カテゴリー名を入力してください。");
+        return;
+      }
+
+      // 新しい番号を採番 (最大キー+1)
+      const existingKeys = Object.keys(categories).map(k => parseInt(k, 10)).filter(k => !isNaN(k));
+      const nextKey = existingKeys.length > 0 ? (Math.max(...existingKeys) + 1).toString() : "1";
+
+      categories[nextKey] = `${nextKey}. ${name}`;
+      input.value = '';
+      renderSettingsCategoryList();
+    }
+
+    function deleteCategory(key) {
+      // 所属タスクの存在確認
+      const count = tasks.filter(t => t.category === key).length;
+      if (count > 0) {
+        if (!confirm(`カテゴリー [${key}] には現在 ${count} 件のタスクが所属しています。\n本当に削除しますか？`)) {
+          return;
+        }
+      } else {
+        if (!confirm(`カテゴリー [${key}: ${categories[key]}] を削除しますか？`)) {
+          return;
+        }
+      }
+
+      delete categories[key];
+      renderSettingsCategoryList();
     }
 
     function saveSettings() {
@@ -1292,7 +1450,7 @@
       saveState();
       updateBaseDateUI();
       updateNotionLinkUI();
-      renderTable();
+      renderAll();
       closeSettingsModal();
     }
 
@@ -1322,7 +1480,7 @@
       });
 
       sorted.forEach(t => {
-        const catName = CATEGORY_NAMES[t.category] || t.category;
+        const catName = categories[t.category] || t.category;
         csv += `"${t.id}","${catName}","${t.priority}","${t.name.replace(/"/g, '""')}","${t.owner.replace(/"/g, '""')}","${t.dueDate || ''}","${(t.deadline || '').replace(/"/g, '""')}","${t.status}","${(t.memo || '').replace(/"/g, '""')}"\n`;
       });
 
@@ -1350,6 +1508,7 @@
         exportedAt: new Date().toISOString(),
         baseDate,
         notionUrl,
+        categories,
         tasks: sorted,
         gates,
         immediateActions
@@ -1369,6 +1528,7 @@
         tasks = JSON.parse(JSON.stringify(INITIAL_TASKS));
         gates = JSON.parse(JSON.stringify(INITIAL_GATES));
         immediateActions = JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
+        categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
         notionUrl = DEFAULT_NOTION_URL;
         baseDate = DEFAULT_BASE_DATE;
         saveState();
