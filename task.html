@@ -91,7 +91,7 @@
   </header>
 
   <!-- ==================== サブナビゲーション & KPIサマリー ==================== -->
-  <section class="bg-white border-b border-slate-200 shadow-sm">
+  <section class="bg-white border-b border-slate-200 shadow-sm sticky top-[57px] z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-4">
       
       <!-- 表示ビュー切替タブ -->
@@ -273,20 +273,21 @@
         </div>
       </div>
 
-      <!-- タスク一覧テーブル -->
+      <!-- タスク一覧テーブル（ヘッダー固定対応） -->
       <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto max-h-[calc(100vh-210px)] relative">
           <table class="w-full text-left text-xs border-collapse">
-            <thead>
+            <thead class="sticky top-0 z-20 shadow-sm">
               <tr class="bg-cuebus-800 text-white font-semibold">
                 <th class="py-2.5 px-3 w-16 text-center">ID</th>
                 <th class="py-2.5 px-2.5 w-14 text-center">優先</th>
-                <th class="py-2.5 px-3 min-w-[280px]">やること・完了の目安</th>
+                <th class="py-2.5 px-3 min-w-[260px]">やること・完了の目安</th>
                 <th class="py-2.5 px-3 w-36">主な窓口 (個人)</th>
-                <th class="py-2.5 px-3 w-40">期限・順序</th>
+                <th class="py-2.5 px-3 w-36">期日 (カレンダー)</th>
+                <th class="py-2.5 px-3 w-36">期限・順序の補足</th>
                 <th class="py-2.5 px-3 w-32 text-center">状況 (ステータス)</th>
-                <th class="py-2.5 px-3 w-44">進捗メモ・完了エビデンス</th>
-                <th class="py-2.5 px-2.5 w-20 text-center">操作</th>
+                <th class="py-2.5 px-3 w-40">進捗メモ・完了エビデンス</th>
+                <th class="py-2.5 px-2.5 w-16 text-center">操作</th>
               </tr>
             </thead>
             <tbody id="task-table-body" class="divide-y divide-slate-200">
@@ -433,14 +434,19 @@
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">主な窓口（組織・個人）</label>
-            <input type="text" id="modal-owner" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: CUEBUS / 成田空港 (個人未確定)">
+            <label class="block font-bold text-slate-700 mb-1">期日 (カレンダー選択)</label>
+            <input type="date" id="modal-dueDate" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-amber-50/50 font-semibold text-slate-800">
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">期限・決めるべき順序</label>
+            <label class="block font-bold text-slate-700 mb-1">期限・決めるべき順序 (テキスト補足)</label>
             <input type="text" id="modal-deadline" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: 11/6に日程確認 / 設置前">
           </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">主な窓口（組織・個人）</label>
+          <input type="text" id="modal-owner" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: CUEBUS / 成田空港 (個人未確定)">
         </div>
 
         <div>
@@ -472,14 +478,14 @@
         <span>CaraCuriCube Project ｜ Cuebus Inc. Internal PM Console</span>
       </div>
       <div class="text-[11px] text-slate-400">
-        ※ 状態変更やメモ編集はブラウザ内にリアルタイム保存されます。
+        ※ 状態変更やメモ編集、期日変更はブラウザ内にリアルタイム保存されます。
       </div>
     </div>
   </footer>
 
   <!-- ==================== JavaScript ロジック ==================== -->
   <script>
-    // シート原文に基づく初期プリセットタスク全データ（10ページ分網羅）
+    // シート原文に基づく初期プリセットタスク全データ（期日 dueDate を標準搭載）
     const INITIAL_TASKS = [
       // 1. 空港承認・全体日程
       {
@@ -488,6 +494,7 @@
         priority: "A",
         name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-06",
         deadline: "11/6に日程確認",
         status: "要確認",
         memo: "書類一覧は受領済み。提出状況・営業承認は要確認。"
@@ -498,6 +505,7 @@
         priority: "A",
         name: "空港から契約書を受領・確認し、契約を締結する。場所代、売上歩合、期間、精算方法、費用負担を確認。（約20%は協議上の想定で確定ではない）",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-06",
         deadline: "11/6に受領予定日確認",
         status: "要確認",
         memo: "契約書待ち・締結未確認。"
@@ -508,6 +516,7 @@
         priority: "A",
         name: "「並行時申請」の要否・対象・申請期限を空港に確認する。",
         owner: "成田空港 / CUEBUS",
+        dueDate: "2026-11-10",
         deadline: "承認日程の策定前",
         status: "要確認",
         memo: "並行時申請の可否要確認。"
@@ -518,6 +527,7 @@
         priority: "A",
         name: "12/2案と1月中旬案について、設置・商品納品・営業開始・実証終了の工程と実現条件を整理し、空港と合意する。（11/28~30頃の設置は10/29時点の候補であり再確認）",
         owner: "梅原(PM) / 成田空港",
+        dueDate: "2026-11-06",
         deadline: "11/6に開店候補協議・決定",
         status: "進行中/相手待ち",
         memo: "2案とも未確定。11/6の打合せで決定予定。"
@@ -528,6 +538,7 @@
         priority: "B",
         name: "各社の責任者、週次会議、課題の連絡・判断先を決める。",
         owner: "CUEBUS / Hamaru / 成田空港",
+        dueDate: "2026-11-13",
         deadline: "早期・期限未定",
         status: "要確認",
         memo: "個人の責任者が未確定。週次定例枠の設置が必要。"
@@ -540,6 +551,7 @@
         priority: "A",
         name: "最終配置図を作り空港に確認する。高さ約3.2m・3段、設備間約80cmの希望、レジ・在庫・安全範囲・通路を反映。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-15",
         deadline: "設置前",
         status: "要確認",
         memo: "配置図の作成と通路幅の空港側受託確認。"
@@ -550,6 +562,7 @@
         priority: "A",
         name: "保安検査場・チェックイン動線を避ける3面誘導、購入者と観覧者の分離、仕切り、混雑時の一時中断基準を警備側と合意する。多言語プラカード案を提出。",
         owner: "CUEBUS / 空港警備",
+        dueDate: "2026-11-20",
         deadline: "設置・営業前",
         status: "要確認",
         memo: "混雑時の動線設計、警備との合意が必要。"
@@ -560,6 +573,7 @@
         priority: "A",
         name: "消防・避難経路・電源容量・放熱・点検通路・耐震/転倒対策について必要な審査と承認を確認する。",
         owner: "CUEBUS / 成田空港・審査先",
+        dueDate: "2026-11-20",
         deadline: "設置前",
         status: "要確認",
         memo: "消防・耐震の要件合意。"
@@ -570,6 +584,7 @@
         priority: "A",
         name: "設置・搬入の日時、人員、搬入経路、立入手続き、電源接続を確定する。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-25",
         deadline: "承認後・設置前",
         status: "要確認",
         memo: "既存タスク: カラクリ設置調整。"
@@ -580,6 +595,7 @@
         priority: "A",
         name: "構成・部材数量・調達納期を確定し、不足分を手配する。リフト有無とトレイ数も確認。",
         owner: "CUEBUS設備担当",
+        dueDate: "2026-11-15",
         deadline: "設置前",
         status: "進行中/相手待ち",
         memo: "部材手配・資機材手配のリードタイム確認中。"
@@ -590,6 +606,7 @@
         priority: "B",
         name: "商品固定・トレイ展示方式を確定し、搬送・リフト時の干渉と安全性を試験する。（ハンガー吊りは干渉懸念で却下記録あり、既存設計タスク整合確認）",
         owner: "CUEBUS設備担当",
+        dueDate: "2026-11-18",
         deadline: "設計・調達前",
         status: "進行中/相手待ち",
         memo: "ハンガーラック設計/トレイ展示案の最終仕様固め。"
@@ -600,6 +617,7 @@
         priority: "A",
         name: "夜間のアクリル・施錠・照明・商品移動などを具体化し、空港側と確認する。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-25",
         deadline: "営業前",
         status: "要確認",
         memo: "無人夜間帯のセキュリティ方針策定。"
@@ -610,6 +628,7 @@
         priority: "A",
         name: "実機で商品搬送、緊急停止、復旧、電源断、接触防止を試験し、異常時の連絡先・対応手順を残す。",
         owner: "CUEBUS設備担当 / 成田空港",
+        dueDate: "2026-11-28",
         deadline: "設置後・営業前",
         status: "要確認",
         memo: "安全試験項目のチェックシート策定。"
@@ -622,6 +641,7 @@
         priority: "A",
         name: "ウルトラマンのデザイン案・素材・商品化申請・監修状況を確認し各SKUの承認を得る。（契約終了と商品監修完了は別）",
         owner: "CUEBUS / Hamaru / 円谷プロ",
+        dueDate: "2026-11-10",
         deadline: "量産前",
         status: "要確認",
         memo: "デザイン案承認の進捗確認。"
@@ -632,6 +652,7 @@
         priority: "A",
         name: "送付済みの色見本について円谷プロの回答を確認し、OK後に量産サンプルを用意。量産サンプルの確認・監修手順を確認して量産に進む。",
         owner: "CUEBUS / 製造先 / 円谷プロ",
+        dueDate: "2026-11-09",
         deadline: "色見本OK→量産サンプル→量産",
         status: "進行中/相手待ち",
         memo: "色見本送付済み。回答および後続の所要日数は未確認。"
@@ -642,6 +663,7 @@
         priority: "A",
         name: "商品の型・サイズ・色・数量・価格・生産先を決め、色見本承認から量産・納品までの各工程を逆算し空港に提示。（約10型・XS~XL・黒白は10/29想定）",
         owner: "CUEBUS / Hamaru / 製造先",
+        dueDate: "2026-11-06",
         deadline: "11/6に両開店案と整合確認",
         status: "要確認",
         memo: "11月末の量産は間に合うか微妙。12/2案の最重要リスク。"
@@ -652,6 +674,7 @@
         priority: "A",
         name: "限定品のシリアル番号・公式証明書の対象、発番方法、印刷・照合方法を決める。",
         owner: "CUEBUS / 印刷会社 / 円谷プロ",
+        dueDate: "2026-11-18",
         deadline: "量産・販売前",
         status: "要確認",
         memo: "シリアル・真贋証明書の仕様確定。"
@@ -662,6 +685,7 @@
         priority: "B",
         name: "購入フローカードと成田オリジナル/国内ライセンス商品の2種タグを設計し、見積・発注する。",
         owner: "CUEBUS / Hamaru / 印刷会社",
+        dueDate: "2026-11-15",
         deadline: "印刷納期を確認",
         status: "要確認",
         memo: "デザイン作成・印刷日数見積もり。"
@@ -672,6 +696,7 @@
         priority: "B",
         name: "初音ミク既存商品の契約接続、取扱条件、在庫、サンプル、数量を確認する。（11/4時点では仕入れ販売を進める方向）",
         owner: "Hamaru / CUEBUS / クリプトン",
+        dueDate: "2026-11-13",
         deadline: "期限未定",
         status: "要確認",
         memo: "仕入れ販売の条件確定待ち。"
@@ -682,6 +707,7 @@
         priority: "B",
         name: "スタジオぴえろ（NARUTO・BLEACH・ブラッククローバー）の企画書を提出したか確認する。",
         owner: "Hamaru / CUEBUS",
+        dueDate: "2026-11-07",
         deadline: "11/4週中提出予定",
         status: "要確認",
         memo: "Hamaruからの提出完了報告を確認。"
@@ -692,6 +718,7 @@
         priority: "B",
         name: "AIR TWOKYOとの面談で取扱可否・在庫・価格・納期を確認し、仕入れ判断する。",
         owner: "Hamaru / CUEBUS",
+        dueDate: "2026-11-11",
         deadline: "11/11 面談予定",
         status: "要確認",
         memo: "11/11の面談結果を踏まえて即時判断。"
@@ -702,6 +729,7 @@
         priority: "C",
         name: "ダンデライオン等の追加IPは、許諾条件・監修・採算と優先順位を整理し、初期販売に必須か決める。",
         owner: "Hamaru / CUEBUS",
+        dueDate: "",
         deadline: "期限未定",
         status: "要確認",
         memo: "フェーズ2以降の展開候補として整理。"
@@ -714,6 +742,7 @@
         priority: "A",
         name: "決済端末・レジ・現金/カード対応・通信を確定し、現地で決済テストする。（端末はCUEBUS側用意、キャリア通信想定）",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-26",
         deadline: "営業前",
         status: "要確認",
         memo: "決済端末手配と電波環境テスト。"
@@ -724,6 +753,7 @@
         priority: "A",
         name: "操作端末のUI、商品選択・購入/受渡し・在庫切れ表示を決め、購入の一連の流れを試す。",
         owner: "CUEBUS / システム担当",
+        dueDate: "2026-11-24",
         deadline: "営業前",
         status: "進行中/相手待ち",
         memo: "操作端末のUI検討タスク。"
@@ -734,6 +764,7 @@
         priority: "A",
         name: "営業時間とスタッフの人数・シフト・役割・教育を確定する。（初期5名・常時約3名、コアタイム8~20時想定）",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-20",
         deadline: "営業前",
         status: "要確認",
         memo: "人員調達・シフト・オペレーションマニュアル作成。"
@@ -744,6 +775,7 @@
         priority: "A",
         name: "通常時はCUEBUSから、混雑時はレジで手渡す流れを具体化し、接客・誘導・障害時の手順を練習する。",
         owner: "CUEBUS販売担当 / 空港警備",
+        dueDate: "2026-11-27",
         deadline: "営業前",
         status: "要確認",
         memo: "現地接客ロールプレイングと障害時対応。"
@@ -754,6 +786,7 @@
         priority: "B",
         name: "商品の倉庫、売場後方の什器、補充動線、在庫管理・欠品時の案内・棚卸しを決める。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-25",
         deadline: "営業前",
         status: "要確認",
         memo: "バックヤード位置と補充ルールの確定。"
@@ -764,6 +797,7 @@
         priority: "C",
         name: "Shopify・QR・海外発送を初期開店の必須範囲とするか決める。実施の場合はIPごとのEC・地域・素材利用の権利を確認。",
         owner: "CUEBUS / Hamaru / 権利元",
+        dueDate: "",
         deadline: "開店範囲決定時",
         status: "要確認",
         memo: "初期必須かオープン後追加か判断。"
@@ -776,6 +810,7 @@
         priority: "A",
         name: "予算と損益を整理する。商品原価・IP費用・空港歩合・人件費・設備・決済・広報を反映し、販売価格と数量の前提を承認する。",
         owner: "CUEBUS / Hamaru",
+        dueDate: "2026-11-12",
         deadline: "主要発注・開店判断前",
         status: "要確認",
         memo: "P/Lモデル試算と承認。"
@@ -786,6 +821,7 @@
         priority: "B",
         name: "空港のNRT等ロゴの使用可否と、必要な権利・デザイン承認を確認する。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "2026-11-15",
         deadline: "商品・広報制作前",
         status: "要確認",
         memo: "空港ロゴ利用規約の確認。"
@@ -796,6 +832,7 @@
         priority: "B",
         name: "空港・Hamaruと共同プレスリリースの内容、承認者、発表日、千葉県の関与を調整する。（SNS公開前の共同発表が必要）",
         owner: "CUEBUS / 成田空港 / Hamaru",
+        dueDate: "2026-11-20",
         deadline: "公開前・日程未定",
         status: "要確認",
         memo: "リリース文案作成と各社承認フロー。"
@@ -806,6 +843,7 @@
         priority: "B",
         name: "多言語の商品紹介・現地案内・SNS素材を準備し、権利元/空港の承認後に公開する。",
         owner: "CUEBUS / Hamaru",
+        dueDate: "2026-11-25",
         deadline: "発表承認後",
         status: "要確認",
         memo: "英語・繁体字等のPOPおよび告知素材。"
@@ -816,6 +854,7 @@
         priority: "B",
         name: "実証の成功基準と計測担当を決める。販売数・売上・粗利・稼働率・安全/混雑・欠品・来場者反応を記録し継続/改善判断に使う。",
         owner: "CUEBUS / 成田空港 / Hamaru",
+        dueDate: "2026-11-28",
         deadline: "営業開始前",
         status: "要確認",
         memo: "KPIダッシュボードと日次日報フォーマット策定。"
@@ -826,6 +865,7 @@
         priority: "B",
         name: "実証終了時の撤去・延長判断・費用負担・成果報告を決める。",
         owner: "CUEBUS / 成田空港",
+        dueDate: "",
         deadline: "契約・実証計画時",
         status: "要確認",
         memo: "原状回復義務と実証期間後の取り決め。"
@@ -843,8 +883,8 @@
     ];
 
     // LocalStorage 管理
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V1";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V1";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V2";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V2";
 
     let tasks = [];
     let gates = [];
@@ -864,7 +904,24 @@
       const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS);
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
 
-      tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
+      if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+      } else {
+        // V1からの引継ぎ移行サポート
+        const oldTasks = localStorage.getItem("CUEBUS_CARACURI_TASKS_V1");
+        if (oldTasks) {
+          tasks = JSON.parse(oldTasks).map(t => {
+            const initialMatch = INITIAL_TASKS.find(it => it.id === t.id);
+            return {
+              ...t,
+              dueDate: t.dueDate || (initialMatch ? initialMatch.dueDate : "")
+            };
+          });
+        } else {
+          tasks = JSON.parse(JSON.stringify(INITIAL_TASKS));
+        }
+      }
+
       gates = storedGates ? JSON.parse(storedGates) : JSON.parse(JSON.stringify(INITIAL_GATES));
 
       renderAll();
@@ -912,7 +969,7 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="text-center py-8 text-slate-400">
+            <td colspan="9" class="text-center py-8 text-slate-400">
               該当するタスクがありません。フィルター条件を変更してください。
             </td>
           </tr>
@@ -921,15 +978,16 @@
       }
 
       let currentCat = null;
+      const todayStr = "2026-11-05";
 
       filtered.forEach((t) => {
-        // カテゴリーヘッダー行 (コントラストを強化し、左側アクセントバーで視認性を向上)
+        // カテゴリーヘッダー行
         if (t.category !== currentCat) {
           currentCat = t.category;
           const catTr = document.createElement('tr');
           catTr.className = 'bg-slate-200/90 border-t-2 border-b border-slate-300 font-bold';
           catTr.innerHTML = `
-            <td colspan="8" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500">
+            <td colspan="9" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500">
               <div class="flex items-center space-x-2">
                 <i data-lucide="folder" class="w-4 h-4 text-coral-600 shrink-0"></i>
                 <span class="tracking-wide text-slate-900 font-extrabold text-[12px]">${CATEGORY_NAMES[currentCat] || 'カテゴリー ' + currentCat}</span>
@@ -952,6 +1010,16 @@
           statusBadge = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-800 border border-red-300">⚠️ 要確認</span>';
         }
 
+        // 期日カラー判定
+        let dateColorClass = 'bg-slate-50 border-slate-300 text-slate-700';
+        if (t.dueDate) {
+          if (t.status !== '完了' && t.dueDate < todayStr) {
+            dateColorClass = 'bg-red-50 border-red-300 text-red-700 font-bold';
+          } else if (t.status !== '完了' && t.dueDate === todayStr) {
+            dateColorClass = 'bg-amber-50 border-amber-400 text-amber-800 font-bold';
+          }
+        }
+
         tr.innerHTML = `
           <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-500">${t.id}</td>
           <td class="py-2.5 px-2.5 text-center">
@@ -963,7 +1031,10 @@
           <td class="py-2.5 px-3 text-slate-600 font-medium">
             <span class="inline-block bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5 text-[11px]">${escapeHTML(t.owner)}</span>
           </td>
-          <td class="py-2.5 px-3 text-slate-600 font-medium">${escapeHTML(t.deadline)}</td>
+          <td class="py-2 px-3">
+            <input type="date" value="${t.dueDate || ''}" onchange="updateTaskDueDate('${t.id}', this.value)" class="text-xs px-2 py-1 rounded border ${dateColorClass} focus:outline-none focus:ring-1 focus:ring-cuebus-800 w-full cursor-pointer shadow-2xs" title="クリックしてカレンダーから期日変更">
+          </td>
+          <td class="py-2.5 px-3 text-slate-600 font-medium text-[11px]">${escapeHTML(t.deadline || '—')}</td>
           <td class="py-2.5 px-3 text-center">
             <div class="cursor-pointer" onclick="cycleStatus('${t.id}')" title="クリックでステータス切り替え">
               ${statusBadge}
@@ -996,7 +1067,7 @@
         if (status !== 'ALL' && t.status !== status) return false;
         if (owner !== 'ALL' && !t.owner.includes(owner)) return false;
         if (query) {
-          const content = `${t.name} ${t.owner} ${t.deadline} ${t.memo}`.toLowerCase();
+          const content = `${t.name} ${t.owner} ${t.deadline} ${t.dueDate} ${t.memo}`.toLowerCase();
           if (!content.includes(query)) return false;
         }
         return true;
@@ -1008,7 +1079,6 @@
         const catB = parseInt(b.category, 10) || 0;
         if (catA !== catB) return catA - catB;
 
-        // "1-6" などの枝番比較
         const subA = parseInt(String(a.id).split('-')[1], 10) || 0;
         const subB = parseInt(String(b.id).split('-')[1], 10) || 0;
         return subA - subB;
@@ -1044,6 +1114,8 @@
         const card = document.createElement('div');
         card.className = 'bg-white p-3 rounded-lg border border-slate-200 shadow-2xs hover:shadow-md transition text-xs space-y-2';
 
+        const dateDisplay = t.dueDate ? `📅 ${t.dueDate}` : escapeHTML(t.deadline || '期日未定');
+
         card.innerHTML = `
           <div class="flex justify-between items-center">
             <span class="font-mono text-slate-400 font-bold">${t.id}</span>
@@ -1053,8 +1125,8 @@
             ${escapeHTML(t.name)}
           </div>
           <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100">
-            <span class="truncate max-w-[140px] bg-slate-100 px-1 rounded">${escapeHTML(t.owner)}</span>
-            <span class="font-medium text-coral-600">${escapeHTML(t.deadline)}</span>
+            <span class="truncate max-w-[130px] bg-slate-100 px-1 rounded">${escapeHTML(t.owner)}</span>
+            <span class="font-bold text-coral-600">${dateDisplay}</span>
           </div>
           <div class="flex justify-between items-center pt-1.5">
             <select onchange="updateTaskStatus('${t.id}', this.value)" class="text-[11px] border border-slate-300 rounded px-1.5 py-0.5 bg-slate-50 font-medium">
@@ -1162,6 +1234,14 @@
       }
     }
 
+    function updateTaskDueDate(taskId, newDate) {
+      const t = tasks.find(item => item.id === taskId);
+      if (t) {
+        t.dueDate = newDate;
+        saveState();
+      }
+    }
+
     function openNewTaskModal() {
       document.getElementById('modal-title').innerHTML = '<i data-lucide="plus-circle" class="w-4 h-4 text-coral-400"></i> 新規タスクの登録';
       document.getElementById('modal-task-id').value = '';
@@ -1170,6 +1250,7 @@
       document.getElementById('modal-status').value = '要確認';
       document.getElementById('modal-name').value = '';
       document.getElementById('modal-owner').value = 'CUEBUS';
+      document.getElementById('modal-dueDate').value = '';
       document.getElementById('modal-deadline').value = '';
       document.getElementById('modal-memo').value = '';
       document.getElementById('modal-delete-btn').classList.add('hidden');
@@ -1189,7 +1270,8 @@
       document.getElementById('modal-status').value = t.status;
       document.getElementById('modal-name').value = t.name;
       document.getElementById('modal-owner').value = t.owner;
-      document.getElementById('modal-deadline').value = t.deadline;
+      document.getElementById('modal-dueDate').value = t.dueDate || '';
+      document.getElementById('modal-deadline').value = t.deadline || '';
       document.getElementById('modal-memo').value = t.memo || '';
       document.getElementById('modal-delete-btn').classList.remove('hidden');
 
@@ -1209,11 +1291,12 @@
       const status = document.getElementById('modal-status').value;
       const name = document.getElementById('modal-name').value.trim();
       const owner = document.getElementById('modal-owner').value.trim() || '個人未確定';
+      const dueDate = document.getElementById('modal-dueDate').value;
       const deadline = document.getElementById('modal-deadline').value.trim() || '未定';
       const memo = document.getElementById('modal-memo').value.trim();
 
       if (id) {
-        // 既存タスクの更新
+        // 既存タスク更新
         const t = tasks.find(item => item.id === id);
         if (t) {
           t.category = category;
@@ -1221,11 +1304,12 @@
           t.status = status;
           t.name = name;
           t.owner = owner;
+          t.dueDate = dueDate;
           t.deadline = deadline;
           t.memo = memo;
         }
       } else {
-        // 新規採番：対象カテゴリーの既存タスクから最大枝番を計算して +1
+        // 新規採番
         const categoryTasks = tasks.filter(item => item.category === category);
         let maxSub = 0;
         categoryTasks.forEach(item => {
@@ -1244,6 +1328,7 @@
           status,
           name,
           owner,
+          dueDate,
           deadline,
           memo
         });
@@ -1282,7 +1367,7 @@
 
     // ==================== エクスポート / 復元 ====================
     function exportCSV() {
-      let csv = "\uFEFFID,分類,優先度,やること・完了の目安,主な窓口,期限・順序,状況,メモ・エビデンス\n";
+      let csv = "\uFEFFID,分類,優先度,やること・完了の目安,主な窓口,期日(日付),期限・順序の補足,状況,メモ・エビデンス\n";
       const sorted = [...tasks].sort((a, b) => {
         const catA = parseInt(a.category, 10) || 0;
         const catB = parseInt(b.category, 10) || 0;
@@ -1294,7 +1379,7 @@
 
       sorted.forEach(t => {
         const catName = CATEGORY_NAMES[t.category] || t.category;
-        csv += `"${t.id}","${catName}","${t.priority}","${t.name.replace(/"/g, '""')}","${t.owner.replace(/"/g, '""')}","${t.deadline.replace(/"/g, '""')}","${t.status}","${(t.memo || '').replace(/"/g, '""')}"\n`;
+        csv += `"${t.id}","${catName}","${t.priority}","${t.name.replace(/"/g, '""')}","${t.owner.replace(/"/g, '""')}","${t.dueDate || ''}","${(t.deadline || '').replace(/"/g, '""')}","${t.status}","${(t.memo || '').replace(/"/g, '""')}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
