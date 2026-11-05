@@ -73,7 +73,7 @@
 
       <!-- 右側：Notion連携 & 重要日程 & アクションボタン -->
       <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-        <!-- Notion議事録クイックリンク -->
+        <!-- Notion議事録クイックリンク (ご指定のCuebus議事録へ直結) -->
         <a id="header-notion-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition" title="Notionミーティングノートを開く">
           <i data-lucide="external-link" class="w-3.5 h-3.5 text-coral-400"></i>
           <span>Notion議事録</span>
@@ -140,7 +140,7 @@
           <span id="kpi-done" class="font-bold text-emerald-700">0</span>
         </div>
         
-        <!-- エクスポート/復元メニュー -->
+        <!-- エクスポート/設定メニュー -->
         <div class="flex items-center space-x-1 border-l border-slate-200 pl-3">
           <button onclick="openSettingsModal()" title="Notionリンク設定" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
@@ -162,7 +162,7 @@
   <!-- ==================== メインコンテンツ ==================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex-1 w-full space-y-5">
 
-    <!-- 直近5点カード（打合せアジェンダ同期機能付き） -->
+    <!-- 直近5点カード（打合せアジェンダ同期） -->
     <section class="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-coral-500 rounded-r-lg shadow-sm p-4">
       <div class="flex justify-between items-center cursor-pointer" onclick="toggleImmediateActions()">
         <div class="flex items-center space-x-2.5">
@@ -183,13 +183,13 @@
       </div>
 
       <div id="immediate-actions-body" class="mt-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2.5 text-xs">
-        <!-- 動的生成 (アジェンダカード) -->
+        <!-- 動的生成 -->
       </div>
     </section>
 
     <!-- ==================== VIEW 1: リスト/テーブル表示 ==================== -->
     <div id="view-list" class="space-y-4">
-      <!-- フィルタ・検索バー -->
+      <!-- フィルタ・検索バー（選択肢はデータから自動動的生成） -->
       <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
         <div class="flex flex-wrap items-center gap-2 flex-1">
           <!-- カテゴリ絞込 -->
@@ -227,15 +227,12 @@
             </select>
           </div>
 
-          <!-- 窓口絞込 -->
+          <!-- 窓口絞込 (タスク内の担当者・企業名を全自動抽出して動的生成) -->
           <div class="flex items-center space-x-1.5">
             <label class="text-slate-500 font-semibold whitespace-nowrap">窓口:</label>
-            <select id="filter-owner" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800">
+            <select id="filter-owner" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800 min-w-[130px]">
               <option value="ALL">全窓口</option>
-              <option value="CUEBUS">CUEBUS関連</option>
-              <option value="成田空港">成田空港関連</option>
-              <option value="Hamaru">Hamaru関連</option>
-              <option value="円谷プロ">円谷プロ関連</option>
+              <!-- JSで自動生成 -->
             </select>
           </div>
         </div>
@@ -247,7 +244,7 @@
         </div>
       </div>
 
-      <!-- タスク一覧テーブル（ヘッダー固定対応） -->
+      <!-- タスク一覧テーブル（ヘッダー固定 & 見出し文言をスッキリ整理） -->
       <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto max-h-[calc(100vh-210px)] relative">
           <table class="w-full text-left text-xs border-collapse">
@@ -257,8 +254,8 @@
                 <th class="py-2.5 px-2.5 w-14 text-center">優先</th>
                 <th class="py-2.5 px-3 min-w-[260px]">やること・完了の目安</th>
                 <th class="py-2.5 px-3 w-36">主な窓口 (個人)</th>
-                <th class="py-2.5 px-3 w-36">期日 (カレンダー)</th>
-                <th class="py-2.5 px-3 w-36">期限・順序の補足</th>
+                <th class="py-2.5 px-3 w-36">期限</th>
+                <th class="py-2.5 px-3 w-36">備考・補足</th>
                 <th class="py-2.5 px-3 w-32 text-center">状況 (ステータス)</th>
                 <th class="py-2.5 px-3 w-40">進捗メモ・完了エビデンス</th>
                 <th class="py-2.5 px-2.5 w-16 text-center">操作</th>
@@ -395,19 +392,19 @@
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">期日 (カレンダー選択)</label>
+            <label class="block font-bold text-slate-700 mb-1">期限 (日付選択)</label>
             <input type="date" id="modal-dueDate" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-amber-50/50 font-semibold text-slate-800">
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">期限・決めるべき順序 (テキスト補足)</label>
+            <label class="block font-bold text-slate-700 mb-1">備考・補足</label>
             <input type="text" id="modal-deadline" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: 11/6に日程確認 / 設置前">
           </div>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">主な窓口（組織・個人）</label>
-          <input type="text" id="modal-owner" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: CUEBUS / 成田空港 (個人未確定)">
+          <label class="block font-bold text-slate-700 mb-1">主な窓口（組織・個人名）</label>
+          <input type="text" id="modal-owner" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="例: 梅原(PM) / CUEBUS / 製造先">
         </div>
 
         <div>
@@ -449,21 +446,19 @@
         <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1">
           <p class="font-bold text-slate-800 flex items-center gap-1">
             <i data-lucide="info" class="w-3.5 h-3.5 text-cuebus-700"></i>
-            入力フォーマット（どちらでも自動認識します）
+            入力フォーマット
           </p>
           <p>① <strong>議事録テキスト形式:</strong> <code>[ID] ステータス: メモ内容 (期日: YYYY-MM-DD)</code><br>
             例: <code>[1-1] 完了: 営業承認受領済み、契約手続きへ (期日: 2026-11-06)</code><br>
             例: <code>[2-1] 進行中: 消防協議中</code>
           </p>
-          <p>② <strong>JSON形式:</strong> バックアップJSON、またはChatGPTに作成させたタスク配列</p>
+          <p>② <strong>JSON形式:</strong> バックアップJSON、またはChatGPTに生成させたタスク配列</p>
         </div>
 
         <div>
           <label class="block font-bold text-slate-700 mb-1">議事録テキスト または JSON を貼り付け</label>
           <textarea id="import-text" rows="9" class="w-full border border-slate-300 rounded p-2.5 font-mono text-[11px] focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="[1-1] 完了: 営業承認を確認。契約書受領日待ち&#10;[1-4] 進行中: 12/2案で空港合意へ前進 (期日: 2026-11-06)&#10;[3-2] 要確認: 色見本回答を円谷プロへ再催促"></textarea>
         </div>
-
-        <div id="import-preview-msg" class="text-xs font-semibold text-emerald-600 hidden"></div>
 
         <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
           <button type="button" onclick="closeImportModal()" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">
@@ -532,8 +527,8 @@
       <div class="p-5 space-y-4">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Notion ミーティングノート・議事録URL</label>
-          <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="https://www.notion.so/your-workspace/...">
-          <p class="text-[11px] text-slate-500 mt-1">設定するとヘッダーの「Notion議事録」ボタンから直接このページを開けるようになります。</p>
+          <input type="url" id="settings-notion-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="https://app.notion.com/...">
+          <p class="text-[11px] text-slate-500 mt-1">ヘッダーの「Notion議事録」ボタンをクリックした際に開くURLです。</p>
         </div>
 
         <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
@@ -562,6 +557,9 @@
 
   <!-- ==================== JavaScript ロジック ==================== -->
   <script>
+    // Cuebus公式ミーティングノートURLを初期設定
+    const DEFAULT_NOTION_URL = "https://app.notion.com/library/recents?space=cuebus&p=387f4d6e8f4580fca8b2ce19b6ceaded&pm=s&pvs=140";
+
     // 初期タスクデータ
     const INITIAL_TASKS = [
       { id: "1-1", category: "1", priority: "A", name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に日程確認", status: "要確認", memo: "書類一覧は受領済み。提出状況・営業承認は要確認。" },
@@ -604,7 +602,6 @@
       { id: "5-6", category: "5", priority: "B", name: "実証終了時の撤去・延長判断・費用負担・成果報告を決める。", owner: "CUEBUS / 成田空港", dueDate: "", deadline: "契約・実証計画時", status: "要確認", memo: "原状回復義務と実証期間後の取り決め。" }
     ];
 
-    // 直近5点アジェンダカード初期値
     const INITIAL_IMMEDIATE_ACTIONS = [
       { id: "imm-1", title: "1. 11/6 打合せ日程判断", desc: "12/2案か1月中旬案かを決め、前提条件と判断期限を確認。未決定なら次の判断日を設定。", owner: "梅原(PM) / 成田空港", status: "協議中", note: "11/6打合せで決定予定" },
       { id: "imm-2", title: "2. 空港契約書・営業承認", desc: "契約書受領予定日を確認。受領済みの必要書類一覧に沿った準備・提出状況と営業承認工程。", owner: "CUEBUS / 成田空港", status: "未着手", note: "受領日確認待ち" },
@@ -613,7 +610,6 @@
       { id: "imm-5", title: "5. IP企画・11/11面談", desc: "スタジオぴえろ企画書、初音ミク契約状況、11/11 AIR TWOKYO面談での仕入れ可否確認。", owner: "Hamaru / CUEBUS", status: "未着手", note: "11/11面談予定" }
     ];
 
-    // 開店ゲート
     const INITIAL_GATES = [
       { id: "gate-1", title: "空港の営業承認・契約・営業開始日の合意を確認", checked: false, note: "契約書締結と営業承認の完了" },
       { id: "gate-2", title: "配置・消防・警備・電源・搬入の必要な確認と承認を完了", checked: false, note: "通路幅80cm・3面誘導・消防基準合意" },
@@ -623,15 +619,15 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V3";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V3";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V3";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V4";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V4";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V4";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V4";
 
     let tasks = [];
     let gates = [];
     let immediateActions = [];
-    let notionUrl = "https://www.notion.so";
+    let notionUrl = DEFAULT_NOTION_URL;
     let currentView = 'list';
 
     const CATEGORY_NAMES = {
@@ -643,15 +639,18 @@
     };
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V2");
-      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V2");
-      const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
+      // 過去バージョンからのデータ移行
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V3") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V2");
+      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V3") || localStorage.getItem("CUEBUS_CARACURI_GATES_V2");
+      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V3");
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
       gates = storedGates ? JSON.parse(storedGates) : JSON.parse(JSON.stringify(INITIAL_GATES));
       immediateActions = storedImm ? JSON.parse(storedImm) : JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
-      if (storedNotion) notionUrl = storedNotion;
+      
+      // 指定のNotion URLをセット
+      notionUrl = storedNotion ? storedNotion : DEFAULT_NOTION_URL;
 
       updateNotionLinkUI();
       renderAll();
@@ -665,9 +664,11 @@
       localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
       updateKPIs();
       updateGateUI();
+      populateDynamicOwnerFilter(); // タスク変更時に窓口フィルター選択肢を再同期
     }
 
     function renderAll() {
+      populateDynamicOwnerFilter();
       renderImmediateActions();
       renderTable();
       renderKanban();
@@ -679,7 +680,36 @@
 
     function updateNotionLinkUI() {
       const link = document.getElementById('header-notion-link');
-      link.href = notionUrl || '#';
+      link.href = notionUrl || DEFAULT_NOTION_URL;
+    }
+
+    // ==================== 窓口フィルターの自動抽出・動的生成 ====================
+    function populateDynamicOwnerFilter() {
+      const select = document.getElementById('filter-owner');
+      if (!select) return;
+
+      const currentSelected = select.value;
+
+      // 全タスクの窓口から個別トークン（スラッシュ区切り）を自動収集
+      const ownerSet = new Set();
+      tasks.forEach(t => {
+        if (!t.owner) return;
+        // "CUEBUS / 成田空港" などを分割して登録
+        const parts = t.owner.split('/').map(p => p.trim()).filter(Boolean);
+        parts.forEach(p => ownerSet.add(p));
+      });
+
+      // 代表的な企業・個人名を先頭に整理
+      const owners = Array.from(ownerSet).sort();
+
+      select.innerHTML = '<option value="ALL">全窓口</option>';
+      owners.forEach(owner => {
+        const opt = document.createElement('option');
+        opt.value = owner;
+        opt.innerText = owner;
+        if (owner === currentSelected) opt.selected = true;
+        select.appendChild(opt);
+      });
     }
 
     // ==================== 直近5点アジェンダレンダリング ====================
@@ -1120,10 +1150,9 @@
       }
     }
 
-    // ==================== アプローチ1: 議事録・差分インポート ====================
+    // ==================== 議事録・差分インポート ====================
     function openImportModal() {
       document.getElementById('import-text').value = '';
-      document.getElementById('import-preview-msg').classList.add('hidden');
       document.getElementById('import-modal').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1141,7 +1170,6 @@
 
       let updatedCount = 0;
 
-      // 1. JSON 形式判定
       if (rawText.startsWith('{') || rawText.startsWith('[')) {
         try {
           const parsed = JSON.parse(rawText);
@@ -1162,20 +1190,17 @@
           return;
         }
       } else {
-        // 2. 議事録テキスト解析 ([1-1] 完了: メモ内容 (期日: 2026-11-06))
         const lines = rawText.split('\n');
         lines.forEach(line => {
           const trimmed = line.trim();
           if (!trimmed) return;
 
-          // IDの抽出 [1-1] や 1-1:
           const idMatch = trimmed.match(/\[?([1-5]-\d+)\]?/);
           if (!idMatch) return;
           const taskId = idMatch[1];
           const target = tasks.find(t => t.id === taskId);
           if (!target) return;
 
-          // ステータス判定
           if (trimmed.includes('完了') || trimmed.includes('済') || trimmed.includes('OK')) {
             target.status = '完了';
           } else if (trimmed.includes('進行中') || trimmed.includes('調整中') || trimmed.includes('待ち')) {
@@ -1184,13 +1209,11 @@
             target.status = '要確認';
           }
 
-          // 期日抽出 (YYYY-MM-DD)
           const dateMatch = trimmed.match(/(202\d[-/]\d{1,2}[-/]\d{1,2})/);
           if (dateMatch) {
             target.dueDate = dateMatch[1].replace(/\//g, '-');
           }
 
-          // メモ抽出 (コロン以降)
           const colonIdx = trimmed.indexOf(':') !== -1 ? trimmed.indexOf(':') : trimmed.indexOf('：');
           if (colonIdx !== -1) {
             const memoPart = trimmed.substring(colonIdx + 1).replace(/\(期日:.*?\)/, '').trim();
@@ -1232,7 +1255,7 @@
       } else {
         prioATasks.forEach(t => {
           md += `* **[${t.id}] ${t.name}**\n`;
-          md += `  * 窓口: ${t.owner} ｜ 期日: ${t.dueDate || t.deadline} ｜ 状況: **${t.status}**\n`;
+          md += `  * 窓口: ${t.owner} ｜ 期限: ${t.dueDate || t.deadline} ｜ 状況: **${t.status}**\n`;
           md += `  * メモ: ${t.memo || '特記事項なし'}\n`;
         });
       }
@@ -1265,7 +1288,7 @@
 
     // ==================== Notion URL設定モーダル ====================
     function openSettingsModal() {
-      document.getElementById('settings-notion-url').value = notionUrl || '';
+      document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
       document.getElementById('settings-modal').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1276,7 +1299,7 @@
 
     function saveSettings() {
       const url = document.getElementById('settings-notion-url').value.trim();
-      notionUrl = url || "https://www.notion.so";
+      notionUrl = url || DEFAULT_NOTION_URL;
       saveState();
       updateNotionLinkUI();
       closeSettingsModal();
@@ -1299,7 +1322,7 @@
 
     // ==================== エクスポート / 復元 ====================
     function exportCSV() {
-      let csv = "\uFEFFID,分類,優先度,やること・完了の目安,主な窓口,期日(日付),期限・順序の補足,状況,メモ・エビデンス\n";
+      let csv = "\uFEFFID,分類,優先度,やること・完了の目安,主な窓口,期限(日付),備考・補足,状況,メモ・エビデンス\n";
       const sorted = [...tasks].sort((a, b) => {
         const catA = parseInt(a.category, 10) || 0;
         const catB = parseInt(b.category, 10) || 0;
@@ -1338,7 +1361,8 @@
         exportedAt: new Date().toISOString(),
         tasks: sorted,
         gates,
-        immediateActions
+        immediateActions,
+        notionUrl
       };
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -1351,10 +1375,11 @@
     }
 
     function resetDataWithConfirm() {
-      if (confirm("確認シート（2026/11/05基準日）の初期データにリセットしますか？\n※現在のローカル編集内容は上書きされます。")) {
+      if (confirm("初期データにリセットしますか？\n※現在のローカル編集内容は上書きされます。")) {
         tasks = JSON.parse(JSON.stringify(INITIAL_TASKS));
         gates = JSON.parse(JSON.stringify(INITIAL_GATES));
         immediateActions = JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
+        notionUrl = DEFAULT_NOTION_URL;
         saveState();
         renderAll();
       }
