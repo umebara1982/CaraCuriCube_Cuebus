@@ -216,7 +216,7 @@
               直近で確認・意思決定する5点 (打合せ同期アジェンダ)
               <span class="text-[11px] font-normal text-coral-600 bg-coral-100 px-2 py-0.5 rounded-full font-semibold">11/6打ち合わせ最重要</span>
             </h2>
-            <p class="text-xs text-slate-600">打合せ中に結論・ステータスを即時入力できます。最優先順序：①空港承認 ➔ ②安全・配置 ➔ ③商品監修 ➔ ④運用試験 ➔ ⑤開店判断</p>
+            <p class="text-xs text-slate-600">打合せ中に結論を入力可能。議事録差分取込（<code>[アジェンダ1] 決定済: 内容</code>）でも一括自動更新されます。</p>
           </div>
         </div>
         <button class="text-slate-500 hover:text-slate-800 p-1">
@@ -230,12 +230,9 @@
     <div id="view-list" class="space-y-4">
       <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
         <div class="flex flex-wrap items-center gap-2 flex-1">
-          <!-- カテゴリ絞込 (動的生成) -->
           <div class="flex items-center space-x-1.5">
             <label class="text-slate-500 font-semibold whitespace-nowrap">分類:</label>
-            <select id="filter-category" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800">
-              <!-- JSで自動生成 -->
-            </select>
+            <select id="filter-category" onchange="applyFilters()" class="border border-slate-300 rounded px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-cuebus-800"></select>
           </div>
 
           <div class="flex items-center space-x-1.5">
@@ -374,9 +371,7 @@
         <input type="hidden" id="modal-task-id">
         <div>
           <label class="block font-bold text-slate-700 mb-1">分類（カテゴリー）</label>
-          <select id="modal-category" required class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none">
-            <!-- JSで動的生成 -->
-          </select>
+          <select id="modal-category" required class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none"></select>
         </div>
 
         <div>
@@ -435,7 +430,7 @@
     </div>
   </div>
 
-  <!-- Notion差分インポートモーダル -->
+  <!-- Notion差分インポートモーダル (直近アジェンダ対応) -->
   <div id="import-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -445,21 +440,23 @@
         <button onclick="closeImportModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="p-5 space-y-4">
-        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1">
-          <p class="font-bold text-slate-800 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5 text-cuebus-700"></i> 入力フォーマット</p>
-          <p>① <strong>議事録テキスト形式:</strong> <code>[ID] ステータス: メモ内容 (期日: YYYY-MM-DD)</code><br>
-            例: <code>[1-1] 完了: 営業承認受領済み、契約手続きへ https://drive.google.com/... (期日: 2026-11-06)</code>
+        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1.5">
+          <p class="font-bold text-slate-800 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5 text-cuebus-700"></i> 入力フォーマット例</p>
+          <p>① <strong>直近意思決定5点の更新:</strong> <code>[アジェンダ1] 決定済: 12/2案で空港合意</code><br>
+            ※ <code>[アジェンダ1]</code> 〜 <code>[アジェンダ5]</code> または <code>[imm-1]</code> 〜 <code>[imm-5]</code> で指定可能
           </p>
-          <p>② <strong>JSON形式:</strong> バックアップJSON、またはChatGPTに生成させたタスク配列</p>
+          <p>② <strong>通常タスクの更新:</strong> <code>[ID] ステータス: メモ内容 (期日: YYYY-MM-DD)</code><br>
+            例: <code>[1-1] 完了: 営業承認受領済み https://drive.google.com/... (期日: 2026-11-06)</code>
+          </p>
         </div>
         <div>
           <label class="block font-bold text-slate-700 mb-1">議事録テキスト または JSON を貼り付け</label>
-          <textarea id="import-text" rows="9" class="w-full border border-slate-300 rounded p-2.5 font-mono text-[11px] focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="[1-1] 完了: 営業承認を確認。契約書受領日待ち&#10;[1-4] 進行中: 12/2案で空港合意へ前進 (期日: 2026-11-06)"></textarea>
+          <textarea id="import-text" rows="10" class="w-full border border-slate-300 rounded p-2.5 font-mono text-[11px] focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="[アジェンダ1] 決定済: 12/2案で成田空港側と基本合意完了&#10;[アジェンダ2] 協議中: 契約書は11/10受領見込み&#10;[1-1] 完了: 営業承認を確認済。契約締結手続きへ進む&#10;[1-4] 完了: 12/2オープン案に確定 (期日: 2026-11-06)"></textarea>
         </div>
         <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
           <button type="button" onclick="closeImportModal()" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">閉じる</button>
           <button type="button" onclick="executeImport()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold shadow-sm flex items-center space-x-1.5">
-            <i data-lucide="check" class="w-4 h-4"></i> <span>タスクへ一括反映する</span>
+            <i data-lucide="check" class="w-4 h-4"></i> <span>タスク・アジェンダへ反映する</span>
           </button>
         </div>
       </div>
@@ -493,7 +490,7 @@
     </div>
   </div>
 
-  <!-- プロジェクト環境設定モーダル (基準日 & NotionURL & カテゴリー管理) -->
+  <!-- プロジェクト環境設定モーダル -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -504,7 +501,6 @@
       </div>
 
       <div class="p-5 space-y-5">
-        <!-- 基本設定 -->
         <div class="space-y-3 pb-4 border-b border-slate-200">
           <div>
             <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
@@ -518,7 +514,6 @@
           </div>
         </div>
 
-        <!-- カテゴリー管理セクション (名前変更・追加・削除) -->
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <label class="block font-bold text-slate-900 text-xs flex items-center gap-1.5">
@@ -528,11 +523,8 @@
             <span class="text-[11px] text-slate-500">直接名称を編集できます</span>
           </div>
 
-          <div id="settings-categories-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-            <!-- JSで動的生成 -->
-          </div>
+          <div id="settings-categories-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
 
-          <!-- 新規カテゴリー追加欄 -->
           <div class="flex items-center space-x-2 pt-2">
             <input type="text" id="new-category-name" placeholder="新しいカテゴリー名を入力..." class="flex-1 border border-slate-300 rounded p-2 text-xs focus:outline-none focus:ring-1 focus:ring-cuebus-800 bg-slate-50">
             <button type="button" onclick="addNewCategory()" class="bg-cuebus-700 hover:bg-cuebus-800 text-white font-bold px-3 py-2 rounded shrink-0 flex items-center space-x-1">
@@ -563,7 +555,6 @@
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
     const DEFAULT_BASE_DATE = "2026-11-05";
 
-    // 初期カテゴリー定義
     const DEFAULT_CATEGORIES = {
       "1": "1. 空港承認・全体日程",
       "2": "2. 設備・安全・設置",
@@ -630,12 +621,12 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V7";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V7";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V7";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V7";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V7";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V7";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V8";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V8";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V8";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V8";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V8";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V8";
 
     let tasks = [];
     let gates = [];
@@ -646,9 +637,9 @@
     let currentView = 'list';
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V6") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V5");
-      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V6") || localStorage.getItem("CUEBUS_CARACURI_GATES_V5");
-      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V6");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V7") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V6");
+      const storedGates = localStorage.getItem(STORAGE_KEY_GATES) || localStorage.getItem("CUEBUS_CARACURI_GATES_V7");
+      const storedImm = localStorage.getItem(STORAGE_KEY_IMM) || localStorage.getItem("CUEBUS_CARACURI_IMM_V7");
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
       const storedBaseDate = localStorage.getItem(STORAGE_KEY_BASE_DATE);
       const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
@@ -704,9 +695,7 @@
       }
     }
 
-    // ==================== カテゴリーUIの動的生成（フィルター & モーダル） ====================
     function populateDynamicCategoryUI() {
-      // 1. 上部フィルター
       const filterSelect = document.getElementById('filter-category');
       if (filterSelect) {
         const currentSelected = filterSelect.value || 'ALL';
@@ -720,7 +709,6 @@
         });
       }
 
-      // 2. タスク編集モーダルの選択肢
       const modalSelect = document.getElementById('modal-category');
       if (modalSelect) {
         const currentModalVal = modalSelect.value;
@@ -814,7 +802,6 @@
 
     function formatMemoWithLinks(text) {
       if (!text) return '<span class="text-slate-400">—</span>';
-      
       const urlPattern = /(https?:\/\/[^\s]+)/g;
       const urls = text.match(urlPattern);
 
@@ -1243,6 +1230,7 @@
       document.getElementById('import-modal').classList.add('hidden');
     }
 
+    // ==================== 議事録差分取込 (直近5点アジェンダ連動対応) ====================
     function executeImport() {
       const rawText = document.getElementById('import-text').value.trim();
       if (!rawText) {
@@ -1250,7 +1238,8 @@
         return;
       }
 
-      let updatedCount = 0;
+      let updatedTaskCount = 0;
+      let updatedImmCount = 0;
 
       if (rawText.startsWith('{') || rawText.startsWith('[')) {
         try {
@@ -1261,12 +1250,16 @@
             const target = tasks.find(t => t.id === incoming.id);
             if (target) {
               Object.assign(target, incoming);
-              updatedCount++;
+              updatedTaskCount++;
             } else {
               tasks.push(incoming);
-              updatedCount++;
+              updatedTaskCount++;
             }
           });
+          if (parsed.immediateActions && Array.isArray(parsed.immediateActions)) {
+            immediateActions = parsed.immediateActions;
+            updatedImmCount += immediateActions.length;
+          }
         } catch (err) {
           alert("JSONの構文が正しくありません: " + err.message);
           return;
@@ -1277,6 +1270,31 @@
           const trimmed = line.trim();
           if (!trimmed) return;
 
+          // ① 直近5点アジェンダ判定: [アジェンダ1] や [imm-1]
+          const immMatch = trimmed.match(/\[?(?:アジェンダ|imm-?)(\d)\]?/i);
+          if (immMatch) {
+            const idx = parseInt(immMatch[1], 10);
+            const targetImm = immediateActions[idx - 1];
+            if (targetImm) {
+              if (trimmed.includes('決定') || trimmed.includes('合意') || trimmed.includes('完了') || trimmed.includes('確定')) {
+                targetImm.status = '決定済';
+              } else if (trimmed.includes('協議') || trimmed.includes('進行') || trimmed.includes('調整') || trimmed.includes('待ち')) {
+                targetImm.status = '協議中';
+              } else if (trimmed.includes('未着手') || trimmed.includes('要確認')) {
+                targetImm.status = '未着手';
+              }
+
+              const colonIdx = trimmed.indexOf(':') !== -1 ? trimmed.indexOf(':') : trimmed.indexOf('：');
+              if (colonIdx !== -1) {
+                const notePart = trimmed.substring(colonIdx + 1).trim();
+                if (notePart) targetImm.note = notePart;
+              }
+              updatedImmCount++;
+              return;
+            }
+          }
+
+          // ② 通常タスク判定: [1-1] など
           const idMatch = trimmed.match(/\[?([1-9]\d*-\d+)\]?/);
           if (!idMatch) return;
           const taskId = idMatch[1];
@@ -1302,14 +1320,14 @@
             if (memoPart) target.memo = memoPart;
           }
 
-          updatedCount++;
+          updatedTaskCount++;
         });
       }
 
       saveState();
       renderAll();
       closeImportModal();
-      alert(`🎉 ${updatedCount} 件のタスクを更新・反映しました！`);
+      alert(`🎉 反映完了！\n・直近アジェンダ: ${updatedImmCount}件\n・残タスク: ${updatedTaskCount}件 を更新しました。`);
     }
 
     function openReportModal() {
@@ -1367,7 +1385,6 @@
       });
     }
 
-    // ==================== 設定モーダル & カテゴリー管理 ====================
     function openSettingsModal() {
       document.getElementById('settings-base-date').value = baseDate || DEFAULT_BASE_DATE;
       document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
@@ -1414,7 +1431,6 @@
         return;
       }
 
-      // 新しい番号を採番 (最大キー+1)
       const existingKeys = Object.keys(categories).map(k => parseInt(k, 10)).filter(k => !isNaN(k));
       const nextKey = existingKeys.length > 0 ? (Math.max(...existingKeys) + 1).toString() : "1";
 
@@ -1424,7 +1440,6 @@
     }
 
     function deleteCategory(key) {
-      // 所属タスクの存在確認
       const count = tasks.filter(t => t.category === key).length;
       if (count > 0) {
         if (!confirm(`カテゴリー [${key}] には現在 ${count} 件のタスクが所属しています。\n本当に削除しますか？`)) {
