@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
   <title>CaraCuriCube 社内プロジェクト管理システム (Cuebus専用)</title>
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -148,7 +149,7 @@
   <!-- ==================== メインコンテンツ ==================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex-1 w-full space-y-5">
 
-    <!-- ⚠️ 最重要アラート・直近で確認する5点 (展開/折りたたみ可能) -->
+    <!-- 最重要アラート・直近で確認する5点 -->
     <section class="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-coral-500 rounded-r-lg shadow-sm p-4">
       <div class="flex justify-between items-center cursor-pointer" onclick="toggleImmediateActions()">
         <div class="flex items-center space-x-2.5">
@@ -452,7 +453,8 @@
             削除
           </button>
           <div class="space-x-2">
-            <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">
+            <!-- translate="no" を付与して「クーポン」等の誤訳を防止 -->
+            <button type="button" onclick="closeTaskModal()" translate="no" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">
               キャンセル
             </button>
             <button type="submit" class="px-5 py-2 bg-coral-500 hover:bg-coral-600 text-white rounded font-bold shadow-sm">
