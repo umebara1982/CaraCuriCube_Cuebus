@@ -205,61 +205,85 @@
   <!-- ==================== メインコンテンツ ==================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex-1 w-full space-y-5">
 
-    <!-- 部門ボトルネックサマリー -->
+    <!-- 部門ボトルネックサマリー（全文確認＆クリック直結化） -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-      <div onclick="switchDept('営業部')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-blue-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-blue-500">
-        <div class="flex justify-between items-center mb-1.5">
-          <span class="font-bold text-blue-900 flex items-center gap-1.5">
-            <i data-lucide="briefcase" class="w-4 h-4 text-blue-500"></i> 営業部
-          </span>
-          <span id="dept-badge-営業部" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">残: 0件</span>
+      <!-- 営業部 -->
+      <div class="bg-white p-3.5 rounded-xl border border-blue-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-blue-500 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('営業部')">
+            <span class="font-bold text-blue-900 flex items-center gap-1.5">
+              <i data-lucide="briefcase" class="w-4 h-4 text-blue-500"></i> 営業部
+            </span>
+            <span id="dept-badge-営業部" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">残: 0件</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mb-2">空港承認・契約・IP許諾・共同PR</div>
         </div>
-        <div class="text-[11px] text-slate-500 mb-2">空港承認・契約・IP許諾・共同PR</div>
-        <div class="bg-blue-50/60 p-2 rounded border border-blue-100 text-[11px]">
-          <span class="font-bold text-blue-800 block mb-0.5">直近の必須アクション:</span>
-          <p id="dept-next-営業部" class="text-slate-700 truncate font-medium">読込中...</p>
-        </div>
-      </div>
-
-      <div onclick="switchDept('HW開発')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-orange-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-orange-500">
-        <div class="flex justify-between items-center mb-1.5">
-          <span class="font-bold text-orange-900 flex items-center gap-1.5">
-            <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> 開発部門 (HW)
-          </span>
-          <span id="dept-badge-HW開発" class="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200">残: 0件</span>
-        </div>
-        <div class="text-[11px] text-slate-500 mb-2">実機製造・部材手配・搬入・安全試験</div>
-        <div class="bg-orange-50/60 p-2 rounded border border-orange-100 text-[11px]">
-          <span class="font-bold text-orange-800 block mb-0.5">直近の必須アクション:</span>
-          <p id="dept-next-HW開発" class="text-slate-700 truncate font-medium">読込中...</p>
+        <div id="dept-action-box-営業部" class="bg-blue-50/70 p-2.5 rounded-lg border border-blue-200/80 text-[11px] cursor-pointer hover:bg-blue-100/70 transition" title="クリックでこのタスクを直接編集">
+          <div class="flex items-center justify-between font-bold text-blue-900 mb-1">
+            <span>直近の必須アクション:</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-blue-600"></i>
+          </div>
+          <p id="dept-next-営業部" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
         </div>
       </div>
 
-      <div onclick="switchDept('SW開発')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-purple-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-purple-500">
-        <div class="flex justify-between items-center mb-1.5">
-          <span class="font-bold text-purple-900 flex items-center gap-1.5">
-            <i data-lucide="terminal" class="w-4 h-4 text-purple-500"></i> 開発部門 (SW)
-          </span>
-          <span id="dept-badge-SW開発" class="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">残: 0件</span>
+      <!-- HW開発 -->
+      <div class="bg-white p-3.5 rounded-xl border border-orange-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-orange-500 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('HW開発')">
+            <span class="font-bold text-orange-900 flex items-center gap-1.5">
+              <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> 開発部門 (HW)
+            </span>
+            <span id="dept-badge-HW開発" class="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200">残: 0件</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mb-2">実機製造・部材手配・搬入・安全試験</div>
         </div>
-        <div class="text-[11px] text-slate-500 mb-2">操作端末UI・決済通信・在庫連動</div>
-        <div class="bg-purple-50/60 p-2 rounded border border-purple-100 text-[11px]">
-          <span class="font-bold text-purple-800 block mb-0.5">直近の必須アクション:</span>
-          <p id="dept-next-SW開発" class="text-slate-700 truncate font-medium">読込中...</p>
+        <div id="dept-action-box-HW開発" class="bg-orange-50/70 p-2.5 rounded-lg border border-orange-200/80 text-[11px] cursor-pointer hover:bg-orange-100/70 transition" title="クリックでこのタスクを直接編集">
+          <div class="flex items-center justify-between font-bold text-orange-900 mb-1">
+            <span>直近の必須アクション:</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-orange-600"></i>
+          </div>
+          <p id="dept-next-HW開発" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
         </div>
       </div>
 
-      <div onclick="switchDept('管理部')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-emerald-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-emerald-500">
-        <div class="flex justify-between items-center mb-1.5">
-          <span class="font-bold text-emerald-900 flex items-center gap-1.5">
-            <i data-lucide="scale" class="w-4 h-4 text-emerald-500"></i> 管理部
-          </span>
-          <span id="dept-badge-管理部" class="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">残: 0件</span>
+      <!-- SW開発 -->
+      <div class="bg-white p-3.5 rounded-xl border border-purple-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-purple-500 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('SW開発')">
+            <span class="font-bold text-purple-900 flex items-center gap-1.5">
+              <i data-lucide="terminal" class="w-4 h-4 text-purple-500"></i> 開発部門 (SW)
+            </span>
+            <span id="dept-badge-SW開発" class="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">残: 0件</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mb-2">操作端末UI・決済通信・在庫連動</div>
         </div>
-        <div class="text-[11px] text-slate-500 mb-2">予算PL・契約法務・現地スタッフ採用</div>
-        <div class="bg-emerald-50/60 p-2 rounded border border-emerald-100 text-[11px]">
-          <span class="font-bold text-emerald-800 block mb-0.5">直近の必須アクション:</span>
-          <p id="dept-next-管理部" class="text-slate-700 truncate font-medium">読込中...</p>
+        <div id="dept-action-box-SW開発" class="bg-purple-50/70 p-2.5 rounded-lg border border-purple-200/80 text-[11px] cursor-pointer hover:bg-purple-100/70 transition" title="クリックでこのタスクを直接編集">
+          <div class="flex items-center justify-between font-bold text-purple-900 mb-1">
+            <span>直近の必須アクション:</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-purple-600"></i>
+          </div>
+          <p id="dept-next-SW開発" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
+        </div>
+      </div>
+
+      <!-- 管理部 -->
+      <div class="bg-white p-3.5 rounded-xl border border-emerald-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-emerald-500 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('管理部')">
+            <span class="font-bold text-emerald-900 flex items-center gap-1.5">
+              <i data-lucide="scale" class="w-4 h-4 text-emerald-500"></i> 管理部
+            </span>
+            <span id="dept-badge-管理部" class="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">残: 0件</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mb-2">予算PL・契約法務・現地スタッフ採用</div>
+        </div>
+        <div id="dept-action-box-管理部" class="bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200/80 text-[11px] cursor-pointer hover:bg-emerald-100/70 transition" title="クリックでこのタスクを直接編集">
+          <div class="flex items-center justify-between font-bold text-emerald-900 mb-1">
+            <span>直近の必須アクション:</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-emerald-600"></i>
+          </div>
+          <p id="dept-next-管理部" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
         </div>
       </div>
     </section>
@@ -700,12 +724,12 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V11";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V11";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V11";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V11";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V11";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V11";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V12";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V12";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V12";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V12";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V12";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V12";
 
     let tasks = [];
     let gates = [];
@@ -717,7 +741,7 @@
     let baseDate = DEFAULT_BASE_DATE;
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V10") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V9") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V8");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V11") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V10");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
@@ -802,6 +826,7 @@
       lucide.createIcons();
     }
 
+    // ==================== 部門別サマリーカードの更新（クリック直結対応） ====================
     function updateDeptSummary() {
       DEPARTMENTS.forEach(dept => {
         const deptTasks = tasks.filter(t => t.dept === dept);
@@ -819,6 +844,7 @@
         }
 
         const nextEl = document.getElementById(`dept-next-${dept}`);
+        const boxEl = document.getElementById(`dept-action-box-${dept}`);
         if (nextEl) {
           const sortedUndone = [...undoneTasks].sort((a, b) => {
             if (a.priority === 'A' && b.priority !== 'A') return -1;
@@ -831,9 +857,15 @@
             const dateStr = topTask.dueDate ? `[${topTask.dueDate}] ` : '';
             nextEl.innerText = `${dateStr}${topTask.name}`;
             nextEl.title = `${dateStr}${topTask.name}`;
+            if (boxEl) {
+              boxEl.onclick = function() { openEditTaskModal(topTask.id); };
+            }
           } else {
             nextEl.innerText = "すべてのタスクが完了しています";
             nextEl.title = "";
+            if (boxEl) {
+              boxEl.onclick = null;
+            }
           }
         }
       });
@@ -981,7 +1013,6 @@
       return html;
     }
 
-    // ==================== テーブルレンダリング (カテゴリー1の隠れを完全解消) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       if (!tbody) return;
@@ -997,7 +1028,6 @@
       const compareDate = baseDate || "2026-11-05";
 
       filtered.forEach((t) => {
-        // カテゴリー見出し行（sticky top-[37px] でヘッダー直下に常に綺麗に固定・表示）
         if (t.category !== currentCat) {
           currentCat = t.category;
           const catTr = document.createElement('tr');
