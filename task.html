@@ -143,11 +143,11 @@
         <button onclick="switchDept('営業部')" id="dept-btn-営業部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
           <span class="w-2 h-2 rounded-full bg-blue-500"></span>営業部
         </button>
-        <button onclick="switchDept('HW開発')" id="dept-btn-HW開発" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-orange-500"></span>開発(HW)
+        <button onclick="switchDept('ハードウェア')" id="dept-btn-ハードウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-orange-500"></span>ハードウェア
         </button>
-        <button onclick="switchDept('SW開発')" id="dept-btn-SW開発" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-purple-500"></span>開発(SW)
+        <button onclick="switchDept('ソフトウェア')" id="dept-btn-ソフトウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-purple-500"></span>ソフトウェア
         </button>
         <button onclick="switchDept('管理部')" id="dept-btn-管理部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>管理部
@@ -202,7 +202,7 @@
   <!-- ==================== メインコンテンツ ==================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex-1 w-full space-y-5">
 
-    <!-- 部門ボトルネックサマリー（高さを揃える flex-1 / flex-col を適用） -->
+    <!-- 部門ボトルネックサマリー（高さを揃える flex-1 / flex-col） -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs items-stretch">
       <!-- 営業部 -->
       <div class="bg-white p-3.5 rounded-xl border border-blue-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-blue-500 flex flex-col justify-between">
@@ -226,46 +226,46 @@
         </div>
       </div>
 
-      <!-- HW開発 -->
+      <!-- ハードウェア -->
       <div class="bg-white p-3.5 rounded-xl border border-orange-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-orange-500 flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('HW開発')">
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('ハードウェア')">
             <span class="font-bold text-orange-900 flex items-center gap-1.5">
-              <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> 開発部門 (HW)
+              <i data-lucide="cpu" class="w-4 h-4 text-orange-500"></i> ハードウェア
             </span>
-            <span id="dept-badge-HW開発" class="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200">残: 0件</span>
+            <span id="dept-badge-ハードウェア" class="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200">残: 0件</span>
           </div>
           <div class="text-[11px] text-slate-500 mb-2">実機製造・部材手配・搬入・安全試験</div>
         </div>
-        <div id="dept-action-box-HW開発" class="bg-orange-50/70 p-2.5 rounded-lg border border-orange-200/80 text-[11px] cursor-pointer hover:bg-orange-100/70 transition flex-1 flex flex-col justify-between" title="クリックでこのタスクを直接編集">
+        <div id="dept-action-box-ハードウェア" class="bg-orange-50/70 p-2.5 rounded-lg border border-orange-200/80 text-[11px] cursor-pointer hover:bg-orange-100/70 transition flex-1 flex flex-col justify-between" title="クリックでこのタスクを直接編集">
           <div>
             <div class="flex items-center justify-between font-bold text-orange-900 mb-1">
               <span>直近の必須アクション:</span>
               <i data-lucide="external-link" class="w-3 h-3 text-orange-600 shrink-0 ml-1"></i>
             </div>
-            <p id="dept-next-HW開発" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
+            <p id="dept-next-ハードウェア" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
           </div>
         </div>
       </div>
 
-      <!-- SW開発 -->
+      <!-- ソフトウェア -->
       <div class="bg-white p-3.5 rounded-xl border border-purple-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-purple-500 flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('SW開発')">
+          <div class="flex justify-between items-center mb-1.5 cursor-pointer" onclick="switchDept('ソフトウェア')">
             <span class="font-bold text-purple-900 flex items-center gap-1.5">
-              <i data-lucide="terminal" class="w-4 h-4 text-purple-500"></i> 開発部門 (SW)
+              <i data-lucide="terminal" class="w-4 h-4 text-purple-500"></i> ソフトウェア
             </span>
-            <span id="dept-badge-SW開発" class="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">残: 0件</span>
+            <span id="dept-badge-ソフトウェア" class="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">残: 0件</span>
           </div>
           <div class="text-[11px] text-slate-500 mb-2">操作端末UI・決済通信・在庫連動</div>
         </div>
-        <div id="dept-action-box-SW開発" class="bg-purple-50/70 p-2.5 rounded-lg border border-purple-200/80 text-[11px] cursor-pointer hover:bg-purple-100/70 transition flex-1 flex flex-col justify-between" title="クリックでこのタスクを直接編集">
+        <div id="dept-action-box-ソフトウェア" class="bg-purple-50/70 p-2.5 rounded-lg border border-purple-200/80 text-[11px] cursor-pointer hover:bg-purple-100/70 transition flex-1 flex flex-col justify-between" title="クリックでこのタスクを直接編集">
           <div>
             <div class="flex items-center justify-between font-bold text-purple-900 mb-1">
               <span>直近の必須アクション:</span>
               <i data-lucide="external-link" class="w-3 h-3 text-purple-600 shrink-0 ml-1"></i>
             </div>
-            <p id="dept-next-SW開発" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
+            <p id="dept-next-ソフトウェア" class="text-slate-800 font-medium leading-relaxed break-words">読込中...</p>
           </div>
         </div>
       </div>
@@ -465,8 +465,8 @@
             <label class="block font-bold text-slate-700 mb-1">担当部門（セクション） <span class="text-red-500">*</span></label>
             <select id="modal-dept" required class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none font-semibold text-slate-800">
               <option value="営業部">営業部</option>
-              <option value="HW開発">開発部門 (HW)</option>
-              <option value="SW開発">開発部門 (SW)</option>
+              <option value="ハードウェア">ハードウェア</option>
+              <option value="ソフトウェア">ソフトウェア</option>
               <option value="管理部">管理部</option>
             </select>
           </div>
@@ -663,11 +663,12 @@
       "5": "5. 収支・広報・成功判定"
     };
 
-    const DEPARTMENTS = ["営業部", "HW開発", "SW開発", "管理部"];
+    // 4部門の名称（ハードウェア、ソフトウェアに統一）
+    const DEPARTMENTS = ["営業部", "ハードウェア", "ソフトウェア", "管理部"];
     const DEPT_BADGES = {
       "営業部": "bg-blue-100 text-blue-800 border-blue-300",
-      "HW開発": "bg-orange-100 text-orange-800 border-orange-300",
-      "SW開発": "bg-purple-100 text-purple-800 border-purple-300",
+      "ハードウェア": "bg-orange-100 text-orange-800 border-orange-300",
+      "ソフトウェア": "bg-purple-100 text-purple-800 border-purple-300",
       "管理部": "bg-emerald-100 text-emerald-800 border-emerald-300"
     };
 
@@ -678,31 +679,31 @@
       { id: "1-4", dept: "営業部", category: "1", priority: "A", name: "12/2案と1月中旬案について、設置・商品納品・営業開始・実証終了の工程と実現条件を整理し、空港と合意する。（11/28~30頃の設置は10/29時点の候補であり再確認）", owner: "梅原(PM) / 成田空港", dueDate: "2026-11-06", deadline: "11/6に開店候補協議・決定", status: "進行中/相手待ち", memo: "2案とも未確定。11/6の打合せで決定予定。" },
       { id: "1-5", dept: "管理部", category: "1", priority: "B", name: "各社の責任者、週次会議、課題の連絡・判断先を決める。", owner: "CUEBUS / Hamaru / 成田空港", dueDate: "2026-11-13", deadline: "早期・期限未定", status: "要確認", memo: "個人の責任者が未確定。週次定例枠の設置が必要。" },
 
-      { id: "2-1", dept: "HW開発", category: "2", priority: "A", name: "最終配置図を作り空港に確認する。高さ約3.2m・3段、設備間約80cmの希望、レジ・在庫・安全範囲・通路を反映。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-15", deadline: "設置前", status: "要確認", memo: "配置図の作成と通路幅の空港側受託確認。" },
+      { id: "2-1", dept: "ハードウェア", category: "2", priority: "A", name: "最終配置図を作り空港に確認する。高さ約3.2m・3段、設備間約80cmの希望、レジ・在庫・安全範囲・通路を反映。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-15", deadline: "設置前", status: "要確認", memo: "配置図の作成と通路幅の空港側受託確認。" },
       { id: "2-2", dept: "営業部", category: "2", priority: "A", name: "保安検査場・チェックイン動線を避ける3面誘導、購入者と観覧者の分離、仕切り、混雑時の一時中断基準を警備側と合意する。多言語プラカード案を提出。", owner: "CUEBUS / 空港警備", dueDate: "2026-11-20", deadline: "設置・営業前", status: "要確認", memo: "混雑時の動線設計、警備との合意が必要。" },
-      { id: "2-3", dept: "HW開発", category: "2", priority: "A", name: "消防・避難経路・電源容量・放熱・点検通路・耐震/転倒対策について必要な審査と承認を確認する。", owner: "CUEBUS / 成田空港・審査先", dueDate: "2026-11-20", deadline: "設置前", status: "要確認", memo: "消防・耐震の要件合意。" },
-      { id: "2-4", dept: "HW開発", category: "2", priority: "A", name: "設置・搬入の日時、人員、搬入経路、立入手続き、電源接続を確定する。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-25", deadline: "承認後・設置前", status: "要確認", memo: "既存タスク: カラクリ設置調整。" },
-      { id: "2-5", dept: "HW開発", category: "2", priority: "A", name: "構成・部材数量・調達納期を確定し、不足分を手配する。リフト有無とトレイ数も確認。", owner: "CUEBUS設備担当", dueDate: "2026-11-15", deadline: "設置前", status: "進行中/相手待ち", memo: "部材手配・資機材手配のリードタイム確認中。" },
-      { id: "2-6", dept: "HW開発", category: "2", priority: "B", name: "商品固定・トレイ展示方式を確定し、搬送・リフト時の干渉と安全性を試験する。（ハンガー吊りは干渉懸念で却下記録あり、既存設計タスク整合確認）", owner: "CUEBUS設備担当", dueDate: "2026-11-18", deadline: "設計・調達前", status: "進行中/相手待ち", memo: "ハンガーラック設計/トレイ展示案の最終仕様固め。" },
-      { id: "2-7", dept: "HW開発", category: "2", priority: "A", name: "夜間のアクリル・施錠・照明・商品移動などを具体化し、空港側と確認する。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-25", deadline: "営業前", status: "要確認", memo: "無人夜間帯のセキュリティ方針策定。" },
-      { id: "2-8", dept: "HW開発", category: "2", priority: "A", name: "実機で商品搬送、緊急停止、復旧、電源断、接触防止を試験し、異常時の連絡先・対応手順を残す。", owner: "CUEBUS設備担当 / 成田空港", dueDate: "2026-11-28", deadline: "設置後・営業前", status: "要確認", memo: "安全試験項目のチェックシート策定。" },
+      { id: "2-3", dept: "ハードウェア", category: "2", priority: "A", name: "消防・避難経路・電源容量・放熱・点検通路・耐震/転倒対策について必要な審査と承認を確認する。", owner: "CUEBUS / 成田空港・審査先", dueDate: "2026-11-20", deadline: "設置前", status: "要確認", memo: "消防・耐震の要件合意。" },
+      { id: "2-4", dept: "ハードウェア", category: "2", priority: "A", name: "設置・搬入の日時、人員、搬入経路、立入手続き、電源接続を確定する。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-25", deadline: "承認後・設置前", status: "要確認", memo: "既存タスク: カラクリ設置調整。" },
+      { id: "2-5", dept: "ハードウェア", category: "2", priority: "A", name: "構成・部材数量・調達納期を確定し、不足分を手配する。リフト有無とトレイ数も確認。", owner: "CUEBUS設備担当", dueDate: "2026-11-15", deadline: "設置前", status: "進行中/相手待ち", memo: "部材手配・資機材手配のリードタイム確認中。" },
+      { id: "2-6", dept: "ハードウェア", category: "2", priority: "B", name: "商品固定・トレイ展示方式を確定し、搬送・リフト時の干渉と安全性を試験する。（ハンガー吊りは干渉懸念で却下記録あり、既存設計タスク整合確認）", owner: "CUEBUS設備担当", dueDate: "2026-11-18", deadline: "設計・調達前", status: "進行中/相手待ち", memo: "ハンガーラック設計/トレイ展示案の最終仕様固め。" },
+      { id: "2-7", dept: "ハードウェア", category: "2", priority: "A", name: "夜間のアクリル・施錠・照明・商品移動などを具体化し、空港側と確認する。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-25", deadline: "営業前", status: "要確認", memo: "無人夜間帯のセキュリティ方針策定。" },
+      { id: "2-8", dept: "ハードウェア", category: "2", priority: "A", name: "実機で商品搬送、緊急停止、復旧、電源断、接触防止を試験し、異常時の連絡先・対応手順を残す。", owner: "CUEBUS設備担当 / 成田空港", dueDate: "2026-11-28", deadline: "設置後・営業前", status: "要確認", memo: "安全試験項目のチェックシート策定。" },
 
       { id: "3-1", dept: "営業部", category: "3", priority: "A", name: "ウルトラマンのデザイン案・素材・商品化申請・監修状況を確認し各SKUの承認を得る。（契約終了と商品監修完了は別）", owner: "CUEBUS / Hamaru / 円谷プロ", dueDate: "2026-11-10", deadline: "量産前", status: "要確認", memo: "デザイン案承認の進捗確認。" },
       { id: "3-2", dept: "営業部", category: "3", priority: "A", name: "送付済みの色見本について円谷プロの回答を確認し、OK後に量産サンプルを用意。量産サンプルの確認・監修手順を確認して量産に進む。", owner: "CUEBUS / 製造先 / 円谷プロ", dueDate: "2026-11-09", deadline: "色見本OK→量産サンプル→量産", status: "進行中/相手待ち", memo: "色見本送付済み。回答および後続の所要日数は未確認。" },
       { id: "3-3", dept: "営業部", category: "3", priority: "A", name: "商品の型・サイズ・色・数量・価格・生産先を決め、色見本承認から量産・納品までの各工程を逆算し空港に提示。（約10型・XS~XL・黒白は10/29想定）", owner: "CUEBUS / Hamaru / 製造先", dueDate: "2026-11-06", deadline: "11/6に両開店案と整合確認", status: "要確認", memo: "11月末の量産は間に合うか微妙。12/2案の最重要リスク。" },
-      { id: "3-4", dept: "SW開発", category: "3", priority: "A", name: "限定品のシリアル番号・公式証明書の対象、発番方法、印刷・照合方法を決める。", owner: "CUEBUS / 印刷会社 / 円谷プロ", dueDate: "2026-11-18", deadline: "量産・販売前", status: "要確認", memo: "シリアル・真贋証明書の仕様確定。" },
+      { id: "3-4", dept: "ソフトウェア", category: "3", priority: "A", name: "限定品のシリアル番号・公式証明書の対象、発番方法、印刷・照合方法を決める。", owner: "CUEBUS / 印刷会社 / 円谷プロ", dueDate: "2026-11-18", deadline: "量産・販売前", status: "要確認", memo: "シリアル・真贋証明書の仕様確定。" },
       { id: "3-5", dept: "営業部", category: "3", priority: "B", name: "購入フローカードと成田オリジナル/国内ライセンス商品の2種タグを設計し、見積・発注する。", owner: "CUEBUS / Hamaru / 印刷会社", dueDate: "2026-11-15", deadline: "印刷納期を確認", status: "要確認", memo: "デザイン作成・印刷日数見積もり。" },
       { id: "3-6", dept: "営業部", category: "3", priority: "B", name: "初音ミク既存商品の契約接続、取扱条件、在庫、サンプル、数量を確認する。（11/4時点では仕入れ販売を進める方向）", owner: "Hamaru / CUEBUS / クリプトン", dueDate: "2026-11-13", deadline: "期限未定", status: "要確認", memo: "仕入れ販売の条件確定待ち。" },
       { id: "3-7", dept: "営業部", category: "3", priority: "B", name: "スタジオぴえろ（NARUTO・BLEACH・ブラッククローバー）の企画書を提出したか確認する。", owner: "Hamaru / CUEBUS", dueDate: "2026-11-07", deadline: "11/4週中提出予定", status: "要確認", memo: "Hamaruからの提出完了報告を確認。" },
       { id: "3-8", dept: "営業部", category: "3", priority: "B", name: "AIR TWOKYOとの面談で取扱可否・在庫・価格・納期を確認し、仕入れ判断する。", owner: "Hamaru / CUEBUS", dueDate: "2026-11-11", deadline: "11/11 面談予定", status: "要確認", memo: "11/11の面談結果を踏まえて即時判断。" },
       { id: "3-9", dept: "営業部", category: "3", priority: "C", name: "ダンデライオン等の追加IPは、許諾条件・監修・採算と優先順位を整理し、初期販売に必須か決める。", owner: "Hamaru / CUEBUS", dueDate: "", deadline: "期限未定", status: "要確認", memo: "フェーズ2以降の展開候補として整理。" },
 
-      { id: "4-1", dept: "SW開発", category: "4", priority: "A", name: "決済端末・レジ・現金/カード対応・通信を確定し、現地で決済テストする。（端末はCUEBUS側用意、キャリア通信想定）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-26", deadline: "営業前", status: "要確認", memo: "決済端末手配と電波環境テスト。" },
-      { id: "4-2", dept: "SW開発", category: "4", priority: "A", name: "操作端末のUI、商品選択・購入/受渡し・在庫切れ表示を決め、購入の一連の流れを試す。", owner: "CUEBUS / システム担当", dueDate: "2026-11-24", deadline: "営業前", status: "進行中/相手待ち", memo: "操作端末のUI検討タスク。" },
+      { id: "4-1", dept: "ソフトウェア", category: "4", priority: "A", name: "決済端末・レジ・現金/カード対応・通信を確定し、現地で決済テストする。（端末はCUEBUS側用意、キャリア通信想定）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-26", deadline: "営業前", status: "要確認", memo: "決済端末手配と電波環境テスト。" },
+      { id: "4-2", dept: "ソフトウェア", category: "4", priority: "A", name: "操作端末のUI、商品選択・購入/受渡し・在庫切れ表示を決め、購入の一連の流れを試す。", owner: "CUEBUS / システム担当", dueDate: "2026-11-24", deadline: "営業前", status: "進行中/相手待ち", memo: "操作端末のUI検討タスク。" },
       { id: "4-3", dept: "管理部", category: "4", priority: "A", name: "営業時間とスタッフの人数・シフト・役割・教育を確定する。（初期5名・常時約3名、コアタイム8~20時想定）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-20", deadline: "営業前", status: "要確認", memo: "人員調達・シフト・オペレーションマニュアル作成。" },
       { id: "4-4", dept: "管理部", category: "4", priority: "A", name: "通常時はCUEBUSから、混雑時はレジで手渡す流れを具体化し、接客・誘導・障害時の手順を練習する。", owner: "CUEBUS販売担当 / 空港警備", dueDate: "2026-11-27", deadline: "営業前", status: "要確認", memo: "現地接客ロールプレイングと障害時対応。" },
       { id: "4-5", dept: "管理部", category: "4", priority: "B", name: "商品の倉庫、売場後方の什器、補充動線、在庫管理・欠品時の案内・棚卸しを決める。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-25", deadline: "営業前", status: "要確認", memo: "バックヤード位置と補充ルールの確定。" },
-      { id: "4-6", dept: "SW開発", category: "4", priority: "C", name: "Shopify・QR・海外発送を初期開店の必須範囲とするか決める。実施の場合はIPごとのEC・地域・素材利用の権利を確認。", owner: "CUEBUS / Hamaru / 権利元", dueDate: "", deadline: "開店範囲決定時", status: "要確認", memo: "初期必須かオープン後追加か判断。" },
+      { id: "4-6", dept: "ソフトウェア", category: "4", priority: "C", name: "Shopify・QR・海外発送を初期開店の必須範囲とするか決める。実施の場合はIPごとのEC・地域・素材利用の権利を確認。", owner: "CUEBUS / Hamaru / 権利元", dueDate: "", deadline: "開店範囲決定時", status: "要確認", memo: "初期必須かオープン後追加か判断。" },
 
       { id: "5-1", dept: "管理部", category: "5", priority: "A", name: "予算と損益を整理する。商品原価・IP費用・空港歩合・人件費・設備・決済・広報を反映し、販売価格と数量の前提を承認する。", owner: "CUEBUS / Hamaru", dueDate: "2026-11-12", deadline: "主要発注・開店判断前", status: "要確認", memo: "P/Lモデル試算と承認。" },
       { id: "5-2", dept: "営業部", category: "5", priority: "B", name: "空港のNRT等ロゴの使用可否と、必要な権利・デザイン承認を確認する。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-15", deadline: "商品・広報制作前", status: "要確認", memo: "空港ロゴ利用規約の確認。" },
@@ -729,12 +730,12 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V13";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V13";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V13";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V13";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V13";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V13";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V14";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V14";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V14";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V14";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V14";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V14";
 
     let tasks = [];
     let gates = [];
@@ -746,7 +747,7 @@
     let baseDate = DEFAULT_BASE_DATE;
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V12") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V11");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V13") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V12");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
@@ -754,7 +755,11 @@
       const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
+      
+      // 旧名称（HW開発、SW開発）の自動コンバート
       tasks.forEach(t => {
+        if (t.dept === "HW開発") t.dept = "ハードウェア";
+        if (t.dept === "SW開発") t.dept = "ソフトウェア";
         if (!t.dept) {
           const m = INITIAL_TASKS.find(it => it.id === t.id);
           t.dept = m ? m.dept : "営業部";
@@ -817,7 +822,7 @@
 
     function switchDept(dept) {
       currentDept = dept;
-      ['ALL', '営業部', 'HW開発', 'SW開発', '管理部'].forEach(d => {
+      ['ALL', '営業部', 'ハードウェア', 'ソフトウェア', '管理部'].forEach(d => {
         const btn = document.getElementById(`dept-btn-${d}`);
         if (!btn) return;
         if (d === dept) {
