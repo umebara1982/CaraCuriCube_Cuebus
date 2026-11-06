@@ -372,8 +372,7 @@
               <tr class="bg-cuebus-800 text-white font-semibold">
                 <th class="py-2.5 px-3 w-16 text-center">ID</th>
                 <th class="py-2.5 px-2.5 w-14 text-center">優先</th>
-                <th class="py-2.5 px-2.5 w-24 text-center">担当部門</th>
-                <!-- ここを「内容」に変更 -->
+                <th class="py-2.5 px-2.5 w-28 text-center">担当部門</th>
                 <th class="py-2.5 px-3 min-w-[260px]">内容</th>
                 <th class="py-2.5 px-3 w-36">主な窓口 (個人)</th>
                 <th class="py-2.5 px-3 w-36">期限</th>
@@ -501,7 +500,6 @@
         </div>
 
         <div>
-          <!-- ここを「内容」に変更 -->
           <label class="block font-bold text-slate-700 mb-1">内容 <span class="text-red-500">*</span></label>
           <textarea id="modal-name" required rows="3" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="具体的なアクションと完了の客観的証拠・条件"></textarea>
         </div>
@@ -758,13 +756,13 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V21";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V21";
-    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V21";
-    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V21";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V21";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V21";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V21";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V22";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V22";
+    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V22";
+    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V22";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V22";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V22";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V22";
 
     let tasks = [];
     let gates = [];
@@ -788,7 +786,7 @@
     }
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V20") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V19");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V21") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V20");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE_URL);
       const storedDrive = localStorage.getItem(STORAGE_KEY_DRIVE_URL);
@@ -1010,6 +1008,7 @@
       return html;
     }
 
+    // ==================== テーブルレンダリング (中央揃え flex-col & items-center で完全センタリング) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       if (!tbody) return;
@@ -1061,10 +1060,11 @@
           }
         }
 
+        // バッジの固定幅 (w-[84px]) と中央揃え
         const deptArray = normalizeDepts(t.dept);
         const deptBadgesHtml = deptArray.map(d => {
           const badgeClass = DEPT_BADGES[d] || "bg-slate-100 text-slate-700 border-slate-200";
-          return `<span class="inline-block w-[84px] text-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeClass} m-0.5 whitespace-nowrap shadow-2xs">${escapeHTML(d)}</span>`;
+          return `<span class="inline-flex items-center justify-center w-[84px] text-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeClass} whitespace-nowrap shadow-2xs">${escapeHTML(d)}</span>`;
         }).join('');
 
         tr.innerHTML = `
@@ -1072,8 +1072,9 @@
           <td class="py-2.5 px-2.5 text-center">
             <span class="inline-block px-1.5 py-0.5 rounded font-black text-[10px] badge-prio-${t.priority}">${t.priority}</span>
           </td>
-          <td class="py-2 px-2 text-center w-28">
-            <div class="flex flex-col items-center justify-center gap-0.5">${deptBadgesHtml}</div>
+          <!-- 担当部門列を完全に左右中央揃え -->
+          <td class="py-2 px-2 text-center w-28 align-middle">
+            <div class="flex flex-col items-center justify-center gap-1 w-full mx-auto">${deptBadgesHtml}</div>
           </td>
           <td class="py-2.5 px-3 font-medium text-slate-800 leading-snug">
             <div>${escapeHTML(t.name)}</div>
