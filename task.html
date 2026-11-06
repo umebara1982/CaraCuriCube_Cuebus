@@ -132,13 +132,13 @@
   <section class="bg-white border-b border-slate-200 shadow-sm sticky top-[60px] z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-3">
       
-      <!-- 部門（セクション）専用クイックフィルター -->
+      <!-- 部門専用クイックフィルター -->
       <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
         <span class="text-[11px] text-slate-500 px-2 flex items-center gap-1 font-bold">
           <i data-lucide="users" class="w-3.5 h-3.5 text-cuebus-800"></i>
           担当部門:
         </span>
-        <button onclick="switchDept('ALL')" id="dept-btn-ALL" class="dept-tab-btn px-2.5 py-1 rounded bg-white text-cuebus-900 shadow-xs font-bold">
+        <button onclick="switchDept('ALL')" id="dept-btn-ALL" class="dept-tab-btn px-2.5 py-1 rounded bg-cuebus-800 text-white shadow-xs font-bold">
           全社表示
         </button>
         <button onclick="switchDept('営業部')" id="dept-btn-営業部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
@@ -205,9 +205,8 @@
   <!-- ==================== メインコンテンツ ==================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex-1 w-full space-y-5">
 
-    <!-- ⚡ 各部門のクリティカル・ボトルネック＆直近期限サマリー -->
+    <!-- 部門ボトルネックサマリー -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-      <!-- 営業部 -->
       <div onclick="switchDept('営業部')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-blue-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-blue-500">
         <div class="flex justify-between items-center mb-1.5">
           <span class="font-bold text-blue-900 flex items-center gap-1.5">
@@ -222,7 +221,6 @@
         </div>
       </div>
 
-      <!-- HW開発 -->
       <div onclick="switchDept('HW開発')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-orange-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-orange-500">
         <div class="flex justify-between items-center mb-1.5">
           <span class="font-bold text-orange-900 flex items-center gap-1.5">
@@ -237,7 +235,6 @@
         </div>
       </div>
 
-      <!-- SW開発 -->
       <div onclick="switchDept('SW開発')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-purple-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-purple-500">
         <div class="flex justify-between items-center mb-1.5">
           <span class="font-bold text-purple-900 flex items-center gap-1.5">
@@ -252,7 +249,6 @@
         </div>
       </div>
 
-      <!-- 管理部 -->
       <div onclick="switchDept('管理部')" class="cursor-pointer bg-white p-3.5 rounded-xl border border-emerald-200 shadow-2xs hover:shadow-md transition border-t-4 border-t-emerald-500">
         <div class="flex justify-between items-center mb-1.5">
           <span class="font-bold text-emerald-900 flex items-center gap-1.5">
@@ -638,7 +634,6 @@
       "5": "5. 収支・広報・成功判定"
     };
 
-    // 4部門の定義とカラーバッジ
     const DEPARTMENTS = ["営業部", "HW開発", "SW開発", "管理部"];
     const DEPT_BADGES = {
       "営業部": "bg-blue-100 text-blue-800 border-blue-300",
@@ -647,7 +642,6 @@
       "管理部": "bg-emerald-100 text-emerald-800 border-emerald-300"
     };
 
-    // 各タスクに部門（dept）を初期割り当て
     const INITIAL_TASKS = [
       { id: "1-1", dept: "営業部", category: "1", priority: "A", name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に日程確認", status: "要確認", memo: "書類一覧は受領済み。提出状況・営業承認は要確認。" },
       { id: "1-2", dept: "営業部", category: "1", priority: "A", name: "空港から契約書を受領・確認し、契約を締結する。場所代、売上歩合、期間、精算方法、費用負担を確認。（約20%は協議上の想定で確定ではない）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に受領予定日確認", status: "要確認", memo: "契約書待ち・締結未確認。" },
@@ -706,12 +700,12 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V9";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V9";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V9";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V9";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V9";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V9";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V11";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V11";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V11";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V11";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V11";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V11";
 
     let tasks = [];
     let gates = [];
@@ -723,7 +717,7 @@
     let baseDate = DEFAULT_BASE_DATE;
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V8");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V10") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V9") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V8");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
@@ -731,7 +725,6 @@
       const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
-      // 過去タスクにdeptがない場合のフォールバック補完
       tasks.forEach(t => {
         if (!t.dept) {
           const m = INITIAL_TASKS.find(it => it.id === t.id);
@@ -752,13 +745,16 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
-      localStorage.setItem(STORAGE_KEY_GATES, JSON.stringify(gates));
-      localStorage.setItem(STORAGE_KEY_IMM, JSON.stringify(immediateActions));
-      localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
-      localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
-      localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(categories));
-      updateKPIs();
+      try {
+        localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+        localStorage.setItem(STORAGE_KEY_GATES, JSON.stringify(gates));
+        localStorage.setItem(STORAGE_KEY_IMM, JSON.stringify(immediateActions));
+        localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
+        localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
+        localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(categories));
+      } catch (err) {
+        console.error("Storage error:", err);
+      }
       updateGateUI();
       updateDeptSummary();
       populateDynamicOwnerFilter();
@@ -772,7 +768,6 @@
       renderTable();
       renderKanban();
       renderGates();
-      updateKPIs();
       updateGateUI();
       updateDeptSummary();
       lucide.createIcons();
@@ -780,7 +775,7 @@
 
     function updateNotionLinkUI() {
       const link = document.getElementById('header-notion-link');
-      link.href = notionUrl || DEFAULT_NOTION_URL;
+      if (link) link.href = notionUrl || DEFAULT_NOTION_URL;
     }
 
     function updateBaseDateUI() {
@@ -791,7 +786,6 @@
       }
     }
 
-    // ==================== 部門切替タブ ====================
     function switchDept(dept) {
       currentDept = dept;
       ['ALL', '営業部', 'HW開発', 'SW開発', '管理部'].forEach(d => {
@@ -808,23 +802,22 @@
       lucide.createIcons();
     }
 
-    // ==================== 部門別サマリーカードの更新 ====================
     function updateDeptSummary() {
       DEPARTMENTS.forEach(dept => {
         const deptTasks = tasks.filter(t => t.dept === dept);
         const undoneTasks = deptTasks.filter(t => t.status !== '完了');
         
-        // 残タスクバッジ
         const badge = document.getElementById(`dept-badge-${dept}`);
         if (badge) {
           badge.innerText = `残: ${undoneTasks.length}件`;
           if (undoneTasks.length === 0) {
             badge.className = "text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300";
             badge.innerText = "全完了";
+          } else {
+            badge.className = `text-[10px] font-bold px-2 py-0.5 rounded-full border ${DEPT_BADGES[dept] || ''}`;
           }
         }
 
-        // 次の必須アクション（最も期日が近い優先度A）
         const nextEl = document.getElementById(`dept-next-${dept}`);
         if (nextEl) {
           const sortedUndone = [...undoneTasks].sort((a, b) => {
@@ -988,8 +981,10 @@
       return html;
     }
 
+    // ==================== テーブルレンダリング (カテゴリー1の隠れを完全解消) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
+      if (!tbody) return;
       tbody.innerHTML = '';
       const filtered = getFilteredTasks();
 
@@ -1002,12 +997,13 @@
       const compareDate = baseDate || "2026-11-05";
 
       filtered.forEach((t) => {
+        // カテゴリー見出し行（sticky top-[37px] でヘッダー直下に常に綺麗に固定・表示）
         if (t.category !== currentCat) {
           currentCat = t.category;
           const catTr = document.createElement('tr');
-          catTr.className = 'bg-slate-200/90 border-t-2 border-b border-slate-300 font-bold';
+          catTr.className = 'bg-slate-200/95 border-t-2 border-b border-slate-300 font-bold sticky top-[37px] z-10 shadow-2xs';
           catTr.innerHTML = `
-            <td colspan="10" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500">
+            <td colspan="10" class="py-2.5 px-3.5 text-xs border-l-4 border-coral-500 bg-slate-200/95">
               <div class="flex items-center space-x-2">
                 <i data-lucide="folder" class="w-4 h-4 text-coral-600 shrink-0"></i>
                 <span class="tracking-wide text-slate-900 font-extrabold text-[12px]">${categories[currentCat] || 'カテゴリー ' + currentCat}</span>
@@ -1078,14 +1074,19 @@
     }
 
     function getFilteredTasks() {
-      const cat = document.getElementById('filter-category').value;
-      const prio = document.getElementById('filter-priority').value;
-      const status = document.getElementById('filter-status').value;
-      const owner = document.getElementById('filter-owner').value;
-      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      const catEl = document.getElementById('filter-category');
+      const prioEl = document.getElementById('filter-priority');
+      const statusEl = document.getElementById('filter-status');
+      const ownerEl = document.getElementById('filter-owner');
+      const queryEl = document.getElementById('search-input');
+
+      const cat = catEl ? catEl.value : 'ALL';
+      const prio = prioEl ? prioEl.value : 'ALL';
+      const status = statusEl ? statusEl.value : 'ALL';
+      const owner = ownerEl ? ownerEl.value : 'ALL';
+      const query = queryEl ? queryEl.value.toLowerCase().trim() : '';
 
       const result = tasks.filter(t => {
-        // 部門フィルター
         if (currentDept !== 'ALL' && t.dept !== currentDept) return false;
         if (cat !== 'ALL' && t.category !== cat) return false;
         if (prio !== 'ALL' && t.priority !== prio) return false;
@@ -1122,7 +1123,7 @@
         '進行中/相手待ち': document.getElementById('kanban-col-inProgress'),
         '完了': document.getElementById('kanban-col-done')
       };
-      Object.values(cols).forEach(c => c.innerHTML = '');
+      Object.values(cols).forEach(c => { if (c) c.innerHTML = ''; });
 
       const filtered = getFilteredTasks();
       const counts = { '要確認': 0, '進行中/相手待ち': 0, '完了': 0 };
@@ -1166,14 +1167,18 @@
         targetCol.appendChild(card);
       });
 
-      document.getElementById('kanban-count-needCheck').innerText = counts['要確認'] || 0;
-      document.getElementById('kanban-count-inProgress').innerText = counts['進行中/相手待ち'] || 0;
-      document.getElementById('kanban-count-done').innerText = counts['完了'] || 0;
+      const elNeed = document.getElementById('kanban-count-needCheck');
+      const elProg = document.getElementById('kanban-count-inProgress');
+      const elDone = document.getElementById('kanban-count-done');
+      if (elNeed) elNeed.innerText = counts['要確認'] || 0;
+      if (elProg) elProg.innerText = counts['進行中/相手待ち'] || 0;
+      if (elDone) elDone.innerText = counts['完了'] || 0;
       lucide.createIcons();
     }
 
     function renderGates() {
       const container = document.getElementById('gate-checklist-container');
+      if (!container) return;
       container.innerHTML = '';
 
       gates.forEach((g, idx) => {
@@ -1217,35 +1222,36 @@
       const totalCount = gates.length;
       const percent = Math.round((completedCount / totalCount) * 100);
 
-      document.getElementById('gate-badge-pill').innerText = `${completedCount}/${totalCount}`;
-      document.getElementById('gate-progress-fill').style.width = `${percent}%`;
+      const pill = document.getElementById('gate-badge-pill');
+      if (pill) pill.innerText = `${completedCount}/${totalCount}`;
+      
+      const fill = document.getElementById('gate-progress-fill');
+      if (fill) fill.style.width = `${percent}%`;
 
       const badge = document.getElementById('gate-overall-badge');
-      if (completedCount === totalCount) {
-        badge.className = "font-bold text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-full inline-block";
-        badge.innerText = "🚀 全ゲートクリア（開店判断可能）";
-      } else {
-        badge.className = "font-bold text-xs bg-red-100 text-red-800 border border-red-300 px-3 py-1 rounded-full inline-block";
-        badge.innerText = `⛔ 未達 (${totalCount - completedCount}項目保留中)`;
+      if (badge) {
+        if (completedCount === totalCount) {
+          badge.className = "font-bold text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-full inline-block";
+          badge.innerText = "🚀 全ゲートクリア（開店判断可能）";
+        } else {
+          badge.className = "font-bold text-xs bg-red-100 text-red-800 border border-red-300 px-3 py-1 rounded-full inline-block";
+          badge.innerText = `⛔ 未達 (${totalCount - completedCount}項目保留中)`;
+        }
       }
-    }
-
-    function updateKPIs() {
-      document.getElementById('kpi-total').innerText = tasks.length;
-      document.getElementById('kpi-prioA').innerText = tasks.filter(t => t.priority === 'A').length;
-      document.getElementById('kpi-needCheck').innerText = tasks.filter(t => t.status === '要確認').length;
-      document.getElementById('kpi-done').innerText = tasks.filter(t => t.status === '完了').length;
     }
 
     function switchView(viewName) {
       currentView = viewName;
       ['list', 'kanban', 'gate'].forEach(v => {
-        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== viewName);
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.toggle('hidden', v !== viewName);
         const tabBtn = document.getElementById(`tab-${v}`);
-        if (v === viewName) {
-          tabBtn.className = "tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 bg-white text-cuebus-800 shadow-sm font-bold";
-        } else {
-          tabBtn.className = "tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 text-slate-600 hover:text-cuebus-800";
+        if (tabBtn) {
+          if (v === viewName) {
+            tabBtn.className = "tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 bg-white text-cuebus-800 shadow-sm font-bold";
+          } else {
+            tabBtn.className = "tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 text-slate-600 hover:text-cuebus-800";
+          }
         }
       });
       lucide.createIcons();
@@ -1321,59 +1327,69 @@
 
     function handleTaskSubmit(e) {
       e.preventDefault();
-      const id = document.getElementById('modal-task-id').value;
-      const dept = document.getElementById('modal-dept').value;
-      const category = document.getElementById('modal-category').value;
-      const priority = document.getElementById('modal-priority').value;
-      const status = document.getElementById('modal-status').value;
-      const name = document.getElementById('modal-name').value.trim();
-      const owner = document.getElementById('modal-owner').value.trim() || '個人未確定';
-      const dueDate = document.getElementById('modal-dueDate').value;
-      const deadline = document.getElementById('modal-deadline').value.trim() || '未定';
-      const memo = document.getElementById('modal-memo').value.trim();
+      try {
+        const id = document.getElementById('modal-task-id').value;
+        const dept = document.getElementById('modal-dept').value;
+        const category = document.getElementById('modal-category').value;
+        const priority = document.getElementById('modal-priority').value;
+        const status = document.getElementById('modal-status').value;
+        const name = document.getElementById('modal-name').value.trim();
+        const owner = document.getElementById('modal-owner').value.trim() || '個人未確定';
+        const dueDate = document.getElementById('modal-dueDate').value;
+        const deadline = document.getElementById('modal-deadline').value.trim() || '未定';
+        const memo = document.getElementById('modal-memo').value.trim();
 
-      if (id) {
-        const t = tasks.find(item => item.id === id);
-        if (t) {
-          t.dept = dept;
-          t.category = category;
-          t.priority = priority;
-          t.status = status;
-          t.name = name;
-          t.owner = owner;
-          t.dueDate = dueDate;
-          t.deadline = deadline;
-          t.memo = memo;
-        }
-      } else {
-        const categoryTasks = tasks.filter(item => item.category === category);
-        let maxSub = 0;
-        categoryTasks.forEach(item => {
-          const parts = String(item.id).split('-');
-          if (parts.length === 2) {
-            const sub = parseInt(parts[1], 10);
-            if (!isNaN(sub) && sub > maxSub) maxSub = sub;
+        if (id) {
+          const t = tasks.find(item => item.id === id);
+          if (t) {
+            t.dept = dept;
+            t.category = category;
+            t.priority = priority;
+            t.status = status;
+            t.name = name;
+            t.owner = owner;
+            t.dueDate = dueDate;
+            t.deadline = deadline;
+            t.memo = memo;
           }
-        });
-        const newId = `${category}-${maxSub + 1}`;
+        } else {
+          const categoryTasks = tasks.filter(item => item.category === category);
+          let maxSub = 0;
+          categoryTasks.forEach(item => {
+            const parts = String(item.id).split('-');
+            if (parts.length === 2) {
+              const sub = parseInt(parts[1], 10);
+              if (!isNaN(sub) && sub > maxSub) maxSub = sub;
+            }
+          });
+          const newId = `${category}-${maxSub + 1}`;
 
-        tasks.push({
-          id: newId,
-          dept,
-          category,
-          priority,
-          status,
-          name,
-          owner,
-          dueDate,
-          deadline,
-          memo
-        });
+          tasks.push({
+            id: newId,
+            dept,
+            category,
+            priority,
+            status,
+            name,
+            owner,
+            dueDate,
+            deadline,
+            memo
+          });
+        }
+
+        saveState();
+        closeTaskModal();
+        renderAll();
+
+        if (currentDept !== 'ALL' && dept !== currentDept) {
+          switchDept('ALL');
+        }
+      } catch (err) {
+        console.error("Task submit error:", err);
+        closeTaskModal();
+        renderAll();
       }
-
-      saveState();
-      closeTaskModal();
-      renderAll();
     }
 
     function handleDeleteTask() {
