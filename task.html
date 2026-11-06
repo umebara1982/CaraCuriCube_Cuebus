@@ -373,7 +373,8 @@
                 <th class="py-2.5 px-3 w-16 text-center">ID</th>
                 <th class="py-2.5 px-2.5 w-14 text-center">優先</th>
                 <th class="py-2.5 px-2.5 w-24 text-center">担当部門</th>
-                <th class="py-2.5 px-3 min-w-[260px]">やること・完了の目安</th>
+                <!-- ここを「内容」に変更 -->
+                <th class="py-2.5 px-3 min-w-[260px]">内容</th>
                 <th class="py-2.5 px-3 w-36">主な窓口 (個人)</th>
                 <th class="py-2.5 px-3 w-36">期限</th>
                 <th class="py-2.5 px-3 w-36">備考・補足</th>
@@ -500,7 +501,8 @@
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">やること・完了の目安 <span class="text-red-500">*</span></label>
+          <!-- ここを「内容」に変更 -->
+          <label class="block font-bold text-slate-700 mb-1">内容 <span class="text-red-500">*</span></label>
           <textarea id="modal-name" required rows="3" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="具体的なアクションと完了の客観的証拠・条件"></textarea>
         </div>
 
@@ -1679,7 +1681,7 @@
     }
 
     function exportCSV() {
-      let csv = "\uFEFFID,担当部門,分類,優先度,やること・完了の目安,主な窓口,期限(日付),備考・補足,状況,メモ・エビデンス\n";
+      let csv = "\uFEFFID,担当部門,分類,優先度,内容,主な窓口,期限(日付),備考・補足,状況,メモ・エビデンス\n";
       const sorted = [...tasks].sort((a, b) => {
         const catA = parseInt(a.category, 10) || 0;
         const catB = parseInt(b.category, 10) || 0;
