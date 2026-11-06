@@ -100,8 +100,18 @@
         </div>
       </div>
 
-      <!-- 右側アクションボタン -->
-      <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+      <!-- 右側アクションボタン（スケジュールリンクを追加） -->
+      <div class="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+        <!-- スケジュールリンク（新規追加） -->
+        <div class="has-tooltip">
+          <a id="header-schedule-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-md transition whitespace-nowrap">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>スケジュール</span>
+          </a>
+          <span class="tooltip">全体工程表（スプレッドシート）を開きます</span>
+        </div>
+
+        <!-- Googleドライブ共有リンク -->
         <div class="has-tooltip">
           <a id="header-drive-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-md transition whitespace-nowrap">
             <i data-lucide="folder" class="w-3.5 h-3.5 text-blue-400"></i>
@@ -110,6 +120,7 @@
           <span class="tooltip">Googleドライブフォルダを開きます</span>
         </div>
 
+        <!-- Notion議事録リンク -->
         <div class="has-tooltip">
           <a id="header-notion-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-md transition whitespace-nowrap">
             <i data-lucide="external-link" class="w-3.5 h-3.5 text-coral-400"></i>
@@ -118,6 +129,7 @@
           <span class="tooltip">成田空港議事録ページを開きます</span>
         </div>
 
+        <!-- 打合せレポート出力 -->
         <div class="has-tooltip">
           <button onclick="openReportModal()" class="flex items-center space-x-1 bg-cuebus-600 hover:bg-cuebus-500 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md border border-white/10 shadow-xs transition whitespace-nowrap">
             <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-300"></i>
@@ -126,6 +138,7 @@
           <span class="tooltip">Notion貼り付け用Markdownを生成</span>
         </div>
 
+        <!-- 議事録/差分取込 -->
         <div class="has-tooltip">
           <button onclick="openImportModal()" class="flex items-center space-x-1 bg-cuebus-600 hover:bg-cuebus-500 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md border border-white/10 shadow-xs transition whitespace-nowrap">
             <i data-lucide="import" class="w-3.5 h-3.5 text-emerald-300"></i>
@@ -134,7 +147,8 @@
           <span class="tooltip">議事録テキストから一括更新</span>
         </div>
 
-        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-xs whitespace-nowrap">
+        <!-- タスク追加 -->
+        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-xs whitespace-nowrap">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span>タスク追加</span>
         </button>
@@ -190,7 +204,7 @@
           <button onclick="openSettingsModal()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
-          <span class="tooltip">⚙ 環境設定: 基準日・ドライブ/NotionURL・カテゴリー管理</span>
+          <span class="tooltip">⚙ 環境設定: 基準日・外部リンク・カテゴリー管理</span>
         </div>
         <div class="has-tooltip">
           <button onclick="exportCSV()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
@@ -621,7 +635,7 @@
     </div>
   </div>
 
-  <!-- プロジェクト環境設定モーダル -->
+  <!-- プロジェクト環境設定モーダル (スケジュールURL設定を追加) -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -637,6 +651,11 @@
             <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
             <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
             <p class="text-[11px] text-slate-500 mt-1">ヘッダーに表示される「基準日」を変更します。</p>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">工程表・スケジュールURL (Googleスプレッドシート等)</label>
+            <input type="url" id="settings-schedule-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none text-xs" placeholder="https://docs.google.com/spreadsheets/...">
+            <p class="text-[11px] text-slate-500 mt-1">ヘッダーの「スケジュール」ボタンをクリックした際に開くURLです。</p>
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Googleドライブ 共有フォルダURL</label>
@@ -688,6 +707,7 @@
 
   <!-- ==================== JavaScript ロジック ==================== -->
   <script>
+    const DEFAULT_SCHEDULE_URL = "https://docs.google.com/spreadsheets/d/115wOOpnK3h7V4NPBXq7GozaT7lrt2HHIYXuqHPF3zp0/edit?gid=705834738#gid=705834738";
     const DEFAULT_DRIVE_URL = "https://drive.google.com/drive/folders/1zHr-YOsu4DmhOkG_Fnv5GlRdb-grbRjQ";
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
     const DEFAULT_BASE_DATE = "2026-11-05";
@@ -766,13 +786,14 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V19";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V19";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V19";
-    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V19";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V19";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V19";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V19";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V20";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V20";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V20";
+    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V20";
+    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V20";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V20";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V20";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V20";
 
     let tasks = [];
     let gates = [];
@@ -780,6 +801,7 @@
     let categories = {};
     let currentDept = 'ALL';
     let currentView = 'list';
+    let scheduleUrl = DEFAULT_SCHEDULE_URL;
     let driveUrl = DEFAULT_DRIVE_URL;
     let notionUrl = DEFAULT_NOTION_URL;
     let baseDate = DEFAULT_BASE_DATE;
@@ -796,9 +818,10 @@
     }
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V18") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V17");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V19");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
+      const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE_URL);
       const storedDrive = localStorage.getItem(STORAGE_KEY_DRIVE_URL);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
       const storedBaseDate = localStorage.getItem(STORAGE_KEY_BASE_DATE);
@@ -812,6 +835,7 @@
       gates = storedGates ? JSON.parse(storedGates) : JSON.parse(JSON.stringify(INITIAL_GATES));
       immediateActions = storedImm ? JSON.parse(storedImm) : JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
       categories = storedCategories ? JSON.parse(storedCategories) : JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+      scheduleUrl = storedSchedule ? storedSchedule : DEFAULT_SCHEDULE_URL;
       driveUrl = storedDrive ? storedDrive : DEFAULT_DRIVE_URL;
       notionUrl = storedNotion ? storedNotion : DEFAULT_NOTION_URL;
       baseDate = storedBaseDate ? storedBaseDate : DEFAULT_BASE_DATE;
@@ -827,6 +851,7 @@
         localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
         localStorage.setItem(STORAGE_KEY_GATES, JSON.stringify(gates));
         localStorage.setItem(STORAGE_KEY_IMM, JSON.stringify(immediateActions));
+        localStorage.setItem(STORAGE_KEY_SCHEDULE_URL, scheduleUrl);
         localStorage.setItem(STORAGE_KEY_DRIVE_URL, driveUrl);
         localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
         localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
@@ -853,6 +878,9 @@
     }
 
     function updateExternalLinksUI() {
+      const scheduleLink = document.getElementById('header-schedule-link');
+      if (scheduleLink) scheduleLink.href = scheduleUrl || DEFAULT_SCHEDULE_URL;
+
       const driveLink = document.getElementById('header-drive-link');
       if (driveLink) driveLink.href = driveUrl || DEFAULT_DRIVE_URL;
 
@@ -1070,7 +1098,6 @@
       return html;
     }
 
-    // ==================== テーブルレンダリング (固定幅 w-[84px] & 中央揃え) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       if (!tbody) return;
@@ -1122,7 +1149,6 @@
           }
         }
 
-        // 幅を w-[84px] で統一し、縦並び・横並びのどちらでも揃うように修正
         const deptArray = normalizeDepts(t.dept);
         const deptBadgesHtml = deptArray.map(d => {
           const badgeClass = DEPT_BADGES[d] || "bg-slate-100 text-slate-700 border-slate-200";
@@ -1687,6 +1713,7 @@
 
     function openSettingsModal() {
       document.getElementById('settings-base-date').value = baseDate || DEFAULT_BASE_DATE;
+      document.getElementById('settings-schedule-url').value = scheduleUrl || DEFAULT_SCHEDULE_URL;
       document.getElementById('settings-drive-url').value = driveUrl || DEFAULT_DRIVE_URL;
       document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
       document.getElementById('new-category-name').value = '';
@@ -1758,10 +1785,12 @@
 
     function saveSettings() {
       const newDate = document.getElementById('settings-base-date').value;
+      const newSchedule = document.getElementById('settings-schedule-url').value.trim();
       const newDrive = document.getElementById('settings-drive-url').value.trim();
       const newNotion = document.getElementById('settings-notion-url').value.trim();
 
       if (newDate) baseDate = newDate;
+      scheduleUrl = newSchedule || DEFAULT_SCHEDULE_URL;
       driveUrl = newDrive || DEFAULT_DRIVE_URL;
       notionUrl = newNotion || DEFAULT_NOTION_URL;
 
@@ -1826,6 +1855,7 @@
       const exportData = {
         exportedAt: new Date().toISOString(),
         baseDate,
+        scheduleUrl,
         driveUrl,
         notionUrl,
         categories,
@@ -1850,6 +1880,7 @@
         gates = JSON.parse(JSON.stringify(INITIAL_GATES));
         immediateActions = JSON.parse(JSON.stringify(INITIAL_IMMEDIATE_ACTIONS));
         categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+        scheduleUrl = DEFAULT_SCHEDULE_URL;
         driveUrl = DEFAULT_DRIVE_URL;
         notionUrl = DEFAULT_NOTION_URL;
         baseDate = DEFAULT_BASE_DATE;
