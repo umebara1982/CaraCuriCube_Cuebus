@@ -152,19 +152,19 @@
           <i data-lucide="users" class="w-3.5 h-3.5 text-cuebus-800"></i>
           担当部門:
         </span>
-        <button onclick="switchDept('ALL')" id="dept-btn-ALL" class="dept-tab-btn px-2.5 py-1 rounded bg-cuebus-800 text-white shadow-xs font-bold">
+        <button onclick="switchDept('ALL')" id="dept-btn-ALL" class="dept-tab-btn px-2.5 py-1 rounded bg-cuebus-800 text-white shadow-xs font-bold min-w-[70px] text-center">
           全社表示
         </button>
-        <button onclick="switchDept('営業部')" id="dept-btn-営業部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+        <button onclick="switchDept('営業部')" id="dept-btn-営業部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center justify-center gap-1 min-w-[80px]">
           <span class="w-2 h-2 rounded-full bg-blue-500"></span>営業部
         </button>
-        <button onclick="switchDept('ハードウェア')" id="dept-btn-ハードウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+        <button onclick="switchDept('ハードウェア')" id="dept-btn-ハードウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center justify-center gap-1 min-w-[88px]">
           <span class="w-2 h-2 rounded-full bg-orange-500"></span>ハードウェア
         </button>
-        <button onclick="switchDept('ソフトウェア')" id="dept-btn-ソフトウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+        <button onclick="switchDept('ソフトウェア')" id="dept-btn-ソフトウェア" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center justify-center gap-1 min-w-[88px]">
           <span class="w-2 h-2 rounded-full bg-purple-500"></span>ソフトウェア
         </button>
-        <button onclick="switchDept('管理部')" id="dept-btn-管理部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center gap-1">
+        <button onclick="switchDept('管理部')" id="dept-btn-管理部" class="dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 flex items-center justify-center gap-1 min-w-[80px]">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>管理部
         </button>
       </div>
@@ -462,7 +462,7 @@
   </main>
 
   <!-- ==================== モーダル群 ==================== -->
-  <!-- タスク編集モーダル（担当部門の複数選択対応） -->
+  <!-- タスク編集モーダル -->
   <div id="task-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -475,7 +475,6 @@
       <form id="task-form" onsubmit="handleTaskSubmit(event)" class="p-5 space-y-3.5">
         <input type="hidden" id="modal-task-id">
 
-        <!-- 担当部門（複数選択チェックボックス） & 分類 -->
         <div class="space-y-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
@@ -483,19 +482,19 @@
               <span class="text-[10px] text-slate-400 font-normal">複数部門で協力する場合は該当するものにチェック</span>
             </label>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-1.5 rounded border border-slate-200 hover:bg-blue-50/50">
+              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-2 rounded border border-slate-200 hover:bg-blue-50/50 transition">
                 <input type="checkbox" name="modal-dept-check" value="営業部" class="w-4 h-4 text-cuebus-800 rounded border-slate-300 focus:ring-cuebus-800">
                 <span class="font-bold text-blue-900 text-[11px]">営業部</span>
               </label>
-              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-1.5 rounded border border-slate-200 hover:bg-orange-50/50">
+              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-2 rounded border border-slate-200 hover:bg-orange-50/50 transition">
                 <input type="checkbox" name="modal-dept-check" value="ハードウェア" class="w-4 h-4 text-cuebus-800 rounded border-slate-300 focus:ring-cuebus-800">
                 <span class="font-bold text-orange-900 text-[11px]">ハードウェア</span>
               </label>
-              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-1.5 rounded border border-slate-200 hover:bg-purple-50/50">
+              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-2 rounded border border-slate-200 hover:bg-purple-50/50 transition">
                 <input type="checkbox" name="modal-dept-check" value="ソフトウェア" class="w-4 h-4 text-cuebus-800 rounded border-slate-300 focus:ring-cuebus-800">
                 <span class="font-bold text-purple-900 text-[11px]">ソフトウェア</span>
               </label>
-              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-1.5 rounded border border-slate-200 hover:bg-emerald-50/50">
+              <label class="flex items-center space-x-1.5 cursor-pointer bg-white p-2 rounded border border-slate-200 hover:bg-emerald-50/50 transition">
                 <input type="checkbox" name="modal-dept-check" value="管理部" class="w-4 h-4 text-cuebus-800 rounded border-slate-300 focus:ring-cuebus-800">
                 <span class="font-bold text-emerald-900 text-[11px]">管理部</span>
               </label>
@@ -709,7 +708,6 @@
       "管理部": "bg-emerald-100 text-emerald-800 border-emerald-300"
     };
 
-    // 初期タスクデータ（dept を配列で保持可能に定義）
     const INITIAL_TASKS = [
       { id: "1-1", dept: ["営業部"], category: "1", priority: "A", name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に日程確認", status: "要確認", memo: "書類一覧は受領済み。提出状況・営業承認は要確認。" },
       { id: "1-2", dept: ["営業部"], category: "1", priority: "A", name: "空港から契約書を受領・確認し、契約を締結する。場所代、売上歩合、期間、精算方法、費用負担を確認。（約20%は協議上の想定で確定ではない）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に受領予定日確認", status: "要確認", memo: "契約書待ち・締結未確認。" },
@@ -768,13 +766,13 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V18";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V18";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V18";
-    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V18";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V18";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V18";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V18";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V19";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V19";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V19";
+    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V19";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V19";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V19";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V19";
 
     let tasks = [];
     let gates = [];
@@ -786,11 +784,9 @@
     let notionUrl = DEFAULT_NOTION_URL;
     let baseDate = DEFAULT_BASE_DATE;
 
-    // 部門データを常に配列形式へ正規化する補助関数
     function normalizeDepts(deptVal) {
       if (!deptVal) return ["営業部"];
       if (Array.isArray(deptVal)) return deptVal;
-      // 文字列ならスラッシュやカンマで分割
       const parts = String(deptVal).split(/[/,、]/).map(d => d.trim()).filter(Boolean);
       return parts.map(d => {
         if (d === "HW開発") return "ハードウェア";
@@ -800,7 +796,7 @@
     }
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V17") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V16");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V18") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V17");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
       const storedDrive = localStorage.getItem(STORAGE_KEY_DRIVE_URL);
@@ -809,8 +805,6 @@
       const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
-      
-      // 部門の配列化と名称変換
       tasks.forEach(t => {
         t.dept = normalizeDepts(t.dept);
       });
@@ -880,9 +874,9 @@
         const btn = document.getElementById(`dept-btn-${d}`);
         if (!btn) return;
         if (d === dept) {
-          btn.className = "dept-tab-btn px-2.5 py-1 rounded bg-cuebus-800 text-white shadow-xs font-bold transition flex items-center gap-1";
+          btn.className = "dept-tab-btn px-2.5 py-1 rounded bg-cuebus-800 text-white shadow-xs font-bold transition flex items-center justify-center gap-1 min-w-[80px]";
         } else {
-          btn.className = "dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 transition flex items-center gap-1";
+          btn.className = "dept-tab-btn px-2.5 py-1 rounded text-slate-600 hover:text-cuebus-800 transition flex items-center justify-center gap-1 min-w-[80px]";
         }
       });
       renderTable();
@@ -890,10 +884,8 @@
       lucide.createIcons();
     }
 
-    // ==================== 部門別サマリーカードの更新（複数部門連動） ====================
     function updateDeptSummary() {
       DEPARTMENTS.forEach(dept => {
-        // 所属部門配列に該当部門が含まれているタスクを抽出
         const deptTasks = tasks.filter(t => normalizeDepts(t.dept).includes(dept));
         const undoneTasks = deptTasks.filter(t => t.status !== '完了');
         
@@ -1078,7 +1070,7 @@
       return html;
     }
 
-    // ==================== テーブルレンダリング (複数部門バッジの並列描画) ====================
+    // ==================== テーブルレンダリング (固定幅 w-[84px] & 中央揃え) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       if (!tbody) return;
@@ -1130,11 +1122,11 @@
           }
         }
 
-        // 複数部門バッジの生成
+        // 幅を w-[84px] で統一し、縦並び・横並びのどちらでも揃うように修正
         const deptArray = normalizeDepts(t.dept);
         const deptBadgesHtml = deptArray.map(d => {
           const badgeClass = DEPT_BADGES[d] || "bg-slate-100 text-slate-700 border-slate-200";
-          return `<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeClass} m-0.5 whitespace-nowrap">${escapeHTML(d)}</span>`;
+          return `<span class="inline-block w-[84px] text-center px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeClass} m-0.5 whitespace-nowrap shadow-2xs">${escapeHTML(d)}</span>`;
         }).join('');
 
         tr.innerHTML = `
@@ -1142,8 +1134,8 @@
           <td class="py-2.5 px-2.5 text-center">
             <span class="inline-block px-1.5 py-0.5 rounded font-black text-[10px] badge-prio-${t.priority}">${t.priority}</span>
           </td>
-          <td class="py-2 px-2 text-center">
-            <div class="flex flex-wrap justify-center items-center">${deptBadgesHtml}</div>
+          <td class="py-2 px-2 text-center w-28">
+            <div class="flex flex-col items-center justify-center gap-0.5">${deptBadgesHtml}</div>
           </td>
           <td class="py-2.5 px-3 font-medium text-slate-800 leading-snug">
             <div>${escapeHTML(t.name)}</div>
@@ -1189,7 +1181,6 @@
 
       const result = tasks.filter(t => {
         const deptArray = normalizeDepts(t.dept);
-        // 部門タブフィルター（該当部門が含まれているかを判定）
         if (currentDept !== 'ALL' && !deptArray.includes(currentDept)) return false;
         if (cat !== 'ALL' && t.category !== cat) return false;
         if (prio !== 'ALL' && t.priority !== prio) return false;
@@ -1242,7 +1233,7 @@
         
         const deptBadgesHtml = normalizeDepts(t.dept).map(d => {
           const badgeClass = DEPT_BADGES[d] || "bg-slate-100 text-slate-700 border-slate-200";
-          return `<span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${escapeHTML(d)}</span>`;
+          return `<span class="w-[74px] text-center px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${escapeHTML(d)}</span>`;
         }).join('');
 
         card.innerHTML = `
@@ -1391,7 +1382,6 @@
       }
     }
 
-    // ==================== モーダルでのチェックボックス制御 ====================
     function setModalDeptCheckboxes(selectedDepts) {
       const arr = Array.isArray(selectedDepts) ? selectedDepts : [selectedDepts];
       const checkboxes = document.querySelectorAll('input[name="modal-dept-check"]');
@@ -1404,7 +1394,7 @@
       const checked = [];
       const checkboxes = document.querySelectorAll('input[name="modal-dept-check"]:checked');
       checkboxes.forEach(cb => checked.push(cb.value));
-      return checked.length > 0 ? checked : ["営業部"]; // 未選択なら営業部をフォールバック
+      return checked.length > 0 ? checked : ["営業部"];
     }
 
     function openNewTaskModal() {
@@ -1510,7 +1500,6 @@
         closeTaskModal();
         renderAll();
 
-        // 絞り込み中の部門が外れた場合は全社表示へ自動リセット
         if (currentDept !== 'ALL' && !selectedDepts.includes(currentDept)) {
           switchDept('ALL');
         }
