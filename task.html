@@ -80,11 +80,22 @@
 
   <!-- ==================== ヘッダー ==================== -->
   <header class="bg-gradient-to-r from-cuebus-900 via-cuebus-800 to-cuebus-700 text-white shadow-md border-b border-cuebus-900 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-3">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-lg bg-coral-500 flex items-center justify-center font-black text-xl shadow text-white">
-          C³
+        
+        <!-- CUEBUS ロゴ（黒背景 × 黄色文字・幾何学トライアングル） -->
+        <div class="w-12 h-12 rounded-xl bg-black border border-slate-700/80 p-1 flex items-center justify-center shadow-md shrink-0 hover:scale-105 transition-transform" title="CUEBUS">
+          <svg viewBox="0 0 100 60" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <!-- 左上の黄色三角 -->
+            <polygon points="5,5 24,5 5,42" fill="#E5B20D" />
+            <!-- 右下の黄色三角 -->
+            <polygon points="95,55 76,55 95,18" fill="#E5B20D" />
+            <!-- CUEBUS テキスト (上段 CUE / 下段 BUS) -->
+            <text x="50" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">CUE</text>
+            <text x="50" y="52" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">BUS</text>
+          </svg>
         </div>
+
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-lg sm:text-xl font-bold tracking-tight">CaraCuriCube 社内プロジェクト管理</h1>
@@ -396,7 +407,7 @@
 
       <div class="bg-slate-200/70 rounded-xl p-3 border border-slate-300/80 flex flex-col max-h-[calc(100vh-230px)]">
         <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-300">
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center space-x-2.5">
             <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
             <h3 class="text-xs font-bold text-slate-800">進行中 / 相手待ち</h3>
           </div>
@@ -663,7 +674,6 @@
       "5": "5. 収支・広報・成功判定"
     };
 
-    // 4部門の名称（ハードウェア、ソフトウェアに統一）
     const DEPARTMENTS = ["営業部", "ハードウェア", "ソフトウェア", "管理部"];
     const DEPT_BADGES = {
       "営業部": "bg-blue-100 text-blue-800 border-blue-300",
@@ -730,12 +740,12 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V14";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V14";
-    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V14";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V14";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V14";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V14";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V15";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V15";
+    const STORAGE_KEY_IMM = "CUEBUS_CARACURI_IMM_V15";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V15";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V15";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V15";
 
     let tasks = [];
     let gates = [];
@@ -747,7 +757,7 @@
     let baseDate = DEFAULT_BASE_DATE;
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V13") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V12");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V14") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V13");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedImm = localStorage.getItem(STORAGE_KEY_IMM);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
@@ -756,7 +766,6 @@
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
       
-      // 旧名称（HW開発、SW開発）の自動コンバート
       tasks.forEach(t => {
         if (t.dept === "HW開発") t.dept = "ハードウェア";
         if (t.dept === "SW開発") t.dept = "ソフトウェア";
