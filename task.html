@@ -80,10 +80,11 @@
 
   <!-- ==================== ヘッダー ==================== -->
   <header class="bg-gradient-to-r from-cuebus-900 via-cuebus-800 to-cuebus-700 text-white shadow-md border-b border-cuebus-900 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 flex-nowrap">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-3 flex-nowrap">
       
-      <!-- 左側：ロゴ & タイトル & バッジ -->
+      <!-- 左側：ロゴ & タイトル & 基準日 & カウントダウン（同列表示） -->
       <div class="flex items-center space-x-2.5 shrink-0">
+        <!-- CUEBUS ロゴ -->
         <div class="w-10 h-10 rounded-lg bg-black border border-slate-700/80 p-0.5 flex items-center justify-center shadow-md shrink-0 hover:scale-105 transition-transform" title="CUEBUS">
           <svg viewBox="0 0 100 60" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <polygon points="5,5 24,5 5,42" fill="#E5B20D" />
@@ -96,7 +97,21 @@
         <div class="flex items-center space-x-2">
           <h1 class="text-base sm:text-lg font-bold tracking-tight whitespace-nowrap">CaraCuriCube 社内プロジェクト管理</h1>
           <span class="text-[10px] bg-coral-500/90 text-white font-semibold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">Cuebus専用</span>
+          
+          <!-- 基準日バッジ -->
           <span id="header-base-date" class="text-[10px] bg-slate-800/80 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-mono whitespace-nowrap">基準日: 2026/11/05</span>
+
+          <!-- オープン目標日バッジ -->
+          <span id="header-open-date" class="text-[11px] bg-slate-800/90 text-[#E5B20D] border border-[#E5B20D]/40 px-2.5 py-0.5 rounded font-bold whitespace-nowrap flex items-center gap-1 shadow-xs">
+            <i data-lucide="flag" class="w-3.5 h-3.5 text-[#E5B20D]"></i>
+            <span>オープン目標: 2026年12月2日 (水)</span>
+          </span>
+
+          <!-- オープンまでカウントダウンカード（画像デザインを再現） -->
+          <div class="bg-slate-900/80 border border-white/20 rounded-lg px-2.5 py-0.5 flex items-center space-x-1.5 shadow-xs whitespace-nowrap">
+            <span class="text-[10px] text-slate-200 font-medium">オープンまで</span>
+            <span id="header-countdown-days" class="text-sm sm:text-base font-black text-[#E5B20D] tracking-wide">27日</span>
+          </div>
         </div>
       </div>
 
@@ -204,7 +219,7 @@
           <button onclick="openSettingsModal()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
-          <span class="tooltip">⚙ 環境設定: 基準日・外部リンク・カテゴリー管理</span>
+          <span class="tooltip">⚙ 環境設定: 基準日・目標日・各種URL・カテゴリー管理</span>
         </div>
         <div class="has-tooltip">
           <button onclick="exportCSV()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
@@ -613,7 +628,7 @@
     </div>
   </div>
 
-  <!-- プロジェクト環境設定モーダル -->
+  <!-- プロジェクト環境設定モーダル (オープン目標日設定を追加) -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -625,11 +640,19 @@
 
       <div class="p-5 space-y-5">
         <div class="space-y-3 pb-4 border-b border-slate-200">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
-            <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
-            <p class="text-[11px] text-slate-500 mt-1">ヘッダーに表示される「基準日」を変更します。</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">プロジェクト基準日</label>
+              <input type="date" id="settings-base-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-slate-50">
+              <p class="text-[10px] text-slate-500 mt-0.5">ヘッダーの「基準日」</p>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">オープン目標日</label>
+              <input type="date" id="settings-target-open-date" class="w-full border border-slate-300 rounded p-2 font-mono text-xs focus:ring-1 focus:ring-cuebus-800 focus:outline-none bg-amber-50/50 text-slate-900 font-bold">
+              <p class="text-[10px] text-slate-500 mt-0.5">カウントダウンの目標日</p>
+            </div>
           </div>
+
           <div>
             <label class="block font-bold text-slate-700 mb-1">工程表・スケジュールURL (Googleスプレッドシート等)</label>
             <input type="url" id="settings-schedule-url" class="w-full border border-slate-300 rounded p-2 focus:ring-1 focus:ring-cuebus-800 focus:outline-none text-xs" placeholder="https://docs.google.com/spreadsheets/...">
@@ -689,6 +712,7 @@
     const DEFAULT_DRIVE_URL = "https://drive.google.com/drive/folders/1zHr-YOsu4DmhOkG_Fnv5GlRdb-grbRjQ";
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
     const DEFAULT_BASE_DATE = "2026-11-05";
+    const DEFAULT_TARGET_OPEN_DATE = "2026-12-02"; // 12/2オープン確定ターゲット
 
     const DEFAULT_CATEGORIES = {
       "1": "1. 空港承認・全体日程",
@@ -710,7 +734,7 @@
       { id: "1-1", dept: ["営業部"], category: "1", priority: "A", name: "受領済みの必要書類一覧に沿って書類を準備・提出し、審査窓口と承認までの日程を確認する。（完了=営業承認を確認できる）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に日程確認", status: "要確認", memo: "書類一覧は受領済み。提出状況・営業承認は要確認。" },
       { id: "1-2", dept: ["営業部"], category: "1", priority: "A", name: "空港から契約書を受領・確認し、契約を締結する。場所代、売上歩合、期間、精算方法、費用負担を確認。（約20%は協議上の想定で確定ではない）", owner: "CUEBUS / 成田空港", dueDate: "2026-11-06", deadline: "11/6に受領予定日確認", status: "要確認", memo: "契約書待ち・締結未確認。" },
       { id: "1-3", dept: ["営業部"], category: "1", priority: "A", name: "「並行時申請」の要否・対象・申請期限を空港に確認する。", owner: "成田空港 / CUEBUS", dueDate: "2026-11-10", deadline: "承認日程の策定前", status: "要確認", memo: "並行時申請の可否要確認。" },
-      { id: "1-4", dept: ["営業部"], category: "1", priority: "A", name: "12/2案と1月中旬案について、設置・商品納品・営業開始・実証終了の工程と実現条件を整理し、空港と合意する。（11/28~30頃の設置は10/29時点の候補であり再確認）", owner: "梅原(PM) / 成田空港", dueDate: "2026-11-06", deadline: "11/6に開店候補協議・決定", status: "進行中/相手待ち", memo: "2案とも未確定。11/6の打合せで決定予定。" },
+      { id: "1-4", dept: ["営業部"], category: "1", priority: "A", name: "12/2案と1月中旬案について、設置・商品納品・営業開始・実証終了の工程と実現条件を整理し、空港と合意する。（11/28~30頃の設置は10/29時点の候補であり再確認）", owner: "梅原(PM) / 成田空港", dueDate: "2026-11-06", deadline: "11/6に開店候補協議・決定", status: "完了", memo: "11/6打合せにて12/2オープン確定合意。" },
       { id: "1-5", dept: ["管理部"], category: "1", priority: "B", name: "各社の責任者、週次会議、課題の連絡・判断先を決める。", owner: "CUEBUS / Hamaru / 成田空港", dueDate: "2026-11-13", deadline: "早期・期限未定", status: "要確認", memo: "個人の責任者が未確定。週次定例枠の設置が必要。" },
 
       { id: "2-1", dept: ["ハードウェア", "営業部"], category: "2", priority: "A", name: "最終配置図を作り空港に確認する。高さ約3.2m・3段、設備間約80cmの希望、レジ・在庫・安全範囲・通路を反映。", owner: "CUEBUS / 成田空港", dueDate: "2026-11-15", deadline: "設置前", status: "要確認", memo: "配置図の作成と通路幅の空港側受託確認。" },
@@ -756,13 +780,14 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V22";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V22";
-    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V22";
-    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V22";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V22";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V22";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V22";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V23";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V23";
+    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V23";
+    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V23";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V23";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V23";
+    const STORAGE_KEY_TARGET_OPEN_DATE = "CUEBUS_CARACURI_TARGET_OPEN_DATE_V23";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V23";
 
     let tasks = [];
     let gates = [];
@@ -773,6 +798,7 @@
     let driveUrl = DEFAULT_DRIVE_URL;
     let notionUrl = DEFAULT_NOTION_URL;
     let baseDate = DEFAULT_BASE_DATE;
+    let targetOpenDate = DEFAULT_TARGET_OPEN_DATE;
 
     function normalizeDepts(deptVal) {
       if (!deptVal) return ["営業部"];
@@ -786,12 +812,13 @@
     }
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V21") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V20");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V22") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V21");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE_URL);
       const storedDrive = localStorage.getItem(STORAGE_KEY_DRIVE_URL);
       const storedNotion = localStorage.getItem(STORAGE_KEY_NOTION_URL);
       const storedBaseDate = localStorage.getItem(STORAGE_KEY_BASE_DATE);
+      const storedTargetOpen = localStorage.getItem(STORAGE_KEY_TARGET_OPEN_DATE);
       const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
       tasks = storedTasks ? JSON.parse(storedTasks) : JSON.parse(JSON.stringify(INITIAL_TASKS));
@@ -805,9 +832,10 @@
       driveUrl = storedDrive ? storedDrive : DEFAULT_DRIVE_URL;
       notionUrl = storedNotion ? storedNotion : DEFAULT_NOTION_URL;
       baseDate = storedBaseDate ? storedBaseDate : DEFAULT_BASE_DATE;
+      targetOpenDate = storedTargetOpen ? storedTargetOpen : DEFAULT_TARGET_OPEN_DATE;
 
       updateExternalLinksUI();
-      updateBaseDateUI();
+      updateDatesAndCountdownUI();
       renderAll();
       lucide.createIcons();
     }
@@ -820,6 +848,7 @@
         localStorage.setItem(STORAGE_KEY_DRIVE_URL, driveUrl);
         localStorage.setItem(STORAGE_KEY_NOTION_URL, notionUrl);
         localStorage.setItem(STORAGE_KEY_BASE_DATE, baseDate);
+        localStorage.setItem(STORAGE_KEY_TARGET_OPEN_DATE, targetOpenDate);
         localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(categories));
       } catch (err) {
         console.error("Storage error:", err);
@@ -852,11 +881,44 @@
       if (notionLink) notionLink.href = notionUrl || DEFAULT_NOTION_URL;
     }
 
-    function updateBaseDateUI() {
-      const el = document.getElementById('header-base-date');
-      if (el) {
+    // ==================== 基準日＆オープン日＆カウントダウン計算 ====================
+    function updateDatesAndCountdownUI() {
+      // 1. 基準日バッジ
+      const elBase = document.getElementById('header-base-date');
+      if (elBase) {
         const formatted = baseDate ? baseDate.replace(/-/g, '/') : DEFAULT_BASE_DATE.replace(/-/g, '/');
-        el.innerText = `基準日: ${formatted}`;
+        elBase.innerText = `基準日: ${formatted}`;
+      }
+
+      // 2. オープン目標日バッジ
+      const elOpen = document.getElementById('header-open-date');
+      if (elOpen) {
+        const d = new Date(targetOpenDate);
+        const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+        const dayOfWeek = !isNaN(d.getDay()) ? `(${weekdays[d.getDay()]})` : '';
+        const y = d.getFullYear() || 2026;
+        const m = (d.getMonth() + 1) || 12;
+        const dateNum = d.getDate() || 2;
+        elOpen.innerHTML = `<i data-lucide="flag" class="w-3.5 h-3.5 text-[#E5B20D]"></i><span>オープン目標: ${y}年${m}月${dateNum}日 ${dayOfWeek}</span>`;
+      }
+
+      // 3. カウントダウン計算 (基準日基準、または当日基準)
+      const elDays = document.getElementById('header-countdown-days');
+      if (elDays) {
+        const currentRef = new Date(baseDate || DEFAULT_BASE_DATE);
+        const target = new Date(targetOpenDate || DEFAULT_TARGET_OPEN_DATE);
+        
+        // 日付差分（ミリ秒から日数換算）
+        const diffTime = target.getTime() - currentRef.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 0) {
+          elDays.innerText = `あと ${diffDays}日`;
+        } else if (diffDays === 0) {
+          elDays.innerText = `本日オープン！`;
+        } else {
+          elDays.innerText = `オープン済`;
+        }
       }
     }
 
@@ -1008,7 +1070,6 @@
       return html;
     }
 
-    // ==================== テーブルレンダリング (中央揃え flex-col & items-center で完全センタリング) ====================
     function renderTable() {
       const tbody = document.getElementById('task-table-body');
       if (!tbody) return;
@@ -1060,7 +1121,6 @@
           }
         }
 
-        // バッジの固定幅 (w-[84px]) と中央揃え
         const deptArray = normalizeDepts(t.dept);
         const deptBadgesHtml = deptArray.map(d => {
           const badgeClass = DEPT_BADGES[d] || "bg-slate-100 text-slate-700 border-slate-200";
@@ -1072,7 +1132,6 @@
           <td class="py-2.5 px-2.5 text-center">
             <span class="inline-block px-1.5 py-0.5 rounded font-black text-[10px] badge-prio-${t.priority}">${t.priority}</span>
           </td>
-          <!-- 担当部門列を完全に左右中央揃え -->
           <td class="py-2 px-2 text-center w-28 align-middle">
             <div class="flex flex-col items-center justify-center gap-1 w-full mx-auto">${deptBadgesHtml}</div>
           </td>
@@ -1543,7 +1602,8 @@
     function openReportModal() {
       const today = new Date().toISOString().slice(0, 10);
       let md = `# 成田空港 CaraCuriCube プロジェクト打合せ進捗レポート\n`;
-      md += `**作成基準日**: ${baseDate.replace(/-/g, '/')} (出力日: ${today}) ｜ **PM**: 梅原 達矢\n\n`;
+      md += `**作成基準日**: ${baseDate.replace(/-/g, '/')} (出力日: ${today}) ｜ **PM**: 梅原 達矢\n`;
+      md += `**オープン目標日**: ${targetOpenDate.replace(/-/g, '/')} (${document.getElementById('header-countdown-days').innerText})\n\n`;
 
       md += `## 1. 部門別 残タスク状況 (ボトルネック)\n`;
       DEPARTMENTS.forEach(dept => {
@@ -1593,6 +1653,7 @@
 
     function openSettingsModal() {
       document.getElementById('settings-base-date').value = baseDate || DEFAULT_BASE_DATE;
+      document.getElementById('settings-target-open-date').value = targetOpenDate || DEFAULT_TARGET_OPEN_DATE;
       document.getElementById('settings-schedule-url').value = scheduleUrl || DEFAULT_SCHEDULE_URL;
       document.getElementById('settings-drive-url').value = driveUrl || DEFAULT_DRIVE_URL;
       document.getElementById('settings-notion-url').value = notionUrl || DEFAULT_NOTION_URL;
@@ -1664,18 +1725,20 @@
     }
 
     function saveSettings() {
-      const newDate = document.getElementById('settings-base-date').value;
+      const newBaseDate = document.getElementById('settings-base-date').value;
+      const newTargetOpen = document.getElementById('settings-target-open-date').value;
       const newSchedule = document.getElementById('settings-schedule-url').value.trim();
       const newDrive = document.getElementById('settings-drive-url').value.trim();
       const newNotion = document.getElementById('settings-notion-url').value.trim();
 
-      if (newDate) baseDate = newDate;
+      if (newBaseDate) baseDate = newBaseDate;
+      if (newTargetOpen) targetOpenDate = newTargetOpen;
       scheduleUrl = newSchedule || DEFAULT_SCHEDULE_URL;
       driveUrl = newDrive || DEFAULT_DRIVE_URL;
       notionUrl = newNotion || DEFAULT_NOTION_URL;
 
       saveState();
-      updateBaseDateUI();
+      updateDatesAndCountdownUI();
       updateExternalLinksUI();
       renderAll();
       closeSettingsModal();
@@ -1721,6 +1784,7 @@
       const exportData = {
         exportedAt: new Date().toISOString(),
         baseDate,
+        targetOpenDate,
         scheduleUrl,
         driveUrl,
         notionUrl,
@@ -1748,9 +1812,10 @@
         driveUrl = DEFAULT_DRIVE_URL;
         notionUrl = DEFAULT_NOTION_URL;
         baseDate = DEFAULT_BASE_DATE;
+        targetOpenDate = DEFAULT_TARGET_OPEN_DATE;
         currentDept = 'ALL';
         saveState();
-        updateBaseDateUI();
+        updateDatesAndCountdownUI();
         updateExternalLinksUI();
         renderAll();
       }
