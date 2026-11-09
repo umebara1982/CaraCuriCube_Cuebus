@@ -78,45 +78,45 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- ==================== ヘッダー ==================== -->
+  <!-- ==================== ヘッダー（2段構成で完全見切れ防止） ==================== -->
   <header class="bg-gradient-to-r from-cuebus-900 via-cuebus-800 to-cuebus-700 text-white shadow-md border-b border-cuebus-900 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-3 flex-nowrap">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 space-y-2">
       
-      <!-- 左側：ロゴ & タイトル & 基準日 & カウントダウン（同列表示） -->
-      <div class="flex items-center space-x-2.5 shrink-0">
-        <!-- CUEBUS ロゴ -->
-        <div class="w-10 h-10 rounded-lg bg-black border border-slate-700/80 p-0.5 flex items-center justify-center shadow-md shrink-0 hover:scale-105 transition-transform" title="CUEBUS">
-          <svg viewBox="0 0 100 60" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="5,5 24,5 5,42" fill="#E5B20D" />
-            <polygon points="95,55 76,55 95,18" fill="#E5B20D" />
-            <text x="50" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">CUE</text>
-            <text x="50" y="52" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">BUS</text>
-          </svg>
-        </div>
+      <!-- 上段：ロゴ・タイトル・基準日・目標日・カウントダウン -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <!-- CUEBUS ロゴ -->
+          <div class="w-9 h-9 rounded-lg bg-black border border-slate-700/80 p-0.5 flex items-center justify-center shadow-md shrink-0 hover:scale-105 transition-transform" title="CUEBUS">
+            <svg viewBox="0 0 100 60" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="5,5 24,5 5,42" fill="#E5B20D" />
+              <polygon points="95,55 76,55 95,18" fill="#E5B20D" />
+              <text x="50" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">CUE</text>
+              <text x="50" y="52" font-family="'Inter', sans-serif" font-weight="900" font-size="25" fill="#E5B20D" text-anchor="middle" letter-spacing="1.5">BUS</text>
+            </svg>
+          </div>
 
-        <div class="flex items-center space-x-2">
           <h1 class="text-base sm:text-lg font-bold tracking-tight whitespace-nowrap">CaraCuriCube 社内プロジェクト管理</h1>
           <span class="text-[10px] bg-coral-500/90 text-white font-semibold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">Cuebus専用</span>
-          
-          <!-- 基準日バッジ -->
-          <span id="header-base-date" class="text-[10px] bg-slate-800/80 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-mono whitespace-nowrap">基準日: 2026/11/05</span>
+        </div>
 
-          <!-- オープン目標日バッジ -->
+        <!-- 基準日・オープン日・カウントダウン -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="header-base-date" class="text-[10px] bg-slate-800/80 text-emerald-300 border border-emerald-500/40 px-2 py-1 rounded font-mono whitespace-nowrap">基準日: 2026/11/05</span>
+
           <span id="header-open-date" class="text-[11px] bg-slate-800/90 text-[#E5B20D] border border-[#E5B20D]/40 px-2.5 py-0.5 rounded font-bold whitespace-nowrap flex items-center gap-1 shadow-xs">
             <i data-lucide="flag" class="w-3.5 h-3.5 text-[#E5B20D]"></i>
             <span>オープン目標: 2026年12月2日 (水)</span>
           </span>
 
-          <!-- オープンまでカウントダウンカード（画像デザインを再現） -->
-          <div class="bg-slate-900/80 border border-white/20 rounded-lg px-2.5 py-0.5 flex items-center space-x-1.5 shadow-xs whitespace-nowrap">
+          <div class="bg-slate-900/90 border border-white/20 rounded-lg px-2.5 py-0.5 flex items-center space-x-1.5 shadow-xs whitespace-nowrap">
             <span class="text-[10px] text-slate-200 font-medium">オープンまで</span>
             <span id="header-countdown-days" class="text-sm sm:text-base font-black text-[#E5B20D] tracking-wide">27日</span>
           </div>
         </div>
       </div>
 
-      <!-- 右側アクションボタン -->
-      <div class="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+      <!-- 下段：各種アクションボタン（余裕をもった横並び配置） -->
+      <div class="flex flex-wrap items-center justify-end gap-2 pt-1 border-t border-white/10">
         <!-- スケジュールリンク -->
         <div class="has-tooltip">
           <a id="header-schedule-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1 bg-black/30 hover:bg-black/50 border border-white/20 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-md transition whitespace-nowrap">
@@ -163,7 +163,7 @@
         </div>
 
         <!-- タスク追加 -->
-        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-xs whitespace-nowrap">
+        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-xs whitespace-nowrap">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span>タスク追加</span>
         </button>
@@ -173,7 +173,7 @@
   </header>
 
   <!-- ==================== サブナビゲーション & 部門別切り替え ==================== -->
-  <section class="bg-white border-b border-slate-200 shadow-sm sticky top-[57px] z-30">
+  <section class="bg-white border-b border-slate-200 shadow-sm sticky top-[82px] z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-wrap justify-between items-center gap-2">
       
       <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
@@ -219,7 +219,7 @@
           <button onclick="openSettingsModal()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
-          <span class="tooltip">⚙ 環境設定: 基準日・目標日・各種URL・カテゴリー管理</span>
+          <span class="tooltip">⚙ 環境設定: 基準日・外部リンク・カテゴリー管理</span>
         </div>
         <div class="has-tooltip">
           <button onclick="exportCSV()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
@@ -628,7 +628,7 @@
     </div>
   </div>
 
-  <!-- プロジェクト環境設定モーダル (オープン目標日設定を追加) -->
+  <!-- プロジェクト環境設定モーダル -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
       <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
@@ -712,7 +712,7 @@
     const DEFAULT_DRIVE_URL = "https://drive.google.com/drive/folders/1zHr-YOsu4DmhOkG_Fnv5GlRdb-grbRjQ";
     const DEFAULT_NOTION_URL = "https://www.notion.so/387f4d6e8f4580fca8b2ce19b6ceaded";
     const DEFAULT_BASE_DATE = "2026-11-05";
-    const DEFAULT_TARGET_OPEN_DATE = "2026-12-02"; // 12/2オープン確定ターゲット
+    const DEFAULT_TARGET_OPEN_DATE = "2026-12-02";
 
     const DEFAULT_CATEGORIES = {
       "1": "1. 空港承認・全体日程",
@@ -881,16 +881,13 @@
       if (notionLink) notionLink.href = notionUrl || DEFAULT_NOTION_URL;
     }
 
-    // ==================== 基準日＆オープン日＆カウントダウン計算 ====================
     function updateDatesAndCountdownUI() {
-      // 1. 基準日バッジ
       const elBase = document.getElementById('header-base-date');
       if (elBase) {
         const formatted = baseDate ? baseDate.replace(/-/g, '/') : DEFAULT_BASE_DATE.replace(/-/g, '/');
         elBase.innerText = `基準日: ${formatted}`;
       }
 
-      // 2. オープン目標日バッジ
       const elOpen = document.getElementById('header-open-date');
       if (elOpen) {
         const d = new Date(targetOpenDate);
@@ -902,13 +899,11 @@
         elOpen.innerHTML = `<i data-lucide="flag" class="w-3.5 h-3.5 text-[#E5B20D]"></i><span>オープン目標: ${y}年${m}月${dateNum}日 ${dayOfWeek}</span>`;
       }
 
-      // 3. カウントダウン計算 (基準日基準、または当日基準)
       const elDays = document.getElementById('header-countdown-days');
       if (elDays) {
         const currentRef = new Date(baseDate || DEFAULT_BASE_DATE);
         const target = new Date(targetOpenDate || DEFAULT_TARGET_OPEN_DATE);
         
-        // 日付差分（ミリ秒から日数換算）
         const diffTime = target.getTime() - currentRef.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
