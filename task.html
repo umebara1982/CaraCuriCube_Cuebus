@@ -78,7 +78,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- ==================== ヘッダー（2段構成で完全見切れ防止） ==================== -->
+  <!-- ==================== ヘッダー ==================== -->
   <header class="bg-gradient-to-r from-cuebus-900 via-cuebus-800 to-cuebus-700 text-white shadow-md border-b border-cuebus-900 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 space-y-2">
       
@@ -115,7 +115,7 @@
         </div>
       </div>
 
-      <!-- 下段：各種アクションボタン（余裕をもった横並び配置） -->
+      <!-- 下段：各種アクションボタン（議事録取込を削除してスッキリ配置） -->
       <div class="flex flex-wrap items-center justify-end gap-2 pt-1 border-t border-white/10">
         <!-- スケジュールリンク -->
         <div class="has-tooltip">
@@ -153,17 +153,8 @@
           <span class="tooltip">Notion貼り付け用Markdownを生成</span>
         </div>
 
-        <!-- 議事録/差分取込 -->
-        <div class="has-tooltip">
-          <button onclick="openImportModal()" class="flex items-center space-x-1 bg-cuebus-600 hover:bg-cuebus-500 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md border border-white/10 shadow-xs transition whitespace-nowrap">
-            <i data-lucide="import" class="w-3.5 h-3.5 text-emerald-300"></i>
-            <span>議事録/差分取込</span>
-          </button>
-          <span class="tooltip">議事録テキストから一括更新</span>
-        </div>
-
         <!-- タスク追加 -->
-        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-xs whitespace-nowrap">
+        <button onclick="openNewTaskModal()" class="flex items-center space-x-1 bg-coral-500 hover:bg-coral-600 active:scale-95 transition text-white text-[11px] font-bold px-3.5 py-1.5 rounded-md shadow-xs whitespace-nowrap">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span>タスク追加</span>
         </button>
@@ -219,7 +210,7 @@
           <button onclick="openSettingsModal()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
             <i data-lucide="settings" class="w-4 h-4"></i>
           </button>
-          <span class="tooltip">⚙ 環境設定: 基準日・外部リンク・カテゴリー管理</span>
+          <span class="tooltip">⚙ 環境設定: 基準日・目標日・各種URL・カテゴリー管理</span>
         </div>
         <div class="has-tooltip">
           <button onclick="exportCSV()" class="p-1.5 text-slate-600 hover:text-cuebus-800 hover:bg-slate-100 rounded">
@@ -570,37 +561,6 @@
     </div>
   </div>
 
-  <!-- Notion差分インポートモーダル -->
-  <div id="import-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
-    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
-      <div class="bg-cuebus-800 text-white p-4 rounded-t-xl flex justify-between items-center">
-        <h3 class="font-bold text-sm flex items-center gap-2">
-          <i data-lucide="import" class="w-4 h-4 text-emerald-400"></i> Notion議事録・差分テキスト一括取込
-        </h3>
-        <button onclick="closeImportModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="p-5 space-y-4">
-        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[11px] text-slate-600 space-y-1.5">
-          <p class="font-bold text-slate-800 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5 text-cuebus-700"></i> 入力フォーマット例</p>
-          <p>① <strong>通常タスクの更新:</strong> <code>[ID] ステータス: メモ内容 (期日: YYYY-MM-DD)</code><br>
-            例: <code>[1-1] 完了: 営業承認受領済み https://drive.google.com/... (期日: 2026-11-06)</code>
-          </p>
-          <p>② <strong>JSON形式:</strong> バックアップJSONの直接貼り付けにも対応</p>
-        </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">議事録テキスト または JSON を貼り付け</label>
-          <textarea id="import-text" rows="10" class="w-full border border-slate-300 rounded p-2.5 font-mono text-[11px] focus:ring-1 focus:ring-cuebus-800 focus:outline-none" placeholder="[1-1] 完了: 営業承認を確認済。契約締結手続きへ進む&#10;[2-5] 進行中: トレイ部材納期確認中 (期日: 2026-11-15)"></textarea>
-        </div>
-        <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
-          <button type="button" onclick="closeImportModal()" class="px-4 py-2 border border-slate-300 rounded text-slate-700 hover:bg-slate-50 font-medium">閉じる</button>
-          <button type="button" onclick="executeImport()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold shadow-sm flex items-center space-x-1.5">
-            <i data-lucide="check" class="w-4 h-4"></i> <span>タスクへ一括反映する</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- 打合せレポート出力モーダル -->
   <div id="report-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs">
     <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 text-xs">
@@ -780,14 +740,14 @@
       { id: "gate-6", title: "収支と実証の評価方法を確認し、関係者が開始を判断", checked: false, note: "3社責任者の開店ゴーサイン" }
     ];
 
-    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V23";
-    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V23";
-    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V23";
-    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V23";
-    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V23";
-    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V23";
-    const STORAGE_KEY_TARGET_OPEN_DATE = "CUEBUS_CARACURI_TARGET_OPEN_DATE_V23";
-    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V23";
+    const STORAGE_KEY_TASKS = "CUEBUS_CARACURI_TASKS_V24";
+    const STORAGE_KEY_GATES = "CUEBUS_CARACURI_GATES_V24";
+    const STORAGE_KEY_SCHEDULE_URL = "CUEBUS_CARACURI_SCHEDULE_URL_V24";
+    const STORAGE_KEY_DRIVE_URL = "CUEBUS_CARACURI_DRIVE_URL_V24";
+    const STORAGE_KEY_NOTION_URL = "CUEBUS_CARACURI_NOTION_URL_V24";
+    const STORAGE_KEY_BASE_DATE = "CUEBUS_CARACURI_BASE_DATE_V24";
+    const STORAGE_KEY_TARGET_OPEN_DATE = "CUEBUS_CARACURI_TARGET_OPEN_DATE_V24";
+    const STORAGE_KEY_CATEGORIES = "CUEBUS_CARACURI_CATEGORIES_V24";
 
     let tasks = [];
     let gates = [];
@@ -812,7 +772,7 @@
     }
 
     function init() {
-      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V22") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V21");
+      const storedTasks = localStorage.getItem(STORAGE_KEY_TASKS) || localStorage.getItem("CUEBUS_CARACURI_TASKS_V23") || localStorage.getItem("CUEBUS_CARACURI_TASKS_V22");
       const storedGates = localStorage.getItem(STORAGE_KEY_GATES);
       const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE_URL);
       const storedDrive = localStorage.getItem(STORAGE_KEY_DRIVE_URL);
@@ -1512,86 +1472,6 @@
         closeTaskModal();
         renderAll();
       }
-    }
-
-    function openImportModal() {
-      document.getElementById('import-text').value = '';
-      document.getElementById('import-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeImportModal() {
-      document.getElementById('import-modal').classList.add('hidden');
-    }
-
-    function executeImport() {
-      const rawText = document.getElementById('import-text').value.trim();
-      if (!rawText) {
-        alert("インポートするテキストを入力してください。");
-        return;
-      }
-
-      let updatedTaskCount = 0;
-
-      if (rawText.startsWith('{') || rawText.startsWith('[')) {
-        try {
-          const parsed = JSON.parse(rawText);
-          const taskList = Array.isArray(parsed) ? parsed : (parsed.tasks || []);
-          taskList.forEach(incoming => {
-            if (!incoming.id) return;
-            const target = tasks.find(t => t.id === incoming.id);
-            if (incoming.dept) incoming.dept = normalizeDepts(incoming.dept);
-            if (target) {
-              Object.assign(target, incoming);
-              updatedTaskCount++;
-            } else {
-              tasks.push(incoming);
-              updatedTaskCount++;
-            }
-          });
-        } catch (err) {
-          alert("JSONの構文が正しくありません: " + err.message);
-          return;
-        }
-      } else {
-        const lines = rawText.split('\n');
-        lines.forEach(line => {
-          const trimmed = line.trim();
-          if (!trimmed) return;
-
-          const idMatch = trimmed.match(/\[?([1-9]\d*-\d+)\]?/);
-          if (!idMatch) return;
-          const taskId = idMatch[1];
-          const target = tasks.find(t => t.id === taskId);
-          if (!target) return;
-
-          if (trimmed.includes('完了') || trimmed.includes('済') || trimmed.includes('OK')) {
-            target.status = '完了';
-          } else if (trimmed.includes('進行中') || trimmed.includes('調整中') || trimmed.includes('待ち')) {
-            target.status = '進行中/相手待ち';
-          } else if (trimmed.includes('要確認') || trimmed.includes('保留')) {
-            target.status = '要確認';
-          }
-
-          const dateMatch = trimmed.match(/(202\d[-/]\d{1,2}[-/]\d{1,2})/);
-          if (dateMatch) {
-            target.dueDate = dateMatch[1].replace(/\//g, '-');
-          }
-
-          const colonIdx = trimmed.indexOf(':') !== -1 ? trimmed.indexOf(':') : trimmed.indexOf('：');
-          if (colonIdx !== -1) {
-            const memoPart = trimmed.substring(colonIdx + 1).replace(/\(期日:.*?\)/, '').trim();
-            if (memoPart) target.memo = memoPart;
-          }
-
-          updatedTaskCount++;
-        });
-      }
-
-      saveState();
-      renderAll();
-      closeImportModal();
-      alert(`🎉 反映完了！\n・残タスク: ${updatedTaskCount}件 を更新しました。`);
     }
 
     function openReportModal() {
